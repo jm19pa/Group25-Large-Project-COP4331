@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
  const app_name = 'pocketprofessors.com';
  function buildPath(route:string) : string
@@ -19,7 +19,7 @@ function Register(){
 	const [firstName, setFirstName] = useState('');
 	const [lastName, setLastName] = useState('');
 	const [Password, setPassword] = useState('');
-
+/*
 function handleSetUsername(e: any): void{
 	setUsername(e.target.value);
 }
@@ -32,7 +32,7 @@ function handleSetLastName(e: any): void{
 function handleSetPassword(e: any): void{
 	setPassword(e.target.value);
 }
-
+*/
 function goToLoginPage(): void{
     window.location.href = '/login';
 }
