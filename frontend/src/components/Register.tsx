@@ -1,12 +1,17 @@
 import { useState } from 'react';
 
-// const app_name = 'pocketprofessors.com';
-function buildPath(route: string): string {
-  if (process.env.NODE_ENV === 'development') {
-    return 'http://localhost:5000/' + route;
-  } else {
-    return '/' + route; // assumes backend and frontend are hosted together
-  }
+const app_name = 'pocketprofessors.com';
+ function buildPath(route:string) : string
+{
+if (process.env.NODE_ENV != 'development')
+{
+return 'http://' + app_name + ':5000/' + route;
+}
+else
+{
+return 'http://localhost:5000/' + route;
+}
+
 }
 
 function Register(){
