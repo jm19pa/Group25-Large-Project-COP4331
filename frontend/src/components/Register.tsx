@@ -89,6 +89,7 @@ return(
         <button type="button" id="Login" className="buttons"
                 onClick={goToLoginPage}> Login </button>
 		<br/>
+		<h1>quick test ill comment this out later</h1>
 		
 	</div>
 )
