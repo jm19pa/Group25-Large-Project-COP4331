@@ -29,11 +29,19 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
+        
+      - name: Build frontend
+        working-directory: frontend
+        run: |
+          npm install
+          npm run build
+          
       - name: Install sshpass
         run: sudo apt-get install -y sshpass
-
-      - name: Deploy to DigitalOcean Droplet
+        
+      
+          
+      - name:  to DigitalOcean Droplet
         env:
           SSH_HOST: ${{ secrets.SSH_HOST }}
           SSH_KEY: ${{ secrets.SSH_KEY }}
@@ -46,3 +54,11 @@ jobs:
           npm run build
           pm2 restart express-server
           EOF
+      - name:  dist folder to server
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+          SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
+        run: |
+          sshpass -p "${SSH_KEY}" ssh -o StrictHostKeyChecking=no ${SSH_USERNAME}@${SSH_HOST} "rm -rf /var/www/html/*"
+          sshpass -p "${SSH_KEY}" scp -r -o StrictHostKeyChecking=no frontend/dist/* ${SSH_USERNAME}@${SSH_HOST}:/var/www/html/
