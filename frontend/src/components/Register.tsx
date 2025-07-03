@@ -37,6 +37,15 @@ function goToLoginPage(): void{
     window.location.href = '/login';
 }
 
+function showPassword(): void {
+        const passwordField = document.getElementById('password') as HTMLInputElement;
+        if (passwordField.type === 'password') {
+            passwordField.type = 'text';
+        } else {
+            passwordField.type = 'password';
+        }
+    };
+
 async function doRegister(event:any) : Promise<void>
 {
 	event.preventDefault();
@@ -82,7 +91,14 @@ return(
             <br/>
             
             <label>Password: </label>
-  			<input placeholder="Password" type="text" id="password" value={password} onChange={(e)=>setPassword(e.target.value)}></input>
+  			<input placeholder="Password" type="password" id="password" value={password} onChange={(e)=>setPassword(e.target.value)}></input>
+
+			<label style={{ cursor: 'pointer' }}>
+            <input
+                type="checkbox"
+                onClick={showPassword}
+            />
+            </label>
 
             <label>Last Name: </label>
   			<input placeholder="Last Name" type="text" id="last_name" value={lastName} onChange={(e)=>setLastName(e.target.value)}></input>
