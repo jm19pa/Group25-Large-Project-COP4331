@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 const app_name = 'pocketprofessors.com';
- function buildPath(route:string) : string
+function buildPath(route:string) : string
 {
 if (process.env.NODE_ENV != 'development')
 {
@@ -53,7 +53,7 @@ async function doRegister(event:any) : Promise<void>
 	var js = JSON.stringify(obj);
 	try
 	{
-		const response = await fetch(buildPath('register'),
+		const response = await fetch(buildPath('api/register'),
 		{method:'POST',body:js,headers:{'Content-Type':
 		'application/json'}});
 		var res = JSON.parse(await response.text());
