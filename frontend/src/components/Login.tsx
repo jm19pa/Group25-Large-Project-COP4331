@@ -50,7 +50,7 @@ var user =
 localStorage.setItem('user_data', JSON.stringify(user));
 setMessage('');
 window.location.href = '/cards';
-}
+} 
 }
 catch(error:any)
 {
@@ -60,7 +60,24 @@ return;
 };
     function goToRegisterPage(): void{
         window.location.href = '/register';
-    }
+    };
+
+
+    function showPassword(): void {
+        const passwordField = document.getElementById('loginPassword') as HTMLInputElement;
+        if (passwordField.type === 'password') {
+            passwordField.type = 'text';
+        } else {
+            passwordField.type = 'password';
+        }
+    };
+
+    /* <img
+                src={isChecked ? '/images/eyeCrossed.png' : '/images/eyeCrossed.png'}
+                alt="Toggle password visibility"
+                height="20"
+                width="20"
+            /> */
 
     return(
         <div id="loginDiv">
@@ -76,7 +93,15 @@ return;
                 id="loginPassword"
                 placeholder="Password"
                 onChange={handleSetPassword}
-            /><br />
+            />
+            <label style={{ cursor: 'pointer' }}>
+            <input
+                type="checkbox"
+                onClick={showPassword}
+            />
+            </label>
+
+            <br />
             <input
                 type="submit"
                 id="loginButton"
