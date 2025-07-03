@@ -9,7 +9,7 @@ const cors = require("cors");
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
-
+app.use(express.json());
 // =======================
 // MongoDB Setup
 // =======================
