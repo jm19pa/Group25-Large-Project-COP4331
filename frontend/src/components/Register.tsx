@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const app_name = 'pocketprofessors.com';
  function buildPath(route:string) : string
@@ -15,10 +15,10 @@ return 'http://localhost:5000/' + route;
 }
 
 function Register(){
-	const [login, setLogin] = React.useState('');
-	const [firstName, setFirstName] = React.useState('');
-	const [lastName, setLastName] = React.useState('');
-	const [password, setPassword] = React.useState('');
+	const [login, setLogin] = useState('');
+	const [firstName, setFirstName] = useState('');
+	const [lastName, setLastName] = useState('');
+	const [password, setPassword] = useState('');
 /*
 function handleSetUsername(e: any): void{
 	setUsername(e.target.value);
