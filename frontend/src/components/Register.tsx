@@ -5,7 +5,7 @@ const app_name = 'pocketprofessors.com';
 {
 if (process.env.NODE_ENV != 'development')
 {
-return 'http://' + app_name + ':5000/' + route;
+return 'http://' + app_name + '/api/' + route;
 }
 else
 {
@@ -110,7 +110,7 @@ return(
         <button type="button" id="Login" className="buttons"
                 onClick={goToLoginPage}> Login </button>
 		<br/>
-		<h1>quick test again again ill comment this out later</h1>
+		<h1>quick test again ill comment this out later</h1>
 		
 	</div>
 )
