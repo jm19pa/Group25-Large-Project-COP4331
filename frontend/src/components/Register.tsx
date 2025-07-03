@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 const app_name = 'pocketprofessors.com';
  function buildPath(route:string) : string
@@ -15,10 +15,10 @@ return 'http://localhost:5000/' + route;
 }
 
 function Register(){
-	const [login, setLogin] = useState('');
-	const [firstName, setFirstName] = useState('');
-	const [lastName, setLastName] = useState('');
-	const [password, setPassword] = useState('');
+	const [login, setLogin] = React.useState('');
+	const [firstName, setFirstName] = React.useState('');
+	const [lastName, setLastName] = React.useState('');
+	const [password, setPassword] = React.useState('');
 /*
 function handleSetUsername(e: any): void{
 	setUsername(e.target.value);
@@ -110,7 +110,7 @@ return(
         <button type="button" id="Login" className="buttons"
                 onClick={goToLoginPage}> Login </button>
 		<br/>
-		<h1>quick test again ill comment this out later</h1>
+		<h1>quick test again again ill comment this out later</h1>
 		
 	</div>
 )
