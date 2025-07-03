@@ -5,7 +5,7 @@ function buildPath(route:string) : string
 {
 if (process.env.NODE_ENV != 'development')
 {
-return 'http://' + app_name + '/api/' + route;
+return 'http://' + app_name + '/' + route;
 }
 else
 {
