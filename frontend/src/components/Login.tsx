@@ -115,6 +115,9 @@ return;
             <h5>Don't have an account?</h5>
             <button type="button" id="Register" className="buttons"
                 onClick={goToRegisterPage}> Register </button>
+
+            <br/>
+            
         </div>
     );
 };
