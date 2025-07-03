@@ -1,64 +1,67 @@
-name: CI/CD Pipeline
+name: Full CI/CD Pipeline
 
 on:
   push:
     branches:
-      - main
-  pull_request:
-    branches:
-      - main
+      - main  # change if you use another branch
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
+      # Checkout your repo code
       - name: Checkout code
         uses: actions/checkout@v3
 
+      # Set up Node.js
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
           node-version: 20.16.0
 
-      - name: Install dependencies
-        run: npm install
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-        
+      # Build frontend inside frontend folder
       - name: Build frontend
         working-directory: frontend
         run: |
           npm install
           npm run build
-          
+
+      # Install sshpass so we can ssh/scp with password
       - name: Install sshpass
         run: sudo apt-get install -y sshpass
-        
-      
-          
-      - name:  to DigitalOcean Droplet
+
+      # Upload backend files to server
+      - name: Upload backend files
         env:
           SSH_HOST: ${{ secrets.SSH_HOST }}
-          SSH_KEY: ${{ secrets.SSH_KEY }}
           SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+        run: |
+          sshpass -p "${SSH_KEY}" scp -r -o StrictHostKeyChecking=no \
+            server.js package.json ${SSH_USERNAME}@${SSH_HOST}:/var/cardsServer/
+
+      # Restart backend server
+      - name: Restart backend server
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
+          SSH_KEY: ${{ secrets.SSH_KEY }}
         run: |
           sshpass -p "${SSH_KEY}" ssh -o StrictHostKeyChecking=no ${SSH_USERNAME}@${SSH_HOST} << EOF
-          cd /var/www/html
-          git pull origin main
-          npm install
-          npm run build
-          pm2 restart express-server
+            cd /var/cardsServer
+            npm install
+            pm2 restart express-server || node server.js &
           EOF
-      - name:  dist folder to server
+
+      # Clear and upload frontend dist folder to web root
+      - name: Deploy frontend
         env:
           SSH_HOST: ${{ secrets.SSH_HOST }}
-          SSH_KEY: ${{ secrets.SSH_KEY }}
           SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
+          SSH_KEY: ${{ secrets.SSH_KEY }}
         run: |
-          sshpass -p "${SSH_KEY}" ssh -o StrictHostKeyChecking=no ${SSH_USERNAME}@${SSH_HOST} "rm -rf /var/www/html/*"
+          sshpass -p "${SSH_KEY}" ssh -o StrictHostKeyChecking=no ${SSH_USERNAME}@${SSH_HOST} << EOF
+            rm -rf /var/www/html/*
+          EOF
+
           sshpass -p "${SSH_KEY}" scp -r -o StrictHostKeyChecking=no frontend/dist/* ${SSH_USERNAME}@${SSH_HOST}:/var/www/html/
