@@ -6,7 +6,9 @@ import CardPage from './pages/CardPage';
 import TestPage from './pages/TestPage';
 import RegisterPage from './pages/RegisterPage';
 
-function App() {
+
+
+function App() {    
     return (
     <Router>
         <Routes>

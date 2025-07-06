@@ -1,0 +1,58 @@
+:root{
+      /* DARK MODE VARIABLES */
+    --bg-dark: hsl(336 0% 1%);
+    --bg: hsl(300 0% 4%);
+    --bg-light: hsl(0 0% 9%);
+    --text: hsl(300 0% 95%);
+    --text-muted: hsl(300 0% 69%);
+    --highlight: hsl(330 0% 39%);
+    --border: hsl(0 0% 28%);
+    --border-muted: hsl(300 0% 18%);
+    --primary: hsl(48, 100%, 50%);
+    --primary-muted: hsl(48.21, 100%, 43.92%);
+    --danger: hsl(9 26% 64%);
+    --warning: hsl(52 19% 57%);
+    --success: hsl(146 17% 59%);
+    --info: hsl(217 28% 65%);
+}
+
+.sidebar{
+  position: absolute;
+  display: inline-block;
+  top: 0px;
+  left: 0px;
+  padding: 10px;
+  height: 100%;
+}
+
+.bar1, .bar2, .bar3{
+  width: 35px;
+  height: 5px;
+  background-color: var(--primary);
+  margin: 5px;
+  transition: 0.4s;
+}
+
+.change .bar1{
+  transform: translate(0, 11px) rotate(-45deg);
+}
+
+.change .bar2 {opacity: 0;}
+
+.change .bar3 {
+  transform: translate(0, -11px) rotate(45deg);
+}
+
+.options div{
+    transition: 0.5s;
+    margin-top: 10px
+}
+
+.show{
+    transition: 0.5s;
+    background-color: var(--bg-light);
+}
+
+.hide{
+    display: none;
+}

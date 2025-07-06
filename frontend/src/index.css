@@ -12,21 +12,21 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  /* DARK MODE VARIABLES */
-  --bg-dark: hsl(336 0% 1%);
-  --bg: hsl(300 0% 4%);
-  --bg-light: hsl(0 0% 9%);
-  --text: hsl(300 0% 95%);
-  --text-muted: hsl(300 0% 69%);
-  --highlight: hsl(330 0% 39%);
-  --border: hsl(0 0% 28%);
-  --border-muted: hsl(300 0% 18%);
-  --primary: hsl(48, 100%, 50%);
-  --secondary: hsl(227 76% 78%);
-  --danger: hsl(9 26% 64%);
-  --warning: hsl(52 19% 57%);
-  --success: hsl(146 17% 59%);
-  --info: hsl(217 28% 65%);
+    /* DARK MODE VARIABLES */
+    --bg-dark: hsl(336 0% 1%);
+    --bg: hsl(300 0% 4%);
+    --bg-light: hsl(0 0% 9%);
+    --text: hsl(300 0% 95%);
+    --text-muted: hsl(300 0% 69%);
+    --highlight: hsl(330 0% 39%);
+    --border: hsl(0 0% 28%);
+    --border-muted: hsl(300 0% 18%);
+    --primary: hsl(48, 100%, 50%);
+    --primary-muted: hsl(48.21, 100%, 43.92%);
+    --danger: hsl(9 26% 64%);
+    --warning: hsl(52 19% 57%);
+    --success: hsl(146 17% 59%);
+    --info: hsl(217 28% 65%);
 }
 
 body{
@@ -52,36 +52,4 @@ label{
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
 }
