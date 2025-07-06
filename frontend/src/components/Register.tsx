@@ -71,7 +71,38 @@ const Register: React.FC = () => {
 
     {showSignup ? (
       <form className="signup_input" onSubmit={doRegister}>
-        <label className="label">Login: </label>
+
+        <h3>Create an account</h3>
+        
+        <div className="input_div">
+          <label className="text">Username</label>
+          <input className="input" id="login" type="text" placeholder="Create your username"/>
+        </div>
+
+        <div className="input_div">
+          <label className="text">Password</label>
+          <input className="input" id="password" type="text" placeholder="Create your password"/>
+        </div>
+        
+        <div className="input_div">
+          <label className="text">First Name</label>
+          <input className="input" id="first_name" type="text" placeholder="Enter your first name"/>
+        </div>
+
+        <div className="input_div">
+          <label className="text">Last Name</label>
+          <input className="input" id="last_name" type="text" placeholder="Enter your last name"/>
+        </div>
+
+        <input
+          type="submit"
+          id="loginButton"
+          className="buttons"
+          value="Submit"
+          // onClick={doLogin}
+        />
+
+        {/* <label className="label">Login: </label>
         <input
           placeholder="Username"
           id="login"
@@ -104,19 +135,21 @@ const Register: React.FC = () => {
           id="last_name"
           value={lastName}
           onChange={(e) => setLastName(e.target.value)}
-        />
+        /> */}
       </form>
     ) : (
       <div className="login_page">
+
+        <h3>Login to existing account</h3>
         
         <div className="input_div">
           <label className="text">Username</label>
-          <input className="input" id="username" type="text" />
+          <input className="input" id="username" type="text" placeholder="Enter your username"/>
         </div>
 
         <div className="input_div">
           <label className="text">Password</label>
-          <input className="input" id="password" type="text" />
+          <input className="input" id="password" type="text" placeholder="Enter your password"/>
         </div>
 
         <input

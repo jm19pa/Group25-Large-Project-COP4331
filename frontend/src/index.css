@@ -4,13 +4,34 @@
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  color: var(--text);
+  background-color: var(--bg);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* DARK MODE VARIABLES */
+  --bg-dark: hsl(336 0% 1%);
+  --bg: hsl(300 0% 4%);
+  --bg-light: hsl(0 0% 9%);
+  --text: hsl(300 0% 95%);
+  --text-muted: hsl(300 0% 69%);
+  --highlight: hsl(330 0% 39%);
+  --border: hsl(0 0% 28%);
+  --border-muted: hsl(300 0% 18%);
+  --primary: hsl(48, 100%, 50%);
+  --secondary: hsl(227 76% 78%);
+  --danger: hsl(9 26% 64%);
+  --warning: hsl(52 19% 57%);
+  --success: hsl(146 17% 59%);
+  --info: hsl(217 28% 65%);
+}
+
+body{
+  margin: 0px;
+  place-items: center;
 }
 
 a {
@@ -26,14 +47,6 @@ label{
   display:inline-block;
   margin-bottom: 0.5em;
   font-weight: 500;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
 }
 
 h1 {
