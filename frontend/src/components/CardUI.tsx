@@ -97,6 +97,10 @@ setResults(error.toString());
 /*function handleNewButtonClick(): void{
     window.location.href = '/test';
 }*/
+
+function goToPackPage(): void{
+    window.location.href = '/pack';
+}
     return(
         <div id="cardUIDiv">
             <br />
@@ -121,6 +125,11 @@ setResults(error.toString());
             <span id="cardAddResult">{message}</span>
             {/*<button type="button" id="newButton" className="buttons"
                 onClick={handleNewButtonClick}> New Button </button>*/}
+            <br />
+            <button 
+                type="button" id="packButton"
+                onClick={goToPackPage} className="buttons"> Pack Page
+            </button>
         </div>
     );
 }

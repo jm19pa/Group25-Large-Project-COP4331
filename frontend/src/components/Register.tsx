@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './register.css'
+// import { build } from 'vite';
 
 const app_name = 'pocketprofessors.com';
 
@@ -8,9 +9,20 @@ function buildPath(route:string) : string {
     return 'http://' + app_name + ':5000/' + route;
   }
   else{
-    return 'http://localhost:5000' + route;
+    return 'http://localhost:5000/' + route;
   }
 }
+
+// this may need to change due to merging login/signup
+// function showPassword(): void{
+//   const passwordField = document.getElementById('password') as HTMLInputElement;
+//   if(passwordField.type === 'password'){
+//     passwordField.type = 'text';
+//   }
+//   else{
+//     passwordField.type = 'password';
+//   }
+// }
 
 const Register: React.FC = () => {
   const [showSignup, setShowSignup] = useState(false);
@@ -19,15 +31,39 @@ const Register: React.FC = () => {
   const [password, setPassword] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
+  // const [email, setEmail] = useState('');
 
-  const goToLoginPage = () => {
-    window.location.href = '/login';
-  };
+  async function doLogin(event:any): Promise<void>{
+    event.preventDefault();
+    // we may add new variables specifically for login
+    let obj = {login:login, password:password};
+    let js = JSON.stringify(obj);
+    try{
+      const response = await fetch(buildPath('api/login'),
+    {method:'POST', body:js,headers:{'Content-Type':
+      'application/json'}});
+      let res = JSON.parse(await response.text());
+      if(res.id <= 0){
+        // eventually return a message to the user
+        console.log("Username / Password combination incorrect");
+      }
+      else{
+        let user = {firstName:res.firstName, lastName:res.lastName, id:res.id}
+        localStorage.setItem('user_data', JSON.stringify(user));
+        // there was a blank set-message function call
+        window.location.href = '/cards';
+      }
+    }
+    catch(error:any){
+      alert(error.toString());
+      return;
+    }
+  }
 
   async function doRegister(event:any): Promise<void>{
     event.preventDefault();
-    let obj = {login:login, firstName:firstName, lastName:lastName, password:password, email:email};
+	  var obj = {login:login,firstName:firstName,lastName:lastName,password:password};
+    // let obj = {login:login, firstName:firstName, lastName:lastName, password:password, email:email};
     let js = JSON.stringify(obj);
 
     try{
@@ -77,27 +113,36 @@ const Register: React.FC = () => {
         
         <div className="input_div">
           <label className="text">Username</label>
-          <input className="input" id="login" type="text" placeholder="Create your username"/>
+          <input className="input" id="login" type="text" placeholder="Create your username" value={login} onChange={((e) => setLogin(e.target.value))}/>
         </div>
 
         <div className="input_div">
           <label className="text">Password</label>
-          <input className="input" id="password" type="text" placeholder="Create your password"/>
+          <input className="input" id="password" type="text" placeholder="Create your password" value={password} onChange={(e) => setPassword(e.target.value)}/>
+          {/* <img
+            src="/images/eyeCrossed.png"
+            alt="Toggle Password Visibility"
+            height="20"
+            width="20"
+            onClick={showPassword}
+            style={{cursor: "pointer"}} // can change to css
+          /> */}
         </div>
 
           <div className="input_div">
           <label className="text">Email</label>
           <input className="input" id="email" type="text" placeholder="Enter your Email"/>
+          {/* <input className="input" id="email" type="text" placeholder="Enter your Email" value={email} onChange={(e) => setEmail(e.target.value)}/> */}
         </div>
         
         <div className="input_div">
           <label className="text">First Name</label>
-          <input className="input" id="first_name" type="text" placeholder="Enter your first name"/>
+          <input className="input" id="first_name" type="text" placeholder="Enter your first name" value={firstName} onChange={(e) => setFirstName(e.target.value)}/>
         </div>
 
         <div className="input_div">
           <label className="text">Last Name</label>
-          <input className="input" id="last_name" type="text" placeholder="Enter your last name"/>
+          <input className="input" id="last_name" type="text" placeholder="Enter your last name"  value={lastName} onChange={(e) => setLastName(e.target.value)}/>
         </div>
 
         <input
@@ -105,43 +150,8 @@ const Register: React.FC = () => {
           id="loginButton"
           className="buttons"
           value="Submit"
-          // onClick={doLogin}
+          onClick={doRegister}
         />
-
-        {/* <label className="label">Login: </label>
-        <input
-          placeholder="Username"
-          id="login"
-          value={login}
-          onChange={(e) => setLogin(e.target.value)}
-        />
-
-        <label>First Name: </label>
-        <input
-          placeholder="First Name"
-          type="text"
-          id="first_name"
-          value={firstName}
-          onChange={(e) => setFirstName(e.target.value)}
-        />
-
-        <label>Password: </label>
-        <input
-          placeholder="Password"
-          type="text"
-          id="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-
-        <label>Last Name: </label>
-        <input
-          placeholder="Last Name"
-          type="text"
-          id="last_name"
-          value={lastName}
-          onChange={(e) => setLastName(e.target.value)}
-        /> */}
       </form>
     ) : (
       <div className="login_page">
@@ -150,12 +160,12 @@ const Register: React.FC = () => {
         
         <div className="input_div">
           <label className="text">Username</label>
-          <input className="input" id="username" type="text" placeholder="Enter your username"/>
+          <input className="input" id="username" type="text" placeholder="Enter your username" value={login} onChange={((e) => setLogin(e.target.value))}/>
         </div>
 
         <div className="input_div">
           <label className="text">Password</label>
-          <input className="input" id="password" type="text" placeholder="Enter your password"/>
+          <input className="input" id="password" type="text" placeholder="Enter your password" value={password} onChange={(e) => setPassword(e.target.value)}/>
         </div>
 
         <input
@@ -163,7 +173,7 @@ const Register: React.FC = () => {
           id="loginButton"
           className="buttons"
           value="Submit"
-          // onClick={doLogin}
+          onClick={doLogin}
         />
       </div>
     )}

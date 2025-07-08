@@ -53,3 +53,77 @@ h1 {
   font-size: 3.2em;
   line-height: 1.1;
 }
+
+/* Full-screen click wrapper */
+.landing-container {
+  position:        fixed;
+  top:             0;
+  left:            0;
+  width:           100vw;
+  height:          100vh;
+  background-color: #222;
+  color:           #ff0;
+  display:         flex;
+  flex-direction:  column;
+  justify-content: center;
+  align-items:     center;
+  text-align:      center;
+  cursor:          pointer;
+}
+
+/* Logo styling */
+.landing-logo {
+  font-family: 'Baskerville','Georgia', 'Cambria', 'Palatino Linotype', serif;
+  font-size:   10rem;
+  line-height: 0.9;
+  color:       black;         /* your black letters */
+
+  /* inner yellow outline */
+  -webkit-text-stroke: 2px #FFD700;
+
+  display:           flex;
+  flex-direction:    column;
+  align-items:       flex-start;
+}
+
+
+/* Indent the “Professors” line */
+.landing-logo-indent {
+  margin-left: 1.8rem;
+}
+
+/* Slogan */
+.landing-slogan {
+  color: #fff;         /* white text */
+  font-family: 'Times New Roman', serif;
+  font-size: 1.25rem;  /* your previous size */
+  margin-top: 1rem;
+  text-transform: uppercase;
+}
+
+/* Call-to-action */
+.landing-cta {
+  color: #fff;        /* white text */
+  font-size: 1rem;    /* your previous size */
+  margin-top: 2rem;
+  animation: fade-cta 1s infinite alternate ease-in-out;
+}
+
+/* keyframes for fading in/out */
+@keyframes fade-cta {
+  from { opacity: 0.1; }
+  to   { opacity: 1;   }
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}

@@ -30,3 +30,4 @@ npm install dotenv
 npm install mongodb
 npm i --save-dev @types/react
 npm install vite
+npm install bcrypt

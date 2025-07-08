@@ -50,7 +50,7 @@ var user =
 localStorage.setItem('user_data', JSON.stringify(user));
 setMessage('');
 window.location.href = '/cards';
-}
+} 
 }
 catch(error:any)
 {
@@ -60,7 +60,24 @@ return;
 };
     function goToRegisterPage(): void{
         window.location.href = '/register';
-    }
+    };
+
+
+    function showPassword(): void {
+        const passwordField = document.getElementById('loginPassword') as HTMLInputElement;
+        if (passwordField.type === 'password') {
+            passwordField.type = 'text';
+        } else {
+            passwordField.type = 'password';
+        }
+    };
+
+    /* <img
+                src={isChecked ? '/images/eyeCrossed.png' : '/images/eyeCrossed.png'}
+                alt="Toggle password visibility"
+                height="20"
+                width="20"
+            /> */
 
     return(
         <div id="loginDiv">
@@ -76,7 +93,16 @@ return;
                 id="loginPassword"
                 placeholder="Password"
                 onChange={handleSetPassword}
-            /><br />
+            />
+            <img
+                src="/images/eyeCrossed.png"
+                alt="Toggle password visibility"
+                height="18"
+                width="18"
+                onClick={showPassword}
+                style={{ cursor: "pointer" }}
+            />
+            <br/>
             <input
                 type="submit"
                 id="loginButton"
@@ -87,9 +113,12 @@ return;
             <span id="loginResult">Output: {message}</span>
             <br/>
             <br/>
-            <h6>Don't have an account?</h6>
+            <h5>Don't have an account?</h5>
             <button type="button" id="Register" className="buttons"
                 onClick={goToRegisterPage}> Register </button>
+
+            <br/>
+            
         </div>
     );
 };
