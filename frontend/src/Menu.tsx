@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './Menu.css';
 
-// trying to get a menu icon thingy
+// can git please notice this
 const Menu: React.FC = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
