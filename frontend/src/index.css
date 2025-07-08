@@ -32,6 +32,10 @@
 body{
   margin: 0px;
   place-items: center;
+
+  background: linear-gradient(135deg, #0a0a0a, #ffd90005);
+  background-size: 400% 400%;
+  animation: backgroundShift 30s ease infinite;
 }
 
 a {
@@ -56,12 +60,13 @@ h1 {
 
 /* Full-screen click wrapper */
 .landing-container {
+  z-index: 9999;
   position:        fixed;
   top:             0;
   left:            0;
   width:           100vw;
   height:          100vh;
-  background-color: #0a0a0a;
+  background-color: #030303;
   color:           #FFD700;
   display:         flex;
   flex-direction:  column;
@@ -69,6 +74,16 @@ h1 {
   align-items:     center;
   text-align:      center;
   cursor:          pointer;
+
+  background: linear-gradient(135deg, #0a0a0a, #ffd90005);
+  background-size: 400% 400%;
+  animation: backgroundShift 30s ease infinite;
+}
+
+@keyframes backgroundShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 /* Logo styling */
@@ -80,10 +95,12 @@ h1 {
 
   /* inner yellow outline */
   -webkit-text-stroke: 2px #FFD700;
+  text-shadow: 0 0 5px rgba(255, 215, 0, 0.6), 0 0 10px rgba(255, 215, 0, 0.2);
 
   display:           flex;
   flex-direction:    column;
   align-items:       flex-start;
+  
 }
 
 

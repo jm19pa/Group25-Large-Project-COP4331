@@ -1,13 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useState as useReactState } from 'react';
 import './Menu.css';
 
 // can git please notice this
 const Menu: React.FC = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
+    const [shouldRender, setShouldRender] = useReactState(true);
+
+    useEffect(() => {
+    // Check current URL path without React Router
+    const path = window.location.pathname;
+    if (path === '/') {
+      setShouldRender(false);
+    }
+    }, []);
 
     const toggleMenu = () => {
         setSidebarOpen(prev => !prev);
     }
+
+    if (!shouldRender) return null;
+
 
     return(
         <div className={`sidebar ${sidebarOpen ? 'show' : ''}`}>
