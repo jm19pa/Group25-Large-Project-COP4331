@@ -93,12 +93,14 @@ return(
             <label>Password: </label>
   			<input placeholder="Password" type="password" id="password" value={password} onChange={(e)=>setPassword(e.target.value)}></input>
 
-			<label style={{ cursor: 'pointer' }}>
-            <input
-                type="checkbox"
+			<img
+                src="/images/eyeCrossed.png"
+                alt="Toggle password visibility"
+                height="20"
+                width="20"
                 onClick={showPassword}
+                style={{ cursor: "pointer" }}
             />
-            </label>
 
             <label>Last Name: </label>
   			<input placeholder="Last Name" type="text" id="last_name" value={lastName} onChange={(e)=>setLastName(e.target.value)}></input>

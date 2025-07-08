@@ -6,6 +6,7 @@ import LoginPage from './pages/LoginPage';
 import CardPage from './pages/CardPage';
 import TestPage from './pages/TestPage';
 import RegisterPage from './pages/RegisterPage';
+import PackPage from './pages/PackPage';
 function App() {
 return (
 <Router>
@@ -16,6 +17,7 @@ return (
 <Route path="*" element={<Navigate to="/" />} />
 <Route path="/test" element={<TestPage />} />
 <Route path="/register" element={<RegisterPage />} />
+<Route path="/pack" element={<PackPage />} />
 </Routes>
 </Router>
 );

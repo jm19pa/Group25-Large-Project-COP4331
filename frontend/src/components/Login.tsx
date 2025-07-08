@@ -94,14 +94,15 @@ return;
                 placeholder="Password"
                 onChange={handleSetPassword}
             />
-            <label style={{ cursor: 'pointer' }}>
-            <input
-                type="checkbox"
+            <img
+                src="/images/eyeCrossed.png"
+                alt="Toggle password visibility"
+                height="18"
+                width="18"
                 onClick={showPassword}
+                style={{ cursor: "pointer" }}
             />
-            </label>
-
-            <br />
+            <br/>
             <input
                 type="submit"
                 id="loginButton"

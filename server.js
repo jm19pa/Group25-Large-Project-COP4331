@@ -5,6 +5,7 @@ require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const bcrypt = require("bcrypt");
 
 const app = express();
 app.use(cors());
@@ -87,7 +88,7 @@ app.post("/api/login", async (req, res) => {
     // this is fine
     const results = await db
       .collection("Users")
-      .find({ Login: login, Password: password })
+      .find({ Login: login})
       .toArray();
 
     let id = -1;
@@ -97,9 +98,12 @@ app.post("/api/login", async (req, res) => {
 
     if (results.length > 0) {
       // if no custom UserID, use _id instead
-      id = results[0].UserID || results[0]._id;
-      fn = results[0].FirstName;
-      ln = results[0].LastName;
+      const isMatch = await bcrypt.compare(password, results[0].Password);
+      if (isMatch) {
+        id = results[0].UserID || results[0]._id;
+        fn = results[0].FirstName;
+        ln = results[0].LastName;
+      }
     } else {
       error = "Invalid username or password";
     }
@@ -135,10 +139,15 @@ app.post("/api/register", async(req, res) => {
     if(existingUser) {
       error = "Username is already taken";
     } else {
+
+
+      const saltRounds = 10;
+      hashedPassword = await bcrypt.hash(password, saltRounds);
+
       // Insert the new user
       const newUser = {
         Login: login,
-        Password: password,
+        Password: hashedPassword,
         FirstName: firstName,
         LastName: lastName,
       };
