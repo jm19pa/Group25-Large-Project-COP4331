@@ -18,11 +18,17 @@ const Menu: React.FC = () => {
             </div>
 
             <div className={`options ${sidebarOpen ? 'show' : 'hide'}`}>
-                <div><a>Open Pack</a></div>
-                <div><a>Card Collection</a></div>
-                <div><a>Battle</a></div>
-                <div><a>Trade</a></div>
-                <div><a>Toggle dark/light</a></div>
+                <div><a href='/LandingDisplay'>Landing Page</a></div>
+                <div><a href='/Register'>Register</a></div>
+                <div><a href='/PageTitle'>Page Title</a></div>
+                <div><a href='/LoggedInName'>LoggedInName</a></div>
+                <div><a href='/CardPack'>Card Pack</a></div>
+                <div><a href='/CardUI'>Card UI</a></div>
+                {/* <div><a href='./Register'>Open Pack</a></div>
+                <div><a href='./CardPack'>Card Collection</a></div>
+                <div><a href='./Register'>Battle</a></div>
+                <div><a href='./Register'>Trade</a></div>
+                <div><a href='./Register'>Toggle dark/light</a></div> */}
             </div>
         </div>
     );
