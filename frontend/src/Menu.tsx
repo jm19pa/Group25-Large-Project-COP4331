@@ -20,6 +20,7 @@ const Menu: React.FC = () => {
             <div className={`options ${sidebarOpen ? 'show' : 'hide'}`}>
                 <div><a href='/LandingDisplay'>Landing Page</a></div>
                 <div><a href='/Register'>Register</a></div>
+                <div><a href='/EmailVerification'>Email Verification</a></div>
                 <div><a href='/PageTitle'>Page Title</a></div>
                 <div><a href='/LoggedInName'>LoggedInName</a></div>
                 <div><a href='/CardPack'>Card Pack</a></div>

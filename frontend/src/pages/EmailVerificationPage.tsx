@@ -1,10 +1,10 @@
-// import Register from '../components/Register';
+import EmailVerification from '../components/EmailVerification';
 
-// const RegisterPage = () => {
-//     return (
-//         <Register />
-//     );
-// }
+const EmailVerificationPage = () => {
+    return (
+        <EmailVerification />
+    );
+}
 
 
-// export default RegisterPage;
+export default EmailVerificationPage;
