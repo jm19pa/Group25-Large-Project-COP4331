@@ -1,4 +1,4 @@
-// import React from 'react';
+//import React from 'react';
 import CardPack from '../components/CardPack';
 
 const PackPage = () => {
