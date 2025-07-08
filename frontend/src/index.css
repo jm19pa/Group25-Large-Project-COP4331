@@ -21,7 +21,7 @@
     --highlight: hsl(330 0% 39%);
     --border: hsl(0 0% 28%);
     --border-muted: hsl(300 0% 18%);
-    --primary: hsl(51, 100%, 50%);
+    --primary: #FFD700;
     --primary-muted: hsl(48.21, 100%, 43.92%);
     --danger: hsl(9 26% 64%);
     --warning: hsl(52 19% 57%);
