@@ -33,6 +33,8 @@ body{
   margin: 0px;
   place-items: center;
 
+  background-color: #030303;
+
   background: linear-gradient(135deg, #0a0a0a, #ffd90005);
   background-size: 400% 400%;
   animation: backgroundShift 30s ease infinite;
@@ -60,14 +62,12 @@ h1 {
 
 /* Full-screen click wrapper */
 .landing-container {
-  z-index: 9999;
   position:        fixed;
   top:             0;
   left:            0;
   width:           100vw;
   height:          100vh;
   background-color: #030303;
-  color:           #FFD700;
   display:         flex;
   flex-direction:  column;
   justify-content: center;
