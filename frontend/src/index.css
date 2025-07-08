@@ -4,13 +4,34 @@
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  color: var(--text);
+  background-color: var(--bg);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+    /* DARK MODE VARIABLES */
+    --bg-dark: hsl(336 0% 1%);
+    --bg: hsl(300 0% 4%);
+    --bg-light: hsl(0 0% 9%);
+    --text: hsl(300 0% 95%);
+    --text-muted: hsl(300 0% 69%);
+    --highlight: hsl(330 0% 39%);
+    --border: hsl(0 0% 28%);
+    --border-muted: hsl(300 0% 18%);
+    --primary: hsl(48, 100%, 50%);
+    --primary-muted: hsl(48.21, 100%, 43.92%);
+    --danger: hsl(9 26% 64%);
+    --warning: hsl(52 19% 57%);
+    --success: hsl(146 17% 59%);
+    --info: hsl(217 28% 65%);
+}
+
+body{
+  margin: 0px;
+  place-items: center;
 }
 
 a {
@@ -22,12 +43,10 @@ a:hover {
   color: #535bf2;
 }
 
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+label{
+  display:inline-block;
+  margin-bottom: 0.5em;
+  font-weight: 500;
 }
 
 h1 {
@@ -35,23 +54,126 @@ h1 {
   line-height: 1.1;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
+/* Full-screen click wrapper */
+.landing-container {
+  position:        fixed;
+  top:             0;
+  left:            0;
+  width:           100vw;
+  height:          100vh;
+  background-color: #222;
+  color:           #ff0;
+  display:         flex;
+  flex-direction:  column;
+  justify-content: center;
+  align-items:     center;
+  text-align:      center;
+  cursor:          pointer;
 }
-button:hover {
-  border-color: #646cff;
+
+/* Logo styling */
+.landing-logo {
+  font-family: 'Baskerville','Georgia', 'Cambria', 'Palatino Linotype', serif;
+  font-size:   10rem;
+  line-height: 0.9;
+  color:       black;         /* your black letters */
+
+  /* inner yellow outline */
+  -webkit-text-stroke: 2px #FFD700;
+
+  display:           flex;
+  flex-direction:    column;
+  align-items:       flex-start;
 }
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+
+
+/* Indent the “Professors” line */
+.landing-logo-indent {
+  margin-left: 1.8rem;
+}
+
+/* Slogan */
+.landing-slogan {
+  color: #fff;         /* white text */
+  font-family: 'Times New Roman', serif;
+  font-size: 1.25rem;  /* your previous size */
+  margin-top: 1rem;
+  text-transform: uppercase;
+}
+
+/* Call-to-action */
+.landing-cta {
+  color: #fff;        /* white text */
+  font-size: 1rem;    /* your previous size */
+  margin-top: 2rem;
+  animation: fade-cta 1s infinite alternate ease-in-out;
+}
+
+/* keyframes for fading in/out */
+@keyframes fade-cta {
+  from { opacity: 0.1; }
+  to   { opacity: 1;   }
+}
+
+/* Full-screen click wrapper */
+.landing-container {
+  position:        fixed;
+  top:             0;
+  left:            0;
+  width:           100vw;
+  height:          100vh;
+  background-color: #222;
+  color:           #ff0;
+  display:         flex;
+  flex-direction:  column;
+  justify-content: center;
+  align-items:     center;
+  text-align:      center;
+  cursor:          pointer;
+}
+
+/* Logo styling */
+.landing-logo {
+  font-family: 'Baskerville','Georgia', 'Cambria', 'Palatino Linotype', serif;
+  font-size:   10rem;
+  line-height: 0.9;
+  color:       black;         /* your black letters */
+
+  /* inner yellow outline */
+  -webkit-text-stroke: 2px #FFD700;
+
+  display:           flex;
+  flex-direction:    column;
+  align-items:       flex-start;
+}
+
+
+/* Indent the “Professors” line */
+.landing-logo-indent {
+  margin-left: 1.8rem;
+}
+
+/* Slogan */
+.landing-slogan {
+  color: #fff;         /* white text */
+  font-family: 'Times New Roman', serif;
+  font-size: 1.25rem;  /* your previous size */
+  margin-top: 1rem;
+  text-transform: uppercase;
+}
+
+/* Call-to-action */
+.landing-cta {
+  color: #fff;        /* white text */
+  font-size: 1rem;    /* your previous size */
+  margin-top: 2rem;
+  animation: fade-cta 1s infinite alternate ease-in-out;
+}
+
+/* keyframes for fading in/out */
+@keyframes fade-cta {
+  from { opacity: 0.1; }
+  to   { opacity: 1;   }
 }
 
 @media (prefers-color-scheme: light) {

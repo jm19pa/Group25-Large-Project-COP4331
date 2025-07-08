@@ -1,0 +1,155 @@
+
+:root{
+    /* DARK MODE VARIABLES */
+    --bg-dark: hsl(336 0% 1%);
+    --bg: hsl(300 0% 4%);
+    --bg-light: hsl(0 0% 9%);
+    --text: hsl(300 0% 95%);
+    --text-muted: hsl(300 0% 69%);
+    --highlight: hsl(330 0% 39%);
+    --border: hsl(0 0% 28%);
+    --border-muted: hsl(300 0% 18%);
+    --primary: hsl(48, 100%, 50%);
+    --primary-muted: hsl(48.21, 100%, 43.92%);
+    --danger: hsl(9 26% 64%);
+    --warning: hsl(52 19% 57%);
+    --success: hsl(146 17% 59%);
+    --info: hsl(217 28% 65%);
+    align-content: center;
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-self: center;
+    background-color: var(--bg-light);
+    width: 600px;
+    height: 700px;
+    border-radius: 10px;
+    box-shadow: 0 0 5px var(--border);
+}
+
+.buttons{
+    color: var(--bg);
+    background-color: var(--primary);
+    position: relative;
+    display: inline-block;
+    width: 150px;
+    height: 35px;
+    margin-bottom: 25px;
+    border-radius: 3px;
+    border-width: 0px;
+}
+
+.buttons:hover{
+    background-color: var(--primary-muted);
+    cursor: pointer;
+}
+
+.input_div {
+  display: flex;
+  flex-direction: column;
+  margin: 20px;
+  width: fit-content;
+  position: static;
+  max-width: 300px;
+}
+
+.input_div label.text {
+  font-size: 0.75rem;
+  color: var(--text);
+  font-weight: 700;
+  position: relative;
+  top: 0.5rem;
+  margin: 0 0 0 7px;
+  padding: 0 3px;
+  background: var(--bg-light);
+  width: fit-content;
+}
+
+.input_div input[type="text"].input {
+  padding: 11px 10px;
+  font-size: 0.75rem;
+  border: 2px var(--text) solid;
+  border-radius: 5px;
+  background: var(--bg-dark);
+  width: 250px;
+}
+
+.input_div input:hover{
+    outline: none;
+    box-shadow: 0 0 2px #FFFFFF;
+}
+
+.input_div input[type="text"].input:focus {
+    outline: none;
+    box-shadow: 0 0 5px #FFFFFF;
+}
+
+.switch{
+    position: relative;
+    display: inline-block;
+    width: 250px;
+    height: 50px;
+}
+
+.login_switch{
+    position: relative;
+    right: 40px;
+    top: 23%;
+}
+
+.signup_switch{
+    position: relative;
+    left: 40px;
+    top: 23%;
+}
+
+.switch input{
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider{
+    color: var(--bg);
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--text);
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 50px;
+    width: 125px;
+    right: 0px;
+    left: 0px;
+    bottom: 0px;
+    background-color: var(--primary);
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider div{
+    align-content: center;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #FFFFFF;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(125px);
+    -ms-transform: translateX(125px);
+    transform: translateX(125px);
+}
