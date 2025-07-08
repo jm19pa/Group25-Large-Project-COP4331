@@ -18,7 +18,8 @@ const Menu: React.FC = () => {
             </div>
 
             <div className={`options ${sidebarOpen ? 'show' : 'hide'}`}>
-                <div><a>Open pack</a></div>
+                <div><a>Open Pack</a></div>
+                <div><a>Card Collection</a></div>
                 <div><a>Battle</a></div>
                 <div><a>Trade</a></div>
                 <div><a>Toggle dark/light</a></div>

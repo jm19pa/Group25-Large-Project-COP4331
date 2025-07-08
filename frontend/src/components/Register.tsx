@@ -16,9 +16,10 @@ const Register: React.FC = () => {
   const [showSignup, setShowSignup] = useState(false);
   
   const [login, setLogin] = useState('');
+  const [password, setPassword] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
 
   const goToLoginPage = () => {
     window.location.href = '/login';
@@ -26,7 +27,7 @@ const Register: React.FC = () => {
 
   async function doRegister(event:any): Promise<void>{
     event.preventDefault();
-    let obj = {login:login, firstName:firstName, lastName:lastName, password:password};
+    let obj = {login:login, firstName:firstName, lastName:lastName, password:password, email:email};
     let js = JSON.stringify(obj);
 
     try{
@@ -82,6 +83,11 @@ const Register: React.FC = () => {
         <div className="input_div">
           <label className="text">Password</label>
           <input className="input" id="password" type="text" placeholder="Create your password"/>
+        </div>
+
+          <div className="input_div">
+          <label className="text">Email</label>
+          <input className="input" id="email" type="text" placeholder="Enter your Email"/>
         </div>
         
         <div className="input_div">
