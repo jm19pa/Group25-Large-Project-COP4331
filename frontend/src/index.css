@@ -13,9 +13,9 @@
   -moz-osx-font-smoothing: grayscale;
 
     /* DARK MODE VARIABLES */
-    --bg-dark: hsl(336 0% 1%);
-    --bg: hsl(300 0% 4%);
-    --bg-light: hsl(0 0% 9%);
+    --bg-dark: #030303;
+    --bg: #0a0a0a;
+    --bg-light: #171717;
     --text: hsl(300 0% 95%);
     --text-muted: hsl(300 0% 69%);
     --highlight: hsl(330 0% 39%);
@@ -61,7 +61,7 @@ h1 {
   left:            0;
   width:           100vw;
   height:          100vh;
-  background-color: #222;
+  background-color: #0a0a0a;
   color:           #FFD700;
   display:         flex;
   flex-direction:  column;
