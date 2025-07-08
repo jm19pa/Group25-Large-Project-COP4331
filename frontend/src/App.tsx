@@ -6,6 +6,7 @@ import LoginPage from './pages/LoginPage';
 import CardPage from './pages/CardPage';
 import RegisterPage from './pages/RegisterPage';
 import PackPage from './pages/PackPage';
+import EmailVerificationPage from './pages/EmailVerificationPage';
 
 
 
@@ -16,9 +17,10 @@ function App() {
             <Route path="/" element={<LandingPage />} />
             <Route path="/landing" element={<LoginPage />} />
             <Route path="/cards" element={<CardPage />} />
-            <Route path="*" element={<Navigate to="/" />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/pack" element={<PackPage />} />
+            <Route path="/emailVerification" element={<EmailVerificationPage />} />
+            <Route path="*" element={<Navigate to="/" />} /> {/* this should be at the bottom */}
         </Routes>
     </Router>
     );
