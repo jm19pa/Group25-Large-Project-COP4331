@@ -29,15 +29,9 @@
     --info: hsl(217 28% 65%);
 }
 
-body{
-  margin: 0px;
+body {
+  margin: 0;
   place-items: center;
-
-  background-color: #030303;
-
-  background: linear-gradient(135deg, #0a0a0a, #ffd90005);
-  background-size: 400% 400%;
-  animation: backgroundShift 30s ease infinite;
 }
 
 a {
@@ -75,7 +69,7 @@ h1 {
   text-align:      center;
   cursor:          pointer;
 
-  background: linear-gradient(135deg, #0a0a0a, #ffd90005);
+  background: linear-gradient(135deg, #030303, #ffd90005);
   background-size: 400% 400%;
   animation: backgroundShift 30s ease infinite;
 }
@@ -86,22 +80,35 @@ h1 {
   100% { background-position: 0% 50%; }
 }
 
+
 /* Logo styling */
 .landing-logo {
-  font-family: 'Baskerville','Georgia', 'Cambria', 'Palatino Linotype', serif;
-  font-size:   10rem;
-  line-height: 0.9;
-  color:       black;         /* your black letters */
-
-  /* inner yellow outline */
-  -webkit-text-stroke: 2px #FFD700;
-  text-shadow: 0 0 5px rgba(255, 215, 0, 0.6), 0 0 10px rgba(255, 215, 0, 0.2);
-
-  display:           flex;
-  flex-direction:    column;
-  align-items:       flex-start;
   
+  font-family: 'Baskerville','Georgia', 'Cambria', 'Palatino Linotype', serif;
+  font-size: clamp(5rem, 15vw, 10rem);  line-height: 0.9;
+  color: black;
+  -webkit-text-stroke: 2px #FFD700;
+  text-shadow: 0 0 2px rgba(255, 215, 0, 0.6), 0 0 4px rgba(255, 215, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  animation: goldPulse 5s infinite ease-in-out;
 }
+
+
+@keyframes goldPulse {
+  0% {
+    text-shadow: 0 0 4px rgba(255, 215, 0, 0.4), 0 0 8px rgba(255, 215, 0, 0.2);
+  }
+  50% {
+    text-shadow: 0 0 8px rgba(255, 215, 0, 0.7), 0 0 16px rgba(255, 215, 0, 0.4);
+  }
+  100% {
+    text-shadow: 0 0 4px rgba(255, 215, 0, 0.4), 0 0 8px rgba(255, 215, 0, 0.2);
+  }
+}
+
 
 
 /* Indent the “Professors” line */

@@ -1,7 +1,7 @@
 
 :root{
     /* DARK MODE VARIABLES */
-    --bg-dark: hsl(336 0% 1%);
+    --bg-dark: #030303;
     --bg: hsl(300 0% 4%);
     --bg-light: hsl(0 0% 9%);
     --text: hsl(300 0% 95%);
@@ -16,6 +16,16 @@
     --success: hsl(146 17% 59%);
     --info: hsl(217 28% 65%);
     align-content: center;
+
+    background: linear-gradient(135deg, #030303, #ffd90005);
+    background-size: 400% 400%;
+    animation: backgroundShift 30s ease infinite;
+}
+
+@keyframes backgroundShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 .container{
