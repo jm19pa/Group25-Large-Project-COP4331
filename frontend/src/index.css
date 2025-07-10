@@ -27,7 +27,9 @@
     --warning: hsl(52 19% 57%);
     --success: hsl(146 17% 59%);
     --info: hsl(217 28% 65%);
+
 }
+
 
 body {
   margin: 0;
@@ -61,7 +63,6 @@ h1 {
   left:            0;
   width:           100vw;
   height:          100vh;
-  background-color: #030303;
   display:         flex;
   flex-direction:  column;
   justify-content: center;
@@ -69,16 +70,31 @@ h1 {
   text-align:      center;
   cursor:          pointer;
 
-  background: linear-gradient(135deg, #030303, #ffd90005);
-  background-size: 400% 400%;
-  animation: backgroundShift 30s ease infinite;
+
+  background-color: #030303;
+  background-image: linear-gradient(
+    120deg,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(255, 215, 0, 0.05) 15%,
+    rgba(255, 215, 0, 0.15) 25%,
+    rgba(255, 215, 0, 0.05) 35%,
+    rgba(0, 0, 0, 1) 50%,
+    rgba(255, 215, 0, 0.05) 65%,
+    rgba(255, 215, 0, 0.15) 75%,
+    rgba(255, 215, 0, 0.05) 85%,
+    rgba(0, 0, 0, 1) 100%
+  );
+  background-size: 600% 600%;
+  animation: goldLightSweep 60s ease-in-out infinite;
+
 }
 
-@keyframes backgroundShift {
+@keyframes goldLightSweep {
   0%   { background-position: 0% 50%; }
   50%  { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
+
 
 
 /* Logo styling */
