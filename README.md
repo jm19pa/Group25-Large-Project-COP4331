@@ -31,3 +31,7 @@ npm install mongodb
 npm i --save-dev @types/react
 npm install vite
 npm install bcrypt
+npm install --save-dev @types/babel__core @types/babel__generator @types/babel__template @types/babel__traverse @types/json-schema
+npm install jsonwebtoken 
+npm install react-jwt 
+npm install jwt-decode

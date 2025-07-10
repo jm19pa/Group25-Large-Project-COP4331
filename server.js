@@ -88,7 +88,7 @@ app.post("/api/login", async (req, res) => {
 //Incoming: login, password, firstName, lastName
 //Outgoing id, firstName, lastName, error 
 app.post("/api/register", async(req, res) => {
-  const{ login ,password, firstName, lastName} = req.body;
+  const{ login ,password, firstName, lastName, email} = req.body;
 
   try{
     const db = client.db("pockProf");
@@ -114,10 +114,10 @@ app.post("/api/register", async(req, res) => {
       const newUser = {
         Login: login,
         Password: hashedPassword,
+        Email: email,
         FirstName: firstName,
         LastName: lastName,
       };
-
       const result = await db.collection("Users").insertOne(newUser);
 
       id = result.insertedId.toString();

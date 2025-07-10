@@ -31,7 +31,7 @@ const Register: React.FC = () => {
   const [password, setPassword] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  // const [email, setEmail] = useState('');
+  const [email, setEmail] = useState('');
 
   async function doLogin(event:any): Promise<void>{
     event.preventDefault();
@@ -62,8 +62,8 @@ const Register: React.FC = () => {
 
   async function doRegister(event:any): Promise<void>{
     event.preventDefault();
-	  var obj = {login:login,firstName:firstName,lastName:lastName,password:password};
-    // let obj = {login:login, firstName:firstName, lastName:lastName, password:password, email:email};
+	  //var obj = {login:login,firstName:firstName,lastName:lastName,password:password};
+    let obj = {login:login, firstName:firstName, lastName:lastName, password:password, email:email};
     let js = JSON.stringify(obj);
 
     try{
@@ -131,8 +131,8 @@ const Register: React.FC = () => {
 
           <div className="input_div">
           <label className="text">Email</label>
-          <input className="input" id="email" type="text" placeholder="Enter your Email"/>
-          {/* <input className="input" id="email" type="text" placeholder="Enter your Email" value={email} onChange={(e) => setEmail(e.target.value)}/> */}
+           {/* <input className="input" id="email" type="text" placeholder="Enter your Email"/>*/}
+         <input className="input" id="email" type="text" placeholder="Enter your Email" value={email} onChange={(e) => setEmail(e.target.value)}/> 
         </div>
         
         <div className="input_div">
