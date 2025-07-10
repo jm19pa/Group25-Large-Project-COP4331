@@ -18,7 +18,7 @@ const CardPack: React.FC = () => {
             <img
                 src="/images/card.jpg"
                 alt="Card"
-                height="200"
+                height="282"
                 width="200"
                 className={bouncing ? "bounce" : ""}
                 onClick={handleClick}
