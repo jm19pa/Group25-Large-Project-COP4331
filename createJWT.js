@@ -4,15 +4,12 @@ require("dotenv").config();
 exports.createToken = function (fn, ln, id) {
   try {
     const user = { userId: id, firstName: fn, lastName: ln };
-    const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
-      expiresIn: '30m' // or '1h', '24h', etc.
-    });
+    const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
     return { accessToken };
   } catch (e) {
     return { error: e.message };
   }
 };
-
 
 exports.isExpired = function (tokenStr) {
   try {
@@ -24,12 +21,6 @@ exports.isExpired = function (tokenStr) {
 };
 
 exports.refresh = function (tokenStr) {
-  try {
-    const decoded = jwt.decode(tokenStr);
-    if (!decoded || !decoded.userId) throw new Error("Invalid token");
-    const tokenObj = exports.createToken(decoded.firstName, decoded.lastName, decoded.userId);
-    return tokenObj.accessToken || "";
-  } catch (e) {
-    return { error: e.message };
-  }
+  const decoded = jwt.decode(tokenStr);
+  return exports.createToken(decoded.firstName, decoded.lastName, decoded.userId);
 };

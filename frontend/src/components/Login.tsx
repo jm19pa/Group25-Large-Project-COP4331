@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { buildPath } from './Path';
 import { storeToken } from '../tokenStorage';
 import { jwtDecode } from 'jwt-decode';
+import { useNavigate } from 'react-router-dom';
 
 type DecodedToken = {
   userId: number;
@@ -10,7 +11,7 @@ type DecodedToken = {
 };
 
 function Login()
-{
+{   const navigate = useNavigate();
     const [message, setMessage] = useState('');
     const [loginName, setLoginName] = React.useState('');
     const [loginPassword, setPassword] = React.useState('');
@@ -25,40 +26,44 @@ function handleSetLoginName(e: any): void
     }
 
 // doLogin    
-async function doLogin(event:any) : Promise<void>
-{
-event.preventDefault();
-const obj = { login: loginName, password: loginPassword };
-const js = JSON.stringify(obj);
-try
-{
-const response = await fetch(buildPath('api/login'),{
-    method:'POST',
-    body:js,
-    headers:{'Content-Type':'application/json'}
-});
-const res = JSON.parse(await response.text());
-if(res.accessToken == null) {
-    setMessage('User/Password combination incorrect');
-    return;
+async function doLogin(event: any): Promise<void> {
+  event.preventDefault();
+
+  const obj = { login: loginName, password: loginPassword };
+  const js = JSON.stringify(obj);
+
+  try {
+    const response = await fetch(buildPath('api/login'), {
+      method: 'POST',
+      body: js,
+      headers: { 'Content-Type': 'application/json' }
+    });
+
+    const res = JSON.parse(await response.text());
+    const { accessToken } = res;
+    
+    storeToken(res);
+
+    const decoded = jwtDecode<DecodedToken>(accessToken);
+    
+        const userId = decoded.userId;
+        const firstName = decoded.firstName;
+        const lastName = decoded.lastName;
+
+        if (userId <= 0) {
+                setMessage('User/Password combination incorrect');
+        } else {
+            const user = { firstName, lastName, id: userId };
+            localStorage.setItem('user_data', JSON.stringify(user));
+            setMessage('');
+            window.location.href = '/cards';
+      }
+
+  } catch (error: any) {
+    alert(error.toString());
+  }
 }
 
-storeToken(res);
-
-const decoded = jwtDecode<DecodedToken>(res.accessToken);
-      const user = {
-        firstName: decoded.firstName,
-        lastName: decoded.lastName,
-        id: decoded.userId,
-      };
-
-      localStorage.setItem('user_data', JSON.stringify(user));
-      setMessage('');
-      window.location.href = '/cards';
-    } catch (error: any) {
-      alert(error.toString());
-    }
-};
     function goToRegisterPage(): void{
         window.location.href = '/register';
     };

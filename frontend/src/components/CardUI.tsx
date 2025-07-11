@@ -27,32 +27,30 @@ function CardUI()
     {
         setCardNameValue(e.target.value);
     }
-    async function addCard(e:any) : Promise<void>
-{
-e.preventDefault();
-var obj = {userId:userId,card:card,jwtToken:retrieveToken()};
-var js = JSON.stringify(obj);
-try
-{
-const response = await fetch(buildPath('api/addCard'),
-{method:'POST',body:js,headers:{'Content-Type':
-'application/json'}});
-let txt = await response.text();
-let res = JSON.parse(txt);
-if( res.error.length > 0 )
-{
-setMessage( "API Error:" + res.error );
-}
-else
-{
-setMessage('Card has been added');
-storeToken(res.jwtToken);
-}
-}
-catch(error:any)
-{
-setMessage(error.toString());
-}
+async function addCard(e: any): Promise<void> {
+  e.preventDefault();
+  var obj = { userId: userId, card: card, jwtToken: retrieveToken()};
+  var js = JSON.stringify(obj);
+  
+  try {
+    const response = await fetch(buildPath('api/addcard'), {
+      method: 'POST',
+      body: js,
+      headers: { 'Content-Type': 'application/json' }
+    });
+
+    let txt = await response.text();
+    let res = JSON.parse(txt);
+
+    if (res.error.length > 0) {
+      setMessage("API Error:" + res.error);
+    } else {
+      setMessage('Card has been added');
+      storeToken(res.jwtToken);
+    }
+  } catch (error: any) {
+    setMessage(error.toString());
+  }
 };
 async function searchCard(e:any) : Promise<void>
 {
