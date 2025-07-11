@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { buildPath } from './Path';
 import { storeToken } from '../tokenStorage';
 import { jwtDecode } from 'jwt-decode';
-import { useNavigate } from 'react-router-dom';
 
 type DecodedToken = {
   userId: number;
@@ -11,7 +10,7 @@ type DecodedToken = {
 };
 
 function Login()
-{   const navigate = useNavigate();
+{ 
     const [message, setMessage] = useState('');
     const [loginName, setLoginName] = React.useState('');
     const [loginPassword, setPassword] = React.useState('');
