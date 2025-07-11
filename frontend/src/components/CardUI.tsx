@@ -1,21 +1,11 @@
 import React, { useState } from 'react';
-const app_name = 'pocketprofessors.com'; // change to your app name
-function buildPath(route:string) : string
-{
-if (process.env.NODE_ENV != 'development')
-{
-return 'http://' + app_name + ':5000/' + route;
-}
-else
-{
-return 'http://localhost:5000/' + route;
-}
-}
+import { buildPath } from './Path';
+import { retrieveToken, storeToken } from '../tokenStorage';
 function CardUI()
 { 
-    let _ud : any = localStorage.getItem('user_data');
-    let ud = JSON.parse( _ud );
-    let userId : string = ud.id;
+    var _ud = localStorage.getItem('user_data');
+    var ud = JSON.parse(String(_ud));
+    var userId = ud.id;
     // comment out first and last name for now. messing with command "npm run build", since 
     // typescript is strict.
 /*
@@ -40,8 +30,8 @@ function CardUI()
     async function addCard(e:any) : Promise<void>
 {
 e.preventDefault();
-let obj = {userId:userId,card:card};
-let js = JSON.stringify(obj);
+var obj = {userId:userId,card:card,jwtToken:retrieveToken()};
+var js = JSON.stringify(obj);
 try
 {
 const response = await fetch(buildPath('api/addCard'),
@@ -56,6 +46,7 @@ setMessage( "API Error:" + res.error );
 else
 {
 setMessage('Card has been added');
+storeToken(res.jwtToken);
 }
 }
 catch(error:any)
@@ -66,8 +57,8 @@ setMessage(error.toString());
 async function searchCard(e:any) : Promise<void>
 {
 e.preventDefault();
-let obj = {userId:userId,search:search};
-let js = JSON.stringify(obj);
+var obj = {userId:userId,search:search,jwtToken:retrieveToken()};
+var js = JSON.stringify(obj);
 try
 {
 const response = await fetch(buildPath('api/searchCards'),
