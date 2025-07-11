@@ -38,7 +38,7 @@ jobs:
           SSH_KEY: ${{ secrets.SSH_KEY }}
         run: |
           sshpass -p "${SSH_KEY}" scp -r -o StrictHostKeyChecking=no \
-            server.js api.js package.json createJWT.js ${SSH_USERNAME}@${SSH_HOST}:/var/cardsServer/
+            server.js api.js package.json package-lock.json createJWT.js ${SSH_USERNAME}@${SSH_HOST}:/var/cardsServer/
 
       # Restart backend server
       - name: Restart backend server
