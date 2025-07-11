@@ -6,19 +6,38 @@ exports.setApp = function (app, client) {
 // Add Card
 // Incoming: userId, card
 // Outgoing: error
+// i have no idea why its fixed now, but it works
+// added console logs to debug and it just works now
 app.post("/api/addcard", async (req, res) => {
     const { userId, card, jwtToken } = req.body;
+/////////////////////////////////////////////////
+  //console.log("Received addCard request:");
+  //console.log("userId:", userId);
+  //console.log("card:", card);
+  //console.log("jwtToken (raw):", jwtToken);
+/////////////////////////////////////////////////
     try {
-      if (token.isExpired(jwtToken)) return res.status(200).json({ error: "The JWT is no longer valid", jwtToken: "" });
-    } catch (e) {
-      console.log(e.message);
-    }
+      //console.log("Checking if token is expired...");
+      if (token.isExpired(jwtToken)) {
+        //console.log("JWT is expired or invalid.");
+        //console.log("Token expired");
+        return res.status(200).json({ error: "The JWT is no longer valid", jwtToken: "" });
+    } //console.log("Token is valid");
+  }
 
+    catch (err) {
+      //console.error("Error checking token expiration:", err);
+  return res.status(500).json({ error: "Token validation error", jwtToken: "" });
+    }
+    //console.log("Before insertOne");
     const db = client.db("COP4331Cards"); // change database name here (pockProf)
+    //console.log("After insertOne");
     let error = "";
     try {
       await db.collection("Cards").insertOne({ Card: card, UserId: userId });
+      //console.log("Card inserted successfully");
     } catch (e) {
+      //console.error("Error inserting card:", e.message);
       error = e.toString();
     }
 
@@ -30,7 +49,7 @@ app.post("/api/addcard", async (req, res) => {
 // Outgoing: id, firstName, lastName, error
 app.post("/api/login", async (req, res) => {
   const { login, password } = req.body;
-
+  console.log(`Login attempt for user: ${login}`);
   try {
     const db = client.db("pockProf");
     const results = await db.collection("Users").find({ Login: login }).toArray();
@@ -58,7 +77,9 @@ app.post("/api/login", async (req, res) => {
     } else {
       error = "Login/Password incorrect";
     }
-
+  if (jwtToken) {
+    console.log("Generated JWT token:", jwtToken);
+  }
     res.status(200).json({ id, firstName: fn, lastName: ln, jwtToken, error });
   } catch (err) {
     console.error("Login error:", err.message);
