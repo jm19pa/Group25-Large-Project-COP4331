@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 
 
 
@@ -7,6 +7,10 @@ const CardPack: React.FC = () => {
   const [shaking, setShaking] = useState(false);
   const [showPoof, setShowPoof] = useState(false);
 
+ useEffect(() => {
+    const img = new Image();
+    img.src = "/images/poof.png";
+  }, []);
 
   function handleClick() {
     // Start shake
