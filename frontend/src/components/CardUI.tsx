@@ -49,11 +49,11 @@ async function addCard(e: any): Promise<void> {
       setMessage("API Error:" + res.error);
     } else {
       setMessage('Card has been added');
-
-      if(res.jwtToken){
-        storeToken({ accessToken: res.jwtToken });
-        console.log('Stored refreshed token:', res.jwtToken);
-      }
+    if (res.jwtToken) {
+    storeToken(res.jwtToken);
+    console.log('Stored refreshed token:', res.jwtToken);
+}
+ 
     }
   } catch (error: any) {
     setMessage(error.toString());

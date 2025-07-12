@@ -1,7 +1,7 @@
-export function storeToken(tok: { accessToken: string }): void {
+export function storeToken(token: string): void {
   try {
-    localStorage.setItem('token_data', tok.accessToken);
-    console.log('✅ Stored token:', tok.accessToken);
+    localStorage.setItem('token_data', token);
+    console.log('✅ Stored token:', token);
   } catch (e) {
     console.log('❌ Error storing token:', e);
   }

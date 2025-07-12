@@ -49,8 +49,8 @@ async function doLogin(event: any): Promise<void> {
       return;
     }
 
-    // ✅ Now store it
-    storeToken({ accessToken: jwtToken });
+    // Store token as a simple string, NOT as an object
+    storeToken(jwtToken);
     console.log("✅ Stored token:", jwtToken);
     console.log("🔍 Immediately after storing:", retrieveToken());
 
