@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { buildPath } from './Path';
 import { storeToken } from '../tokenStorage';
 import { jwtDecode } from 'jwt-decode';
-
+import { useNavigate } from 'react-router-dom';
 type DecodedToken = {
   userId: number;
   firstName: string;
@@ -10,7 +10,7 @@ type DecodedToken = {
 };
 
 function Login()
-{ 
+{   const navigate = useNavigate();
     const [message, setMessage] = useState('');
     const [loginName, setLoginName] = React.useState('');
     const [loginPassword, setPassword] = React.useState('');
@@ -39,7 +39,7 @@ async function doLogin(event: any): Promise<void> {
     });
 
     const res = JSON.parse(await response.text());
-    const { accessToken } = res;
+    const  { accessToken }= res;
     
     storeToken(res);
 
@@ -55,7 +55,8 @@ async function doLogin(event: any): Promise<void> {
             const user = { firstName, lastName, id: userId };
             localStorage.setItem('user_data', JSON.stringify(user));
             setMessage('');
-            window.location.href = '/cards';
+            navigate('/cards');
+            //window.location.href = '/cards';
       }
 
   } catch (error: any) {
