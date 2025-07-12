@@ -39,11 +39,13 @@ async function doLogin(event: any): Promise<void> {
     });
 
     const res = JSON.parse(await response.text());
-    const  { accessToken }= res;
     
-    storeToken(res);
+    const { jwtToken } = res;
+    if(res.jwtToken) {
+    storeToken({ accessToken: res.jwtToken });
+}
 
-    const decoded = jwtDecode<DecodedToken>(accessToken);
+    const decoded = jwtDecode<DecodedToken>(jwtToken);
     
         const userId = decoded.userId;
         const firstName = decoded.firstName;

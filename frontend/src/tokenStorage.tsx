@@ -1,4 +1,4 @@
-export function storeToken(tok: any): void {
+export function storeToken(tok: { accessToken: string }): void {
   try {
     localStorage.setItem('token_data', tok.accessToken);
   } catch (e) {
@@ -6,12 +6,11 @@ export function storeToken(tok: any): void {
   }
 }
 
-export function retrieveToken(): any {
-  var ud;
+export function retrieveToken(): string | null {
   try {
-    ud = localStorage.getItem('token_data');
+    return localStorage.getItem('token_data');
   } catch (e) {
     console.log(e);
+    return null;
   }
-  return ud;
 }

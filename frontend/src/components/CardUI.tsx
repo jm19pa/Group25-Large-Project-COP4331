@@ -29,7 +29,10 @@ function CardUI()
     }
 async function addCard(e: any): Promise<void> {
   e.preventDefault();
-  var obj = { userId: userId, card: card, jwtToken: retrieveToken()};
+  const token = retrieveToken();
+  console.log('Retrieved token before sending:', token);
+
+  var obj = { userId: userId, card: card, jwtToken: token};
   var js = JSON.stringify(obj);
   
   try {
@@ -46,7 +49,11 @@ async function addCard(e: any): Promise<void> {
       setMessage("API Error:" + res.error);
     } else {
       setMessage('Card has been added');
-      storeToken(res.jwtToken);
+
+      if(res.jwtToken){
+        storeToken({ accessToken: res.jwtToken });
+        console.log('Stored refreshed token:', res.jwtToken);
+      }
     }
   } catch (error: any) {
     setMessage(error.toString());
