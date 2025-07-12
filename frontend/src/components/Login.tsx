@@ -40,25 +40,33 @@ async function doLogin(event: any): Promise<void> {
 
     const res = JSON.parse(await response.text());
 
+    console.log("🟢 Login response:", res);
+
     const jwtToken = res.jwtToken;
     if (!jwtToken) {
+      console.log("❌ No jwtToken in response.");
       setMessage('User/Password combination incorrect');
       return;
     }
 
+    // ✅ Now store it
     storeToken({ accessToken: jwtToken });
+    console.log("✅ Stored token:", jwtToken);
     console.log("🔍 Immediately after storing:", retrieveToken());
 
     const decoded = jwtDecode<DecodedToken>(jwtToken);
-    const user = {
-      firstName: decoded.firstName,
-      lastName: decoded.lastName,
-      id: decoded.userId,
-    };
+    const userId = decoded.userId;
+    const firstName = decoded.firstName;
+    const lastName = decoded.lastName;
 
-    localStorage.setItem('user_data', JSON.stringify(user));
-    setMessage('');
-    navigate('/cards');
+    if (userId <= 0) {
+      setMessage('User/Password combination incorrect');
+    } else {
+      const user = { firstName, lastName, id: userId };
+      localStorage.setItem('user_data', JSON.stringify(user));
+      setMessage('');
+      navigate('/cards');
+    }
 
   } catch (error: any) {
     alert(error.toString());
