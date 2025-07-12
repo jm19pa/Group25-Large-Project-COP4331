@@ -42,6 +42,44 @@
   animation: bounce 0.5s;
 }
 
+/* ── 1. Shake keyframes ───────────────────────────────────────── */
+@keyframes shake {
+  0%, 100%   { transform: translateX(0); }
+  10%, 30% , 50%, 70%, 90% { transform: translateX(-4px); }
+  20%, 40%, 60%, 80%       { transform: translateX(4px); }
+}
+.shake {
+  animation: shake 0.6s ease-in-out;
+}
+
+/* ── 2. Poof keyframes ───────────────────────────────────────── */
+@keyframes poofFade {
+  0% {
+    opacity: 1;
+    transform: translateX(-50%) scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(-50%) scale(1.1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) scale(1.4);
+  }
+}
+
+.poof {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 120px;  /* size of your poof sprite */
+  height: 120px;
+  margin: -60px 0 0 -60px; /* center it */
+  background: url('/images/poof.png') no-repeat center/contain;
+  pointer-events: none;
+  animation: poof 0.6s ease-out forwards;
+}
+
+
 @media (prefers-reduced-motion: no-preference) {
   a:nth-of-type(2) .logo {
     animation: logo-spin infinite 20s linear;

@@ -1,12 +1,26 @@
 import React, {useState} from 'react';
 
+
+
 const CardPack: React.FC = () => {
   // some logic
-  const [bouncing, setBouncing] = useState(false);
+  const [shaking, setShaking] = useState(false);
+  const [showPoof, setShowPoof] = useState(false);
+
+
   function handleClick() {
-    setBouncing(true);
-    setTimeout(() => setBouncing(false), 500); // remove class after animation
+    // Start shake
+    setShaking(true);
+    // When shake ends, show poof
+    setTimeout(() => {
+      setShaking(false);
+      setShowPoof(true);
+    }, 1000); // match shake duration
+    // Hide poof after its animation
+    setTimeout(() => setShowPoof(false), 2000);
   }
+
+
     function goToLoggedInPage() {
         window.location.href = '/cards';
     }
@@ -14,22 +28,50 @@ const CardPack: React.FC = () => {
     <div>
         <h2>Card Pack</h2>
         <p>This is where the card pack will be displayed.</p>
-        <div>
-            <img
-                src="/images/card.jpg"
-                alt="Card"
-                height="282"
-                width="200"
-                className={bouncing ? "bounce" : ""}
-                onClick={handleClick}
-                style={{ cursor: "pointer" }}
-            />
-            <br></br>
-            <br></br>
-            <button type="button" id="Register" className="buttons"
-                onClick={goToLoggedInPage}> Cards Page </button>
+         {/* ── Relative wrapper ──────────────────────────────────────────── */}
+      <div style={{ position: 'relative', display: 'inline-block' }}>
+        {/* Card image with shake class */}
+        <img
+          src="/images/card.jpg"
+          alt="Card"
+          height={282}
+          width={200}
+          onClick={handleClick}
+          className={shaking ? 'shake' : ''}
+          style={{ cursor: 'pointer' }}
+        />
 
-        </div>
+{showPoof && (
+  <img
+    src="/images/poof.png"
+    alt="poof"
+    className="poof"
+    style={{
+      position: 'absolute',
+      width: '500px',
+      height: '600px',
+      top: '-100px',
+      left: '80%',
+      transform: 'translateX(-50%)',
+      pointerEvents: 'none',
+      opacity: 1,
+      animation: 'poofFade 0.8s ease-out forwards',
+      zIndex: 1
+    }}
+  />
+)}
+
+
+      </div>
+
+      <br/><br/>
+      <button
+        type="button"
+        className="buttons"
+        onClick={goToLoggedInPage}
+      >
+        Cards Page
+      </button>
     </div>
   );
 };
