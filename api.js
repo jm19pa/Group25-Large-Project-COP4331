@@ -69,7 +69,7 @@ app.post("/api/login", async (req, res) => {
         ln = user.LastName;
         
         const tokenObj = token.createToken(fn, ln, id);
-        jwtToken = tokenObj.accessToken || ""; 
+        jwtToken = tokenObj.accessToken;
       } else {
         error = "Login/Password incorrect";
       }
