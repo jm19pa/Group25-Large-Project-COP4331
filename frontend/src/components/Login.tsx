@@ -39,32 +39,31 @@ async function doLogin(event: any): Promise<void> {
     });
 
     const res = JSON.parse(await response.text());
-    
-    const { jwtToken } = res;
-    if(res.jwtToken) {
-    storeToken({ accessToken: res.jwtToken });
-}
+
+    const jwtToken = res.jwtToken;
+    if (!jwtToken) {
+      setMessage('User/Password combination incorrect');
+      return;
+    }
+
+    storeToken({ accessToken: jwtToken });
 
     const decoded = jwtDecode<DecodedToken>(jwtToken);
-    
-        const userId = decoded.userId;
-        const firstName = decoded.firstName;
-        const lastName = decoded.lastName;
+    const user = {
+      firstName: decoded.firstName,
+      lastName: decoded.lastName,
+      id: decoded.userId,
+    };
 
-        if (userId <= 0) {
-                setMessage('User/Password combination incorrect');
-        } else {
-            const user = { firstName, lastName, id: userId };
-            localStorage.setItem('user_data', JSON.stringify(user));
-            setMessage('');
-            navigate('/cards');
-            //window.location.href = '/cards';
-      }
+    localStorage.setItem('user_data', JSON.stringify(user));
+    setMessage('');
+    navigate('/cards');
 
   } catch (error: any) {
     alert(error.toString());
   }
 }
+
 
     function goToRegisterPage(): void{
         window.location.href = '/register';
