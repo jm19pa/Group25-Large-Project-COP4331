@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { buildPath } from './Path';
-import { storeToken } from '../tokenStorage';
+import { storeToken , retrieveToken } from '../tokenStorage';
 import { jwtDecode } from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
 type DecodedToken = {
@@ -47,6 +47,7 @@ async function doLogin(event: any): Promise<void> {
     }
 
     storeToken({ accessToken: jwtToken });
+    console.log("🔍 Immediately after storing:", retrieveToken());
 
     const decoded = jwtDecode<DecodedToken>(jwtToken);
     const user = {
