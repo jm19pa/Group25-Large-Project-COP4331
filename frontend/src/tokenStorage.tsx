@@ -6,11 +6,12 @@ export function storeToken(tok: any): void {
   }
 }
 
-export function retrieveToken(): string | null {
+export function retrieveToken(): any {
+  var ud;
   try {
-    return localStorage.getItem('token_data');
+    ud = localStorage.getItem('token_data');
   } catch (e) {
     console.log(e);
-    return null;
   }
+  return ud;
 }
