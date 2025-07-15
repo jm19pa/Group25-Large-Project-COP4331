@@ -1,17 +1,11 @@
 import React, { useState } from 'react';
 import './register.css'
 // import { build } from 'vite';
+import { buildPath } from './Path';
+import { storeToken , retrieveToken } from '../tokenStorage';
+import { jwtDecode } from 'jwt-decode';
+import { useNavigate } from 'react-router-dom';
 
-const app_name = 'pocketprofessors.com';
-
-function buildPath(route:string) : string {
-  if(process.env.NODE_ENV != 'development'){
-    return 'http://' + app_name + ':5000/' + route;
-  }
-  else{
-    return 'http://localhost:5000/' + route;
-  }
-}
 
 // this may need to change due to merging login/signup
 // function showPassword(): void{
@@ -23,43 +17,69 @@ function buildPath(route:string) : string {
 //     passwordField.type = 'password';
 //   }
 // }
+type DecodedToken = {
+  userId: number;
+  firstName: string;
+  lastName: string;
+};
 
 const Register: React.FC = () => {
   const [showSignup, setShowSignup] = useState(false);
-  
+   const navigate = useNavigate();
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
 
-  async function doLogin(event:any): Promise<void>{
-    event.preventDefault();
-    // we may add new variables specifically for login
-    let obj = {login:login, password:password};
-    let js = JSON.stringify(obj);
-    try{
-      const response = await fetch(buildPath('api/login'),
-    {method:'POST', body:js,headers:{'Content-Type':
-      'application/json'}});
-      let res = JSON.parse(await response.text());
-      if(res.id <= 0){
-        // eventually return a message to the user
-        console.log("Username / Password combination incorrect");
-      }
-      else{
-        let user = {firstName:res.firstName, lastName:res.lastName, id:res.id}
-        localStorage.setItem('user_data', JSON.stringify(user));
-        // there was a blank set-message function call
-        window.location.href = '/cards';
-      }
-    }
-    catch(error:any){
-      alert(error.toString());
+async function doLogin(event: any): Promise<void> {
+  event.preventDefault();
+
+  const obj = { login: login, password: password };
+  const js = JSON.stringify(obj);
+
+  try {
+    const response = await fetch(buildPath('api/login'), {
+      method: 'POST',
+      body: js,
+      headers: { 'Content-Type': 'application/json' }
+    });
+
+    const res = JSON.parse(await response.text());
+
+    console.log("🟢 Login response:", res);
+
+    const jwtToken = res.jwtToken;
+    if (!jwtToken) {
+      console.log("❌ No jwtToken in response.");
+      setMessage('User/Password combination incorrect');
       return;
     }
-  }
 
+    // Store token as a simple string, NOT as an object
+    storeToken(jwtToken);
+    console.log("✅ Stored token:", jwtToken);
+    console.log("🔍 Immediately after storing:", retrieveToken());
+
+    const decoded = jwtDecode<DecodedToken>(jwtToken);
+    const userId = decoded.userId;
+    const firstName = decoded.firstName;
+    const lastName = decoded.lastName;
+
+    if (userId <= 0) {
+      setMessage('User/Password combination incorrect');
+    } else {
+      const user = { firstName, lastName, id: userId };
+      localStorage.setItem('user_data', JSON.stringify(user));
+      setMessage('');
+      navigate('/cards');
+    }
+
+  } catch (error: any) {
+    alert(error.toString());
+  }
+}
   async function doRegister(event:any): Promise<void>{
     event.preventDefault();
 	  //var obj = {login:login,firstName:firstName,lastName:lastName,password:password};
