@@ -31,7 +31,7 @@ const Register: React.FC = () => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
+
 
 async function doLogin(event: any): Promise<void> {
   event.preventDefault();
@@ -53,7 +53,7 @@ async function doLogin(event: any): Promise<void> {
     const jwtToken = res.jwtToken;
     if (!jwtToken) {
       console.log("❌ No jwtToken in response.");
-      setMessage('User/Password combination incorrect');
+      postMessage('User/Password combination incorrect');
       return;
     }
 
@@ -68,11 +68,11 @@ async function doLogin(event: any): Promise<void> {
     const lastName = decoded.lastName;
 
     if (userId <= 0) {
-      setMessage('User/Password combination incorrect');
+      postMessage('User/Password combination incorrect');
     } else {
       const user = { firstName, lastName, id: userId };
       localStorage.setItem('user_data', JSON.stringify(user));
-      setMessage('');
+      postMessage('');
       navigate('/cards');
     }
 
