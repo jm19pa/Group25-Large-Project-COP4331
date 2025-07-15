@@ -1,0 +1,92 @@
+
+:root{
+    /* DARK MODE VARIABLES */
+    --bg-dark: hsl(336 0% 1%);
+    --bg: hsl(300 0% 4%);
+    --bg-light: hsl(0 0% 9%);
+    --text: hsl(300 0% 95%);
+    --text-muted: hsl(300 0% 69%);
+    --highlight: hsl(330 0% 39%);
+    --border: hsl(0 0% 28%);
+    --border-muted: hsl(300 0% 18%);
+    --primary: #FFD700;
+    --primary-muted: hsl(48.21, 100%, 43.92%);
+    --danger: hsl(9 26% 64%);
+    --warning: hsl(52 19% 57%);
+    --success: hsl(146 17% 59%);
+    --info: hsl(217 28% 65%);
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+.page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    overflow-x: hidden;
+    padding: 2rem 1rem;
+    box-sizing: border-box;
+}
+
+.cardDex_container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 0 1rem;
+    box-sizing: border-box;
+}
+
+.cardDex_title {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    font-size: clamp(20px, 6vw , 100px);
+    margin-top: 0;
+}
+
+.cardGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 200px);
+    gap: 1.5rem;
+    justify-content: center;
+    padding: 1.5rem;
+    width: 75vw;
+    /* width: 100%; */
+    /* max-width: 1200px; */
+    box-sizing: border-box;
+}
+
+.card {
+    background-color: var(--bg-light);
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px var(--border), 0 -2px 6px var(--border);
+    text-align: center;
+    /* width: 200px; */
+    max-width: 100%;
+    height: 300px;
+    transition: transform 0.2s ease-in-out;
+    box-sizing: border-box;
+}
+
+.card:hover{
+    transform: scale(1.05);
+    z-index: 1;
+}
+
+
+@media screen and (max-width: 500px) {
+    .cardGrid {
+        grid-template-columns: repeat(auto-fit, 100px);
+        gap: 1.5rem;
+        padding: 1.5rem;
+    }
+
+    .card{
+        height: 150px;        
+        padding: 1rem;
+    }
+}

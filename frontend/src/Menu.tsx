@@ -48,7 +48,7 @@ const Menu: React.FC = () => {
         <div><a href="/PageTitle">Page Title</a></div>
         <div><a href="/LoggedInName">LoggedInName</a></div>
         <div><a href="/CardPack">Card Pack</a></div>
-        <div><a href="/CardUI">Card UI</a></div>
+        <div><a href="/CardDex">Card Dex</a></div>
       </div>
     </div>
   );
