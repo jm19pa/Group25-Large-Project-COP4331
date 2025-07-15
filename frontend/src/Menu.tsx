@@ -34,21 +34,25 @@ const Menu: React.FC = () => {
   if (!shouldRender) return null;
 
   return (
-    <div className={`sidebar ${sidebarOpen ? 'show' : ''}`}>
+    <div className="sidebar">
+      {/* Hamburger Icon */}
       <div className={`menu ${sidebarOpen ? 'change' : ''}`} onClick={toggleMenu}>
         <div className="bar1"></div>
         <div className="bar2"></div>
         <div className="bar3"></div>
       </div>
 
-      <div className={`options ${sidebarOpen ? 'show' : 'hide'}`}>
-        <div><a href="/">Landing Page</a></div>
-        <div><a href="/register">Register</a></div>
-        <div><a href="/emailVerification">Email Verification</a></div>
-        <div><a href="/PageTitle">Page Title</a></div>
-        <div><a href="/LoggedInName">LoggedInName</a></div>
-        <div><a href="/CardPack">Card Pack</a></div>
-        <div><a href="/CardDex">Card Dex</a></div>
+      {/* Slide-out panel */}
+      <div className={`slide-panel ${sidebarOpen ? 'show' : ''}`}>
+        <div className={`options ${sidebarOpen ? 'show' : ''}`}>
+          <div><a href="/">Landing Page</a></div>
+          <div><a href="/register">Register</a></div>
+          <div><a href="/emailVerification">Email Verification</a></div>
+          <div><a href="/PageTitle">Page Title</a></div>
+          <div><a href="/LoggedInName">LoggedInName</a></div>
+          <div><a href="/CardPack">Card Pack</a></div>
+          <div><a href="/CardDex">Card Dex</a></div>
+        </div>
       </div>
     </div>
   );
