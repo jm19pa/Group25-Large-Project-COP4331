@@ -2,15 +2,16 @@
 
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { buildPath } from './Path';
 import './register.css'; // Keep or move styles as needed
 
-const app_name = 'pocketprofessors.com';
+// const app_name = 'pocketprofessors.com';
 
-function buildPath(route: string): string {
-  return process.env.NODE_ENV !== 'development'
-    ? 'http://' + app_name + ':5000/' + route
-    : 'http://localhost:5000/' + route;
-}
+// function buildPath(route: string): string {
+//   return process.env.NODE_ENV !== 'development'
+//     ? 'http://' + app_name + ':5000/' + route
+//     : 'http://localhost:5000/' + route;
+// }
 
 const EmailVerification: React.FC = () => {
   const [email, setEmail] = useState('');

@@ -6,17 +6,6 @@ import { storeToken, retrieveToken } from '../tokenStorage';
 import { jwtDecode } from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
 
-
-// this may need to change due to merging login/signup
-// function showPassword(): void{
-//   const passwordField = document.getElementById('password') as HTMLInputElement;
-//   if(passwordField.type === 'password'){
-//     passwordField.type = 'text';
-//   }
-//   else{
-//     passwordField.type = 'password';
-//   }
-// }
 type DecodedToken = {
     userId: number;
     firstName: string;
@@ -130,15 +119,20 @@ const Register: React.FC = () => {
 
             let res = JSON.parse(await response.text());
 
-            if (res.error) alert('Error: ' + res.error);
+            if (res.error) {
+                console.error("Full fetch error inside catch:", error);
+                alert('Error: ' + res.error);
+            }
             else {
                 let user = { firstName: res.firstName, lastName: res.lastName, id: res.id }
                 localStorage.setItem('user_data', JSON.stringify(user));
                 localStorage.setItem('verify_email', email);
-                window.location.href = '/verify';
+                window.location.href = '/emailVerification'; // lets see if this fixes anything
+                // window.location.href = '/verify';
             }
         }
         catch (error: any) {
+            console.error("Full fetch error inside catch:", error);
             alert(error.toString());
             return;
         }
