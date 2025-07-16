@@ -44,7 +44,6 @@ async function addCard(e: any): Promise<void> {
 
     let txt = await response.text();
     let res = JSON.parse(txt);
-
     if (res.error.length > 0) {
       setMessage("API Error:" + res.error);
     } else {

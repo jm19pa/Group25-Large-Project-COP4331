@@ -39,9 +39,11 @@ app.post("/api/addcard", async (req, res) => {
       console.error("Error inserting card:", e.message);
       error = e.toString();
     }
-
-    let refreshedToken = token.refresh(jwtToken);
-    res.status(200).json({ error, jwtToken: refreshedToken });
+    // these lines important cuz refreshing makes it an object
+    // so we need to convert it back to a string
+    let refreshedTokenObj = token.refresh(jwtToken);
+    let refreshedToken = refreshedTokenObj.accessToken;
+    res.status(200).json({ error: "", jwtToken: refreshedToken });
   });
 // Login
 // Incoming: login, password
