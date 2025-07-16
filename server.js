@@ -1,4 +1,8 @@
 require("dotenv").config();
+
+// ✅ Check if EMAIL_USER is loaded from .env
+console.log("EMAIL_USER:", process.env.EMAIL_USER);
+
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
