@@ -80,6 +80,7 @@
 .input_div {
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
     margin: 20px;
     width: fit-content;
     position: static;
@@ -105,6 +106,7 @@
     border-radius: 5px;
     background: var(--bg-dark);
     width: 250px;
+    margin: 0 auto;
 }
 
 .input_div input:hover {
@@ -241,5 +243,60 @@ input:checked+.slider:before {
     to {
         opacity: 1;
         transform: translateX(0);
+    }
+}
+
+@media (max-width: 600px) {
+    .container {
+        width: 90%;
+        height: auto;
+        padding: 20px;
+    }
+
+    .input_div {
+        margin: 10px;
+        margin-left: auto;
+        width: 100%;
+        max-width: none;
+    }
+
+    .input_div label.text{
+        left: 15px;
+    }
+
+    .input_div input[type="text"].input {
+        width: 75%;
+        font-size: 0.9rem;
+    }
+
+    .buttons {
+        width: 100%;
+        height: 40px;
+        font-size: 1rem;
+    }
+
+    .switch {
+        width: 200px;
+        height: 45px;
+    }
+
+    .slider:before {
+        width: 100px;
+    }
+
+    .login_switch {
+        font-size: 0.8rem;
+        top: 22%;
+        right: 33px;
+    }
+
+    .signup_switch {
+        font-size: 0.8rem;
+        top: 22%;
+        left: 33px;
+    }
+
+    input:checked + .slider:before {
+        transform: translateX(100px);
     }
 }
