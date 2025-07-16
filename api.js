@@ -145,15 +145,22 @@ app.post("/api/verifyemail", async (req, res) => {
 //Incoming: login, password, firstName, lastName, email
 //Outgoing id, firstName, lastName, error 
 app.post("/api/register", async (req, res) => {
-  const { login, password, firstName, lastName, email } = req.body;
+  let { login, password, firstName, lastName, email } = req.body;
+
+  // Normalize inputs
+  login = login.trim().toLowerCase();
+  email = email.trim().toLowerCase();
+
+  console.log("Register attempt:", { login, email });
 
   try {
     const db = client.db("pockProf");
 
-    // Check if the user already exists by login or email
     const existingUser = await db.collection("Users").findOne({
       $or: [{ Login: login }, { Email: email }]
     });
+
+    console.log("Existing user found:", existingUser);
 
     let id = -1;
     let fn = "";
@@ -161,7 +168,7 @@ app.post("/api/register", async (req, res) => {
     let error = "";
 
     const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
-    const codeExpires = new Date(Date.now() + 15 * 60 * 1000); // 15 minutes from now
+    const codeExpires = new Date(Date.now() + 15 * 60 * 1000);
 
     const transporter = nodemailer.createTransport({
       service: 'gmail',
@@ -174,33 +181,35 @@ app.post("/api/register", async (req, res) => {
     if (existingUser) {
       if (existingUser.Login === login) {
         error = "Username is already taken";
-      } else if (!existingUser.IsVerified) {
-        // User exists but is not verified -> resend code
-        await db.collection("Users").updateOne(
-          { Email: email },
-          {
-            $set: {
-              VerificationCode: verificationCode,
-              CodeExpires: codeExpires,
-              IsVerified: false,
-              FirstName: firstName,
-              LastName: lastName,
-              Login: login, // Update login if needed
-              Password: await bcrypt.hash(password, 10), // Update password
+      } else if (existingUser.Email === email) {
+        if (!existingUser.IsVerified) {
+          // Resend verification code, update user info
+          await db.collection("Users").updateOne(
+            { Email: email },
+            {
+              $set: {
+                VerificationCode: verificationCode,
+                CodeExpires: codeExpires,
+                IsVerified: false,
+                FirstName: firstName,
+                LastName: lastName,
+                Login: login,
+                Password: await bcrypt.hash(password, 10),
+              }
             }
-          }
-        );
+          );
 
-        await transporter.sendMail({
-          from: process.env.EMAIL_USER,
-          to: email,
-          subject: 'Your PocketProf Verification Code',
-          text: `Your verification code is ${verificationCode}. It will expire in 15 minutes.`,
-        });
+          await transporter.sendMail({
+            from: process.env.EMAIL_USER,
+            to: email,
+            subject: 'Your PocketProf Verification Code',
+            text: `Your verification code is ${verificationCode}. It will expire in 15 minutes.`,
+          });
 
-        return res.status(200).json({ id: existingUser._id.toString(), firstName, lastName, error: "" });
-      } else {
-        error = "Email is already registered";
+          return res.status(200).json({ id: existingUser._id.toString(), firstName, lastName, error: "" });
+        } else {
+          error = "Email is already registered";
+        }
       }
     } else {
       const hashedPassword = await bcrypt.hash(password, 10);
@@ -238,6 +247,7 @@ app.post("/api/register", async (req, res) => {
 
   console.log("BODY:", req.body);
 });
+
 
 // Search Cards
 // Incoming: userId, search
