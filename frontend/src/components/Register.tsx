@@ -130,7 +130,7 @@ const Register: React.FC = () => {
 
             let res = JSON.parse(await response.text());
 
-            if (res.error) alert('Error: ' + res.Error);
+            if (res.error) alert('Error: ' + res.error);
             else {
                 let user = { firstName: res.firstName, lastName: res.lastName, id: res.id }
                 localStorage.setItem('user_data', JSON.stringify(user));
