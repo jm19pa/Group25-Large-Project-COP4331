@@ -5,6 +5,7 @@ exports.createToken = function (fn, ln, id) {
   try {
     const user = { userId: id, firstName: fn, lastName: ln };
     const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
+    jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15m' })
     return { accessToken };
   } catch (e) {
     return { error: e.message };

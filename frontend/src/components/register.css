@@ -1,5 +1,4 @@
-
-:root{
+:root {
     /* DARK MODE VARIABLES */
     --bg-dark: #030303;
     --bg: hsl(300 0% 4%);
@@ -18,32 +17,38 @@
     align-content: center;
 
 
-  background-color: #030303;
-  background-image: linear-gradient(
-    120deg,
-    rgba(0, 0, 0, 1) 0%,
-    rgba(255, 215, 0, 0.05) 15%,
-    rgba(255, 215, 0, 0.15) 25%,
-    rgba(255, 215, 0, 0.05) 35%,
-    rgba(0, 0, 0, 1) 50%,
-    rgba(255, 215, 0, 0.05) 65%,
-    rgba(255, 215, 0, 0.15) 75%,
-    rgba(255, 215, 0, 0.05) 85%,
-    rgba(0, 0, 0, 1) 100%
-  );
-  background-size: 600% 600%;
-  animation: goldLightSweep 60s ease-in-out infinite;
+    background-color: #030303;
+    background-image: linear-gradient(120deg,
+            rgba(0, 0, 0, 1) 0%,
+            rgba(255, 215, 0, 0.05) 15%,
+            rgba(255, 215, 0, 0.15) 25%,
+            rgba(255, 215, 0, 0.05) 35%,
+            rgba(0, 0, 0, 1) 50%,
+            rgba(255, 215, 0, 0.05) 65%,
+            rgba(255, 215, 0, 0.15) 75%,
+            rgba(255, 215, 0, 0.05) 85%,
+            rgba(0, 0, 0, 1) 100%);
+    background-size: 600% 600%;
+    animation: goldLightSweep 60s ease-in-out infinite;
 
 }
 
 @keyframes goldLightSweep {
-  0%   { background-position: 0% 50%; }
-  50%  { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 
-.container{
+.container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -55,7 +60,7 @@
     box-shadow: 0 0 5px var(--border);
 }
 
-.buttons{
+.buttons {
     color: var(--bg);
     background-color: var(--primary);
     position: relative;
@@ -67,42 +72,42 @@
     border-width: 0px;
 }
 
-.buttons:hover{
+.buttons:hover {
     background-color: var(--primary-muted);
     cursor: pointer;
 }
 
 .input_div {
-  display: flex;
-  flex-direction: column;
-  margin: 20px;
-  width: fit-content;
-  position: static;
-  max-width: 300px;
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+    width: fit-content;
+    position: static;
+    max-width: 300px;
 }
 
 .input_div label.text {
-  font-size: 0.75rem;
-  color: var(--text);
-  font-weight: 700;
-  position: relative;
-  top: 0.5rem;
-  margin: 0 0 0 7px;
-  padding: 0 3px;
-  background: var(--bg-light);
-  width: fit-content;
+    font-size: 0.75rem;
+    color: var(--text);
+    font-weight: 700;
+    position: relative;
+    top: 0.5rem;
+    margin: 0 0 0 7px;
+    padding: 0 3px;
+    background: var(--bg-light);
+    width: fit-content;
 }
 
 .input_div input[type="text"].input {
-  padding: 11px 10px;
-  font-size: 0.75rem;
-  border: 2px var(--text) solid;
-  border-radius: 5px;
-  background: var(--bg-dark);
-  width: 250px;
+    padding: 11px 10px;
+    font-size: 0.75rem;
+    border: 2px var(--text) solid;
+    border-radius: 5px;
+    background: var(--bg-dark);
+    width: 250px;
 }
 
-.input_div input:hover{
+.input_div input:hover {
     outline: none;
     box-shadow: 0 0 2px #FFFFFF;
 }
@@ -112,32 +117,60 @@
     box-shadow: 0 0 5px #FFFFFF;
 }
 
-.switch{
+/* Styling whenever we get an error */
+
+.label_error {
+    color: var(--danger) !important;
+    position: relative;
+}
+
+.label_error::after {
+    content: " *";
+    color: var(--danger) !important;
+}
+
+.input_error{
+    border: 2px var(--danger) solid !important;
+}
+
+.input_error:focus{
+    outline: none;
+    box-shadow: 0 0 2px var(--danger) !important;
+}
+
+.input_error:focus{
+    outline: none;
+    box-shadow: 0 0 5px var(--danger) !important;
+}
+
+/* End of Error */
+
+.switch {
     position: relative;
     display: inline-block;
     width: 250px;
     height: 50px;
 }
 
-.login_switch{
+.login_switch {
     position: relative;
     right: 40px;
     top: 23%;
 }
 
-.signup_switch{
+.signup_switch {
     position: relative;
     left: 40px;
     top: 23%;
 }
 
-.switch input{
+.switch input {
     opacity: 0;
     width: 0;
     height: 0;
 }
 
-.slider{
+.slider {
     color: var(--bg);
     position: absolute;
     cursor: pointer;
@@ -146,35 +179,67 @@
     right: 0;
     bottom: 0;
     background-color: var(--text);
-    -webkit-transition: .4s;
-    transition: .4s;
+    -webkit-transition: .5s ease;
+    transition: .5s ease;
     border-radius: 34px;
 }
 
 .slider:before {
     position: absolute;
     content: "";
-    height: 50px;
+    height: 100%;
     width: 125px;
     right: 0px;
     left: 0px;
     bottom: 0px;
     background-color: var(--primary);
-    -webkit-transition: .4s;
-    transition: .4s;
+    -webkit-transition: .5s ease;
+    transition: .5s ease;
     border-radius: 34px;
 }
 
-.slider div{
+.slider div {
     align-content: center;
 }
 
-input:focus + .slider {
+input:focus+.slider {
     box-shadow: 0 0 1px #FFFFFF;
 }
 
-input:checked + .slider:before {
+input:checked+.slider:before {
     -webkit-transform: translateX(125px);
     -ms-transform: translateX(125px);
     transform: translateX(125px);
+}
+
+.fade-in-left {
+    animation: fadeInLeft 0.5s ease both;
+}
+
+.fade-in-right {
+    animation: fadeInRight 0.5s ease both;
+}
+
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
