@@ -35,3 +35,5 @@ npm install --save-dev @types/babel__core @types/babel__generator @types/babel__
 npm install jsonwebtoken 
 npm install react-jwt 
 npm install jwt-decode
+npm install nodemailer
+npm install mongoose

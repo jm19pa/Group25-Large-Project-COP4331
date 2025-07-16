@@ -20,7 +20,7 @@ function App() {
             <Route path="/cards" element={<CardPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/pack" element={<PackPage />} />
-            <Route path="/emailVerification" element={<EmailVerificationPage />} />
+            <Route path="/verify" element={<EmailVerificationPage />} />
             <Route path="/cardDex" element={<CardDexPage />} />
             <Route path="*" element={<Navigate to="/" />} /> {/* this should be at the bottom */}
         </Routes>
