@@ -47,7 +47,8 @@ const Menu: React.FC = () => {
         <div className={`options ${sidebarOpen ? 'show' : ''}`}>
           <div><a href="/">Landing Page</a></div>
           <div><a href="/register">Register</a></div>
-          <div><a href="/emailVerification">Email Verification</a></div>
+          <div><a href="/verify">Email Verification</a></div>
+          <div><a href="/verifyDEV">Email Verification DEVELOPER</a></div>
           <div><a href="/CardPack">Card Pack</a></div>
           <div><a href="/CardDex">Card Dex</a></div>
         </div>
