@@ -134,7 +134,8 @@ const Register: React.FC = () => {
             else {
                 let user = { firstName: res.firstName, lastName: res.lastName, id: res.id }
                 localStorage.setItem('user_data', JSON.stringify(user));
-                window.location.href = '/login';
+                localStorage.setItem('verify_email', email);
+                window.location.href = '/verify';
             }
         }
         catch (error: any) {
