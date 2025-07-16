@@ -11,7 +11,7 @@ function CardUI()
 /*
     let firstName : string = ud.firstName;
     let lastName : string = ud.lastName;
-*/
+*/  const token = retrieveToken();
     const [message,setMessage] = useState('');
     const [searchResults,setResults] = useState('');
     const [cardList,setCardList] = useState('');
@@ -29,7 +29,6 @@ function CardUI()
     }
 async function addCard(e: any): Promise<void> {
   e.preventDefault();
-  const token = retrieveToken();
   console.log('Retrieved token before sending:', token);
 
   var obj = { userId: userId, card: card, jwtToken: token};
@@ -58,16 +57,16 @@ async function addCard(e: any): Promise<void> {
     setMessage(error.toString());
   }
 };
+
 async function searchCard(e:any) : Promise<void>
 {
 e.preventDefault();
-var obj = {userId:userId,search:search,jwtToken:retrieveToken()};
+var obj = {userId:userId,search:search,jwtToken: token};
 var js = JSON.stringify(obj);
-try
-{
-const response = await fetch(buildPath('api/searchCards'),
-{method:'POST',body:js,headers:{'Content-Type':
-'application/json'}});
+try {const response = await fetch(buildPath('api/searchCards'),{
+    method:'POST',
+    body:js,
+    headers:{'Content-Type':'application/json'}});
 let txt = await response.text();
 let res = JSON.parse(txt);
 let _results = res.results;

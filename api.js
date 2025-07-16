@@ -141,27 +141,48 @@ app.post("/api/register", async(req, res) => {
   }
   console.log("BODY:", req.body);
 });
-
 // Search Cards
 // Incoming: userId, search
 // Outgoing: results[], error
-app.post("/api/searchcards", async (req, res, next) => {
-  // incoming: userId, search
-  // outgoing: results[], error
-  var error = "";
-  const { userId, search } = req.body;
-  var _search = search.trim();
-  const db = client.db("COP4331Cards"); //change database name here (pockProf)
-  // change to your collection name
-  const results = await db
-    .collection("Cards")
-    .find({ Card: { $regex: _search + ".*", $options: "i" } })
-    .toArray();
-  var _ret = [];
-  for (var i = 0; i < results.length; i++) {
-    _ret.push(results[i].Card);
-  }
-  var ret = { results: _ret, error: error };
-  res.status(200).json(ret);
+app.post('/api/searchcards', async (req, res, next) =>
+{
+// incoming: userId, search
+// outgoing: results[], error
+var error = '';
+const { userId, search, jwtToken } = req.body;
+try
+{
+if( token.isExpired(jwtToken))
+{
+var r = {error:'The JWT is no longer valid', jwtToken: ''};
+res.status(200).json(r);
+return;
+}
+}
+catch(e)
+{
+console.log(e.message);
+}
+var _search = search.trim();
+const db = client.db('COP4331Cards');
+const results = await db.collection('Cards').find({"Card":{$regex:_search+'.*',
+$options:'i'}}).toArray();
+var _ret = [];
+for( var i=0; i<results.length; i++ )
+{
+_ret.push( results[i].Card );
+}
+var refreshedToken = null;
+try
+{
+let refreshedTokenObj = token.refresh(jwtToken);
+let refreshedToken = refreshedTokenObj.accessToken;
+}
+catch(e)
+{
+console.log(e.message);
+}
+var ret = { results:_ret, error: error, jwtToken: refreshedToken };
+res.status(200).json(ret);
 });
 };
