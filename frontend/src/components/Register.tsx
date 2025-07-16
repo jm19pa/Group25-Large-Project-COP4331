@@ -127,8 +127,8 @@ const Register: React.FC = () => {
                 let user = { firstName: res.firstName, lastName: res.lastName, id: res.id }
                 localStorage.setItem('user_data', JSON.stringify(user));
                 localStorage.setItem('verify_email', email);
-                window.location.href = '/emailVerification'; // lets see if this fixes anything
-                // window.location.href = '/verify';
+                // window.location.href = '/emailVerification'; // lets see if this fixes anything
+                window.location.href = '/verify';
             }
         }
         catch (error: any) {
