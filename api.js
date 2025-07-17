@@ -293,3 +293,89 @@ var ret = { results:_ret, error: error, jwtToken: refreshedToken };
 res.status(200).json(ret);
 });
 };
+
+//Search All Cards Not Found
+//Incoming:UserID, jwt
+//OutGoing: All Cards In DataBase Not Found
+app.post("/api/unfoundCards",async(req, res) => { 
+  const{userID, jwtToken} = req.body;
+try
+{
+if( token.isExpired(jwtToken))
+{
+var r = {error:'The JWT is no longer valid', jwtToken: ''};
+res.status(200).json(r);
+return;
+}
+}
+catch(e)
+{
+console.log(e.message);
+}
+
+let missingCards = [];
+let error = '';
+
+try{
+  const userDb = client.db("COP4331Cards");
+  const globalDb = client.db("pockProf");
+
+ const userResults = await userDb.collection("Cards").find({ UserId: userID }).toArray();
+ const userCardNames = new Set(userResults.map(doc => doc.Card));
+
+ const globalCardResults = await globalDb.collection("Cards").distinct("Card");
+ missingCards = globalCardResults.filter(card => !userCardNames.has(card));
+}catch (e) {
+    error = e.toString();
+}
+let refreshedToken = null;
+  try {
+    refreshedToken = token.refresh(jwtToken);
+  } catch (e) {
+    console.log(e.message);
+  }
+
+  res.status(200).json({ missingCards, error, jwtToken: refreshedToken });
+
+}); //End of UnfoundCards
+
+//Search Found Cards API
+//Incoming:UserID, jwt
+//Outgoing: Found Cards
+app.post("/api/foundCards", async(req, res) => {
+  const{userID, jwtToken} = req.body;
+try
+{
+if( token.isExpired(jwtToken))
+{
+var r = {error:'The JWT is no longer valid', jwtToken: ''};
+res.status(200).json(r);
+return;
+}
+}
+catch(e)
+{
+console.log(e.message);
+}
+let cards = [];
+let error = '';
+try {
+  const db = client.db("COP4331Cards");
+  const results = await db.collection("Cards").find({ UserId: userID }).toArray();
+
+  cards = results.map(doc => doc.Card);
+} catch(e){
+  error = e.toString();
+}
+
+var refreshedToken = null;
+try
+{
+refreshedToken = token.refresh(jwtToken);
+}
+catch(e)
+{
+console.log(e.message);
+}
+res.status(200).json({ cards, error, jwtToken: refreshedToken });
+});
