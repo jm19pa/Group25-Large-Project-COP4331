@@ -1,6 +1,8 @@
 const token = require("./createJWT.js");
 const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
+require('express');
+require('mongodb');
 
 
 exports.setApp = function (app, client) {
@@ -297,7 +299,7 @@ res.status(200).json(ret);
 //Search All Cards Not Found
 //Incoming:UserID, jwt
 //OutGoing: All Cards In DataBase Not Found
-app.post("/api/unfoundCards",async(req, res) => { 
+app.post("/api/unfoundCards", async(req, res) => { 
   const{userID, jwtToken} = req.body;
 try
 {
