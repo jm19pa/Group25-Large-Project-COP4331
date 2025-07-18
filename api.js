@@ -294,7 +294,7 @@ console.log(e.message);
 var ret = { results:_ret, error: error, jwtToken: refreshedToken };
 res.status(200).json(ret);
 });
-};
+
 
 //Search All Cards Not Found
 //Incoming:UserID, jwt
@@ -381,3 +381,5 @@ console.log(e.message);
 }
 res.status(200).json({ cards, error, jwtToken: refreshedToken });
 });
+
+};
