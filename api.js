@@ -56,7 +56,7 @@ app.post("/api/login", async (req, res) => {
   console.log(`Login attempt for user: ${login}`);
   try {
     const db = client.db("pockProf");
-    const results = await db.collection("Users").find({ Login: login }).toArray();
+    const results = await db.collection("Users2").find({ Login: login }).toArray();
 
     let id = -1;
     let fn = "";
