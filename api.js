@@ -158,7 +158,7 @@ app.post("/api/register", async (req, res) => {
   try {
     const db = client.db("pockProf");
 
-    const existingUser = await db.collection("Users").findOne({
+    const existingUser = await db.collection("Users2").findOne({
       $or: [{ Login: login }, { Email: email }]
     });
 
@@ -186,7 +186,7 @@ app.post("/api/register", async (req, res) => {
       } else if (existingUser.Email === email) {
         if (!existingUser.IsVerified) {
           // Resend verification code, update user info
-          await db.collection("Users").updateOne(
+          await db.collection("Users2").updateOne(
             { Email: email },
             {
               $set: {
@@ -227,7 +227,7 @@ app.post("/api/register", async (req, res) => {
         IsVerified: false,
       };
 
-      const result = await db.collection("Users").insertOne(newUser);
+      const result = await db.collection("Users2").insertOne(newUser);
       id = result.insertedId.toString();
       fn = firstName;
       ln = lastName;
