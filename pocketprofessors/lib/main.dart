@@ -1,417 +1,3 @@
-// import 'package:flutter/material.dart';
-// import 'package:http/http.dart' as http;
-// import 'dart:convert';
-// void main() {
-// runApp(const MyApp());
-// }
-// class MyApp extends StatelessWidget {
-// const MyApp({super.key});
-// @override
-// Widget build(BuildContext context) {
-// return MaterialApp(
-// title: 'Card Manager',
-// theme: ThemeData(
-// primarySwatch: Colors.blue,
-// useMaterial3: true,
-// ),
-// home: const LoginPage(),
-// );
-// }
-// }
-// class LoginPage extends StatefulWidget {
-// const LoginPage({super.key});
-// @override
-// State<LoginPage> createState() => _LoginPageState();
-// }
-// class _LoginPageState extends State<LoginPage> {
-// final TextEditingController _loginController = TextEditingController();
-// final TextEditingController _passwordController = TextEditingController();
-// String _errorMessage = '';
-// bool _isLoading = false;
-// Future<void> _login() async {
-// setState(() {
-// _isLoading = true;
-// _errorMessage = '';
-// });
-// try {
-// final response = await http.post(
-// Uri.parse('http://cop4331-5.com:5000/api/login'),
-// headers: {'Content-Type': 'application/json'},
-// body: jsonEncode({
-// 'login': _loginController.text,
-// 'password': _passwordController.text,
-// }),
-// );
-// if (response.statusCode == 200) {
-// final data = jsonDecode(response.body);
-// if (data['error'] == null || data['error'].isEmpty) {
-// // Login successful, navigate to second page
-// if (mounted) {
-// Navigator.pushReplacement(
-// context,
-// MaterialPageRoute(
-// builder: (context) => CardManagerPage(
-// userId: data['id'],
-// firstName: data['firstName'],
-// lastName: data['lastName'],
-// ),
-// ),
-// );
-// }
-// } else {
-// setState(() {
-// _errorMessage = data['error'];
-// });
-// }
-// } else {
-// setState(() {
-// _errorMessage = 'Login failed. Please try again.';
-// });
-// }
-// } catch (e) {
-// setState(() {
-// _errorMessage = 'Network error. Please check your connection.';
-// });
-// } finally {
-// setState(() {
-// _isLoading = false;
-// });
-// }
-// }
-// @override
-// Widget build(BuildContext context) {
-// return Scaffold(
-// body: Center(
-// child: Padding(
-// padding: const EdgeInsets.all(32.0),
-// child: Column(
-// mainAxisAlignment: MainAxisAlignment.center,
-// crossAxisAlignment: CrossAxisAlignment.stretch,
-// children: [
-// const Text(
-// 'Login',
-// style: TextStyle(
-// fontSize: 32,
-// fontWeight: FontWeight.bold,
-// ),
-// textAlign: TextAlign.center,
-// ),
-// const SizedBox(height: 40),
-// TextField(
-// controller: _loginController,
-// decoration: const InputDecoration(
-// labelText: 'Login Name',
-// border: OutlineInputBorder(),
-// ),
-// ),
-// const SizedBox(height: 16),
-// TextField(
-// controller: _passwordController,
-// obscureText: true,
-// decoration: const InputDecoration(
-// labelText: 'Password',
-// border: OutlineInputBorder(),
-// ),
-// ),
-// const SizedBox(height: 24),
-// ElevatedButton(
-// onPressed: _isLoading ? null : _login,
-// style: ElevatedButton.styleFrom(
-// padding: const EdgeInsets.symmetric(vertical: 16),
-// ),
-// child: _isLoading
-// ? const CircularProgressIndicator()
-// : const Text(
-// 'Login',
-// style: TextStyle(fontSize: 16),
-// ),
-// ),
-// const SizedBox(height: 16),
-// if (_errorMessage.isNotEmpty)
-// Text(
-// _errorMessage,
-// style: const TextStyle(
-// color: Colors.red,
-// fontSize: 14,
-// ),
-// textAlign: TextAlign.center,
-// ),
-// ],
-// ),
-// ),
-// ),
-// );
-// }
-// @override
-// void dispose() {
-// _loginController.dispose();
-// _passwordController.dispose();
-// super.dispose();
-// }
-// }
-// class CardManagerPage extends StatefulWidget {
-// final int userId;
-// final String firstName;
-// final String lastName;
-// const CardManagerPage({
-// super.key,
-// required this.userId,
-// required this.firstName,
-// required this.lastName,
-// });
-// @override
-// State<CardManagerPage> createState() => _CardManagerPageState();
-// }
-// class _CardManagerPageState extends State<CardManagerPage> {
-// final TextEditingController _searchController = TextEditingController();
-// final TextEditingController _addCardController = TextEditingController();
-// List<String> _searchResults = [];
-// String _searchError = '';
-// String _addCardError = '';
-// String _addCardSuccess = '';
-// bool _isSearching = false;
-// bool _isAddingCard = false;
-// Future<void> _searchCards() async {
-// setState(() {
-// _isSearching = true;
-// _searchError = '';
-// _searchResults = [];
-// });
-// try {
-// final response = await http.post(
-// Uri.parse('http://cop4331-5.com:5000/api/searchcards'),
-// headers: {'Content-Type': 'application/json'},
-// body: jsonEncode({
-// 'userId': widget.userId.toString(),
-// 'search': _searchController.text,
-// }),
-// );
-// if (response.statusCode == 200) {
-// final data = jsonDecode(response.body);
-// if (data['error'] == null || data['error'].isEmpty) {
-// setState(() {
-// _searchResults = List<String>.from(data['results'] ?? []);
-// });
-// } else {
-// setState(() {
-// _searchError = data['error'];
-// });
-// }
-// } else {
-// setState(() {
-// _searchError = 'Search failed. Please try again.';
-// });
-// }
-// } catch (e) {
-// setState(() {
-// _searchError = 'Network error. Please check your connection.';
-// });
-// } finally {
-// setState(() {
-// _isSearching = false;
-// });
-// }
-// }
-// Future<void> _addCard() async {
-// setState(() {
-// _isAddingCard = true;
-// _addCardError = '';
-// _addCardSuccess = '';
-// });
-// try {
-// final response = await http.post(
-// Uri.parse('http://cop4331-5.com:5000/api/addcard'),
-// headers: {'Content-Type': 'application/json'},
-// body: jsonEncode({
-// 'userId': widget.userId,
-// 'card': _addCardController.text,
-// }),
-// );
-// if (response.statusCode == 200) {
-// final data = jsonDecode(response.body);
-// if (data['error'] == null || data['error'].isEmpty) {
-// setState(() {
-// _addCardSuccess = 'Card added successfully!';
-// _addCardController.clear();
-// });
-// } else {
-// setState(() {
-// _addCardError = data['error'];
-// });
-// }
-// } else {
-// setState(() {
-// _addCardError = 'Failed to add card. Please try again.';
-// });
-// }
-// } catch (e) {
-// setState(() {
-// _addCardError = 'Network error. Please check your connection.';
-// });
-// } finally {
-// setState(() {
-// _isAddingCard = false;
-// });
-// }
-// }
-// @override
-// Widget build(BuildContext context) {
-// return Scaffold(
-// appBar: AppBar(
-// title: Text('Welcome, ${widget.firstName} ${widget.lastName}'),
-// automaticallyImplyLeading: false,
-// ),
-// body: Padding(
-// padding: const EdgeInsets.all(16.0),
-// child: Column(
-// crossAxisAlignment: CrossAxisAlignment.stretch,
-// children: [
-// // Search Section
-// Card(
-// child: Padding(
-// padding: const EdgeInsets.all(16.0),
-// child: Column(
-// crossAxisAlignment: CrossAxisAlignment.stretch,
-// children: [
-// const Text(
-// 'Search Cards',
-// style: TextStyle(
-// fontSize: 18,
-// fontWeight: FontWeight.bold,
-// ),
-// ),
-// const SizedBox(height: 12),
-// Row(
-// children: [
-// Expanded(
-// child: TextField(
-// controller: _searchController,
-// decoration: const InputDecoration(
-// labelText: 'Search term',
-// border: OutlineInputBorder(),
-// ),
-// ),
-// ),
-// const SizedBox(width: 12),
-// ElevatedButton(
-// onPressed: _isSearching ? null : _searchCards,
-// child: _isSearching
-// ? const SizedBox(
-// width: 20,
-// height: 20,
-// child: CircularProgressIndicator(strokeWidth: 2),
-// )
-// : const Text('Search'),
-// ),
-// ],
-// ),
-// if (_searchError.isNotEmpty) ...[
-// const SizedBox(height: 8),
-// Text(
-// _searchError,
-// style: const TextStyle(color: Colors.red),
-// ),
-// ],
-// ],
-// ),
-// ),
-// ),
-// // Search Results
-// if (_searchResults.isNotEmpty) ...[
-// const SizedBox(height: 16),
-// const Text(
-// 'Search Results:',
-// style: TextStyle(
-// fontSize: 16,
-// fontWeight: FontWeight.bold,
-// ),
-// ),
-// const SizedBox(height: 8),
-// Expanded(
-// child: ListView.builder(
-// itemCount: _searchResults.length,
-// itemBuilder: (context, index) {
-// return Card(
-// child: ListTile(
-// title: Text(_searchResults[index]),
-// ),
-// );
-// },
-// ),
-// ),
-// ] else ...[
-// // Add Card Section
-// const SizedBox(height: 16),
-// Card(
-// child: Padding(
-// padding: const EdgeInsets.all(16.0),
-// child: Column(
-// crossAxisAlignment: CrossAxisAlignment.stretch,
-// children: [
-// const Text(
-// 'Add Card',
-// style: TextStyle(
-// fontSize: 18,
-// fontWeight: FontWeight.bold,
-// ),
-// ),
-// const SizedBox(height: 12),
-// Row(
-// children: [
-// Expanded(
-// child: TextField(
-// controller: _addCardController,
-// decoration: const InputDecoration(
-// labelText: 'Card name',
-// border: OutlineInputBorder(),
-// ),
-// ),
-// ),
-// const SizedBox(width: 12),
-// ElevatedButton(
-// onPressed: _isAddingCard ? null : _addCard,
-// child: _isAddingCard
-// ? const SizedBox(
-// width: 20,
-// height: 20,
-// child: CircularProgressIndicator(strokeWidth: 2),
-// )
-// : const Text('Add Card'),
-// ),
-// ],
-// ),
-// if (_addCardError.isNotEmpty) ...[
-// const SizedBox(height: 8),
-// Text(
-// _addCardError,
-// style: const TextStyle(color: Colors.red),
-// ),
-// ],
-// if (_addCardSuccess.isNotEmpty) ...[
-// const SizedBox(height: 8),
-// Text(
-// _addCardSuccess,
-// style: const TextStyle(color: Colors.green),
-// ),
-// ],
-// ],
-// ),
-// ),
-// ),
-// const Spacer(),
-// ],
-// ],
-// ),
-// ),
-// );
-// }
-// @override
-// void dispose() {
-// _searchController.dispose();
-// _addCardController.dispose();
-// super.dispose();
-// }
-// }
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -419,24 +5,32 @@ import 'dart:convert';
 // Replace with your real IP if testing on a physical device
 const String baseUrl = 'http://www.pocketprofessors.com:5000/api';
 
-void main() { 
+// a lot of the comments on this page will be for me trying to understand it - T
+void main() {
+  // oo a main function
   runApp(const PocketProfessorsApp());
 }
 
+// stateless widget is a built-in class for dart?
 class PocketProfessorsApp extends StatelessWidget {
   const PocketProfessorsApp({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // i guess this is made to build a thing
     return const MaterialApp(
-      debugShowCheckedModeBanner: false,
+      // material app is also a built-in thingy
+      debugShowCheckedModeBanner: false, // ???
       home: AuthScreen(),
     );
   }
 }
 
+// the class for our register/login page
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
+
+  // i have no clue what this is doing
 
   @override
   State<AuthScreen> createState() => _AuthScreenState();
@@ -447,11 +41,14 @@ class _AuthScreenState extends State<AuthScreen> {
   bool isLoading = false;
   String message = '';
 
+  // register logic?
   final TextEditingController loginController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
 
+  // login function when a user attempts to login w/ an existing account
   Future<void> login() async {
     setState(() {
       isLoading = true;
@@ -494,6 +91,7 @@ class _AuthScreenState extends State<AuthScreen> {
     }
   }
 
+  // function to register a user that does not exist
   Future<void> register() async {
     setState(() {
       isLoading = true;
@@ -507,6 +105,7 @@ class _AuthScreenState extends State<AuthScreen> {
         body: jsonEncode({
           'login': loginController.text,
           'password': passwordController.text,
+          'email': emailController.text,
           'firstName': firstNameController.text,
           'lastName': lastNameController.text,
         }),
@@ -538,6 +137,7 @@ class _AuthScreenState extends State<AuthScreen> {
     }
   }
 
+  // the actual thing for a user to input something?
   Widget buildLoginForm() {
     return Column(
       children: [
@@ -548,7 +148,7 @@ class _AuthScreenState extends State<AuthScreen> {
         TextField(
           controller: passwordController,
           decoration: const InputDecoration(labelText: 'Password'),
-          obscureText: true,
+          obscureText: true, // as name implies, hides the text as a user inputs
         ),
         const SizedBox(height: 20),
         ElevatedButton(
@@ -561,6 +161,7 @@ class _AuthScreenState extends State<AuthScreen> {
     );
   }
 
+  // i can only imagine this builds the signup form
   Widget buildSignupForm() {
     return Column(
       children: [
@@ -572,6 +173,10 @@ class _AuthScreenState extends State<AuthScreen> {
           controller: passwordController,
           decoration: const InputDecoration(labelText: 'Password'),
           obscureText: true,
+        ),
+        TextField(
+          controller: emailController,
+          decoration: const InputDecoration(labelText: 'Email'),
         ),
         TextField(
           controller: firstNameController,
@@ -601,7 +206,9 @@ class _AuthScreenState extends State<AuthScreen> {
         child: Column(
           children: [
             SwitchListTile(
-              title: Text(showSignup ? 'Switch to Login' : 'Switch to Register'),
+              title: Text(
+                showSignup ? 'Switch to Login' : 'Switch to Register',
+              ),
               value: showSignup,
               onChanged: (val) => setState(() => showSignup = val),
             ),
@@ -620,6 +227,7 @@ class _AuthScreenState extends State<AuthScreen> {
   }
 }
 
+// we get here IF there is a valid user
 class HomePage extends StatelessWidget {
   final String firstName;
   final String lastName;
@@ -636,9 +244,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Home")),
-      body: Center(
-        child: Text('Welcome, $firstName $lastName (ID: $id)'),
-      ),
+      body: Center(child: Text('Welcome, $firstName $lastName (ID: $id)')),
     );
   }
 }

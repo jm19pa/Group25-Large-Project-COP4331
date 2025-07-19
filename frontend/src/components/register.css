@@ -264,6 +264,10 @@ input:checked+.slider:before {
         left: 15px;
     }
 
+    #verification{
+        left: 40px;
+    }
+
     .input_div input[type="text"].input {
         width: 75%;
         font-size: 0.9rem;

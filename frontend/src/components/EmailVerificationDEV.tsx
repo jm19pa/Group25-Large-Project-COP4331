@@ -21,7 +21,7 @@ const EmailVerificationDEV: React.FC = () => {
       <h1>Verify your Email</h1>
       <p>Enter the 6-digit code sent to <strong>email</strong></p>
         <div className="input_div">
-          <label className="text">Verification Code</label>
+          <label className="text" id='verification'>Verification Code</label>
           <input
             className="input"
             type="text"
