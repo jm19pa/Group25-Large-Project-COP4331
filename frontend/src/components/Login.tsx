@@ -3,6 +3,7 @@ import { buildPath } from './Path';
 import { storeToken , retrieveToken } from '../tokenStorage';
 import { jwtDecode } from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
+
 type DecodedToken = {
   userId: number;
   firstName: string;
@@ -87,13 +88,6 @@ async function doLogin(event: any): Promise<void> {
             passwordField.type = 'password';
         }
     };
-
-    /* <img
-                src={isChecked ? '/images/eyeCrossed.png' : '/images/eyeCrossed.png'}
-                alt="Toggle password visibility"
-                height="20"
-                width="20"
-            /> */
 
     return(
         <div id="loginDiv">
