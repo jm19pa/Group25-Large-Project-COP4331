@@ -17,6 +17,7 @@ const Register: React.FC = () => {
     const navigate = useNavigate();
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
@@ -143,6 +144,11 @@ const Register: React.FC = () => {
         setError("");
     };
 
+
+    const togglePasswordVisibility = () => {
+        setShowPassword(prev => !prev);
+    };
+
     return (
         <div className="container">
             <h1>WELCOME</h1>
@@ -174,15 +180,16 @@ const Register: React.FC = () => {
 
                     <div className="input_div">
                         <label className="text" id="password_label">Password</label>
-                        <input className="input" id="password" type="text" placeholder="Create your password" value={password} onChange={(e) => setPassword(e.target.value)} />
-                        {/* <img
-            src="/images/eyeCrossed.png"
-            alt="Toggle Password Visibility"
-            height="20"
-            width="20"
-            onClick={showPassword}
-            style={{cursor: "pointer"}} // can change to css
-          /> */}
+                        <input className="input" id="password" type={showPassword ? "text" : "password"} placeholder="Create your password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                        <img
+                            src={showPassword ? "/images/eyeOpened.png" : "/images/eyeCrossed.png"}
+                            alt="Toggle Password Visibility"
+                            id="password_visibility"
+                            height="20"
+                            width="20"
+                            onClick={togglePasswordVisibility}
+                            style={{cursor: "pointer"}} // can change to css
+                        />
                     </div>
 
                     <div className="input_div">
@@ -221,7 +228,17 @@ const Register: React.FC = () => {
 
                     <div className="input_div">
                         <label className="text" id="password_label">Password</label>
-                        <input className="input" id="password" type="text" placeholder="Enter your password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                        <input className="input" id="password" type={showPassword ? "text" : "password"} placeholder="Enter your password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                        <img
+                            src={showPassword ? "/images/eyeOpened.png" : "/images/eyeCrossed.png"}
+                            alt="Toggle Password Visibility"
+                            id="password_visibility"
+                            height="20"
+                            width="20"
+                            onClick={togglePasswordVisibility}
+                            style={{cursor: "pointer"}} // can change to css
+                        />
+
                     </div>
 
                     <input
