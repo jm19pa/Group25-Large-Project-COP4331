@@ -313,11 +313,8 @@ app.post("/api/Verify", async (req, res) => {
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       host: 'smtp.gmail.com',
-      port:465, //temp change for gmail SMTP
-      secure: true,
-    //  tls: {
-    //  rejectUnauthorized: false,
-    // },
+      port:443,
+      secure: false,
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
@@ -330,14 +327,11 @@ app.post("/api/Verify", async (req, res) => {
       subject: 'Your PocketProf Verification Code',
       text: `Your verification code is ${verificationCode}. It will expire in 15 minutes.`,
     });
-    console.log("Email sent:", info.messageId); //debugging line
+
     return res.status(200).json({ success: true, message: "Verification code sent" });
 
   } catch (err) {
-  console.log("Error during verification process:");
-  console.log("Name:", err.name);
-  console.log("Message:", err.message);
-  console.log("Full error:", err);
+    console.error("Error during verification process:", err.message);
     return res.status(500).json({ success: false, error: "Server error" });
   }
 });
