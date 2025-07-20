@@ -3,7 +3,7 @@ import LandingDisplay from '../components/LandingDisplay';
 
 const LandingPage: React.FC = () => {
   const handleClick = () => {
-    window.location.href = '/Register';
+    window.location.href = '/register';
   };
 
   return <LandingDisplay onClick={handleClick} />;
