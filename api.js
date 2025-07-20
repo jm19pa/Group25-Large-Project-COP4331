@@ -330,14 +330,14 @@ app.post("/api/Verify", async (req, res) => {
       subject: 'Your PocketProf Verification Code',
       text: `Your verification code is ${verificationCode}. It will expire in 15 minutes.`,
     });
-    console.log("✅ Email sent:", info.messageId); //debugging line
+    console.log("Email sent:", info.messageId); //debugging line
     return res.status(200).json({ success: true, message: "Verification code sent" });
 
   } catch (err) {
-  console.error("Error during verification process:");
-  console.error("Name:", err.name);
-  console.error("Message:", err.message);
-  console.error("Full error:", err);
+  console.log("Error during verification process:");
+  console.log("Name:", err.name);
+  console.log("Message:", err.message);
+  console.log("Full error:", err);
     return res.status(500).json({ success: false, error: "Server error" });
   }
 });
