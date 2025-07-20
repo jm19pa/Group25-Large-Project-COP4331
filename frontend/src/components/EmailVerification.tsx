@@ -15,16 +15,16 @@ import './register.css'; // Keep or move styles as needed
 
 const EmailVerification: React.FC = () => {
   const [email, setEmail] = useState('');
-  const [code, setCode] = useState('');
+  const [verificationCode, setCode] = useState('');
   const navigate = useNavigate();
 
 
   async function handleVerify(event: React.FormEvent) {
     event.preventDefault();
-    const obj = { email, code };
+    const obj = { email, verificationCode };
 
     try {
-      const response = await fetch(buildPath('api/verify'), {
+      const response = await fetch(buildPath('api/Confirm'), {
         method: 'POST',
         body: JSON.stringify(obj),
         headers: { 'Content-Type': 'application/json' },
@@ -43,6 +43,29 @@ const EmailVerification: React.FC = () => {
     }
   }
 
+  async function handleSendCode(event: React.MouseEvent) {
+    event.preventDefault();
+    const obj = { email };
+
+    try {
+      const response = await fetch(buildPath('api/Verify'), {
+        method: 'POST',
+        body: JSON.stringify(obj),
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      const res = await response.json();
+
+      if (res.success) {
+        alert('Verification code sent to ' + email);
+      } else {
+        alert('Failed to send code: ' + res.error);
+      }
+    } catch (error: any) {
+      alert('An error occurred: ' + error.message);
+    }
+  }
+
   return (
     <div className="container">
       <h1>Verify your Email</h1>
@@ -54,10 +77,11 @@ const EmailVerification: React.FC = () => {
             type="text"
             placeholder="Enter your email"
             value={email}
+            onChange={e => setEmail(e.target.value)}
             required
           />
         </div>
-        <button type="submit" className="buttons" onClick={() => setEmail(email)}>Set Email</button>
+        <button type="submit" className="buttons" onClick={handleSendCode}>Send Code </button>
       <p>Enter the 6-digit code sent to <strong>{email}</strong></p>
       <form onSubmit={handleVerify}>
         <div className="input_div">
@@ -69,11 +93,11 @@ const EmailVerification: React.FC = () => {
             pattern="[0-9]{6}"
             maxLength={6}
             placeholder="######"
-            value={code}
+            value={verificationCode}
             onChange={(e) => setCode(e.target.value)}
           />
         </div>
-        <button type="submit" className="buttons">Verify Email</button>
+        <button type="submit" className="buttons" onClick={handleVerify}>Verify Email</button>
       </form>
     </div>
   );
