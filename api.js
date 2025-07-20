@@ -255,8 +255,6 @@ app.post("/api/register", async (req, res) => {
 // Outgoing: results[], error
 app.post('/api/searchcards', async (req, res, next) =>
 {
-// incoming: userId, search
-// outgoing: results[], error
 var error = '';
 const { userId, search, jwtToken } = req.body;
 try

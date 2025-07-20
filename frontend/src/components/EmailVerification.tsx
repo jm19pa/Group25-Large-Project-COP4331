@@ -18,22 +18,13 @@ const EmailVerification: React.FC = () => {
   const [code, setCode] = useState('');
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const storedEmail = localStorage.getItem('verify_email');
-    if (!storedEmail) {
-      alert('No email found. Please register first.');
-      navigate('/register');
-    } else {
-      setEmail(storedEmail);
-    }
-  }, [navigate]);
 
   async function handleVerify(event: React.FormEvent) {
     event.preventDefault();
     const obj = { email, code };
 
     try {
-      const response = await fetch(buildPath('api/verifyemail'), {
+      const response = await fetch(buildPath('api/verify'), {
         method: 'POST',
         body: JSON.stringify(obj),
         headers: { 'Content-Type': 'application/json' },
@@ -43,7 +34,6 @@ const EmailVerification: React.FC = () => {
 
       if (res.success) {
         alert('Email verified successfully!');
-        localStorage.removeItem('verify_email');
         navigate('/login');
       } else {
         alert('Verification failed: ' + res.error);
@@ -56,17 +46,31 @@ const EmailVerification: React.FC = () => {
   return (
     <div className="container">
       <h1>Verify your Email</h1>
-      <p>Enter the 6-digit code sent to <strong>{email}</strong></p>
-      <form onSubmit={handleVerify}>
-        <div className="input_div">
-          <label className="text">Verification Code</label>
+      <p>Re-enter your email for verification</p>
+      <div className="input_div">
+        <label className="text" id='email'>Email</label>
           <input
             className="input"
             type="text"
+            placeholder="Enter your email"
+            value={email}
+            required
+          />
+        </div>
+        <button type="submit" className="buttons" onClick={() => setEmail(email)}>Set Email</button>
+      <p>Enter the 6-digit code sent to <strong>{email}</strong></p>
+      <form onSubmit={handleVerify}>
+        <div className="input_div">
+           <label className="text" id='verification'>Verification Code</label>
+          <input
+            className="input"
+            type="text"
+            inputMode="numeric"
+            pattern="[0-9]{6}"
+            maxLength={6}
             placeholder="######"
             value={code}
             onChange={(e) => setCode(e.target.value)}
-            required
           />
         </div>
         <button type="submit" className="buttons">Verify Email</button>
