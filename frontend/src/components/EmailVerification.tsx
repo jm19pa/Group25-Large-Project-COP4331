@@ -1,6 +1,6 @@
 // components/EmailVerification.tsx
 
-import React, { useState, useEffect } from 'react';
+import React, { useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { buildPath } from './Path';
 import './register.css'; // Keep or move styles as needed
