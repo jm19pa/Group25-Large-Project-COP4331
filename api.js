@@ -1,6 +1,7 @@
 const token = require("./createJWT.js");
 const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
+require('dotenv').config();
 require('express');
 require('mongodb');
 
@@ -10,7 +11,7 @@ exports.setApp = function (app, client) {
 // Incoming: userId, card
 // Outgoing: error
 
-app.post("/api/addcard", async (req, res) => {
+/*app.post("/api/addcard", async (req, res) => {
     const { userId, card, jwtToken } = req.body;
 /////////////////////////////////////////////////
   console.log("Received addCard request:");
@@ -48,6 +49,8 @@ app.post("/api/addcard", async (req, res) => {
     let refreshedToken = refreshedTokenObj.accessToken;
     res.status(200).json({ error: "", jwtToken: refreshedToken });
   });
+*/
+
 // Login
 // Incoming: login, password
 // Outgoing: id, firstName, lastName, error
@@ -56,7 +59,7 @@ app.post("/api/login", async (req, res) => {
   console.log(`Login attempt for user: ${login}`);
   try {
     const db = client.db("pockProf");
-    const results = await db.collection("Users2").find({ Login: login }).toArray();
+    const results = await db.collection("Users").find({ Login: login }).toArray();
 
     let id = -1;
     let fn = "";
@@ -95,161 +98,9 @@ app.post("/api/login", async (req, res) => {
       .json({ id: -1, firstName: "", lastName: "", jwtToken: "", error: "Server error" });
   }
 });
-//Email Verification API
-// Incoming: email
-// Outgoing: success, error
-app.post("/api/verifyemail", async (req, res) => {
-  const { email, code } = req.body;
-  try {
-    const db = client.db("pockProf");
-    const user = await db.collection("Users").findOne({ Email: email.toLowerCase() });
-
-    console.log("Verification attempt for:", email);
-    if (!user) {
-      console.log("User not found");
-      return res.status(404).json({ success: false, error: "User not found" });
-    }
-
-    if (user.IsVerified) {
-      console.log("User already verified");
-      return res.status(400).json({ success: false, error: "Email already verified" });
-    }
-
-    console.log("Provided code:", code);
-    console.log("Expected code:", user.VerificationCode);
-    console.log("Code expiration date:", user.CodeExpires);
-    console.log("Current date:", new Date(Date.now()));
-
-    if (user.VerificationCode !== code) {
-      console.log("Verification code does not match");
-      return res.status(400).json({ success: false, error: "Invalid verification code" });
-    }
-
-    if (Date.now() > new Date(user.CodeExpires).getTime()) {
-      console.log("Verification code expired");
-      return res.status(400).json({ success: false, error: "Verification code expired" });
-    }
-
-    await db.collection("Users").updateOne(
-      { Email: email.toLowerCase() },
-      { $set: { IsVerified: true, VerificationCode: null, CodeExpires: null } }
-    );
-    console.log("User verified successfully");
-    return res.status(200).json({ success: true, error: "" });
-  } catch (err) {
-    console.error("Email verification error:", err.message);
-    return res.status(500).json({ success: false, error: "Server error" });
-  }
-});
 
 
-//Register API
-//Incoming: login, password, firstName, lastName, email
-//Outgoing id, firstName, lastName, error 
-app.post("/api/register", async (req, res) => {
-  let { login, password, firstName, lastName, email } = req.body;
-
-  // Normalize inputs
-  login = login.trim().toLowerCase();
-  email = email.trim().toLowerCase();
-
-  console.log("Register attempt:", { login, email });
-
-  try {
-    const db = client.db("pockProf");
-
-    const existingUser = await db.collection("Users2").findOne({
-      $or: [{ Login: login }, { Email: email }]
-    });
-
-    console.log("Existing user found:", existingUser);
-
-    let id = -1;
-    let fn = "";
-    let ln = "";
-    let error = "";
-
-    const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
-    const codeExpires = new Date(Date.now() + 15 * 60 * 1000);
-
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
-    });
-
-    if (existingUser) {
-      if (existingUser.Login === login) {
-        error = "Username is already taken";
-      } else if (existingUser.Email === email) {
-        if (!existingUser.IsVerified) {
-          // Resend verification code, update user info
-          await db.collection("Users2").updateOne(
-            { Email: email },
-            {
-              $set: {
-                VerificationCode: verificationCode,
-                CodeExpires: codeExpires,
-                IsVerified: false,
-                FirstName: firstName,
-                LastName: lastName,
-                Login: login,
-                Password: await bcrypt.hash(password, 10),
-              }
-            }
-          );
-
-          await transporter.sendMail({
-            from: process.env.EMAIL_USER,
-            to: email,
-            subject: 'Your PocketProf Verification Code',
-            text: `Your verification code is ${verificationCode}. It will expire in 15 minutes.`,
-          });
-
-          return res.status(200).json({ id: existingUser._id.toString(), firstName, lastName, error: "" });
-        } else {
-          error = "Email is already registered";
-        }
-      }
-    } else {
-      const hashedPassword = await bcrypt.hash(password, 10);
-
-      const newUser = {
-        Login: login,
-        Password: hashedPassword,
-        Email: email,
-        FirstName: firstName,
-        LastName: lastName,
-        VerificationCode: verificationCode,
-        CodeExpires: codeExpires,
-        IsVerified: false,
-      };
-
-      const result = await db.collection("Users2").insertOne(newUser);
-      id = result.insertedId.toString();
-      fn = firstName;
-      ln = lastName;
-
-      await transporter.sendMail({
-        from: process.env.EMAIL_USER,
-        to: email,
-        subject: 'Your PocketProf Verification Code',
-        text: `Your verification code is ${verificationCode}. It will expire in 15 minutes.`,
-      });
-    }
-
-    res.status(200).json({ id, firstName: fn, lastName: ln, error });
-
-  } catch (err) {
-    console.error("Registration error:", err.message);
-    res.status(500).json({ id: -1, firstName: "", lastName: "", error: "Server error" });
-  }
-
-  console.log("BODY:", req.body);
-});
-
+/*
 // Search Cards
 // Incoming: userId, search
 // Outgoing: results[], error
@@ -292,7 +143,7 @@ console.log(e.message);
 var ret = { results:_ret, error: error, jwtToken: refreshedToken };
 res.status(200).json(ret);
 });
-
+*/
 
 //Search All Cards Not Found
 //Incoming:UserID, jwt
@@ -379,5 +230,148 @@ console.log(e.message);
 }
 res.status(200).json({ cards, error, jwtToken: refreshedToken });
 });
+
+//Updated Register
+//Incoming:Login,Password,firstName,lastName,email
+//Outgoing:Error,Success
+app.post("/api/register", async(req,res) => {
+  const{login, password, firstName, lastName, email} = req.body;
+  
+  try {
+    const db = client.db("pockProf");
+
+    // Normalize login
+    const normalizedLogin = login.trim().toLowerCase();
+
+    // Check if login already exists
+    const existingUser = await db.collection("Users").findOne({ Login: normalizedLogin });
+
+    if (existingUser) {
+      return res.status(400).json({ success: false, error: "Username is already taken" });
+    }
+
+    const normalizedEmail = email.trim().toLowerCase();
+    const existingUserEmail = await db.collection("Users").findOne({ email: normalizedEmail });
+
+    if (existingUserEmail) {
+      return res.status(400).json({ success: false, error: "Email is already taken" });
+    }
+    
+
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Insert new user
+    await db.collection("Users").insertOne({
+      Login: normalizedLogin,
+      Password: hashedPassword,
+      FirstName: firstName,
+      LastName: lastName,
+      Email: email.trim().toLowerCase(),
+      VerificationCode: null,
+      CodeExpires: null,
+      IsVerified: false,
+    });
+
+    return res.status(200).json({ success: true, error: "" });
+
+  } catch (err) {
+    console.error("Registration error:", err.message);
+    return res.status(500).json({ success: false, error: "Server error" });
+  }
+
+
+}); //End of Register
+
+app.post("/api/Verify", async (req, res) => {
+  const { email } = req.body;
+  const db = client.db("pockProf");
+
+  const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
+  const codeExpires = new Date(Date.now() + 15 * 60 * 1000);
+
+  try {
+    // Find user by email
+    const user = await db.collection("Users").findOne({ Email: email.toLowerCase() });
+
+    if (!user) {
+      return res.status(404).json({ success: false, error: "User not found" });
+    }
+
+    // Update user's code and expiration
+    await db.collection("Users").updateOne(
+      { Email: email.toLowerCase() },
+      {
+        $set: {
+          VerificationCode: verificationCode,
+          CodeExpires: codeExpires,
+        },
+      }
+    );
+
+    // Send user the verification code
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    });
+
+    await transporter.sendMail({
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: 'Your PocketProf Verification Code',
+      text: `Your verification code is ${verificationCode}. It will expire in 15 minutes.`,
+    });
+
+    return res.status(200).json({ success: true, message: "Verification code sent" });
+
+  } catch (err) {
+    console.error("Error during verification process:", err.message);
+    return res.status(500).json({ success: false, error: "Server error" });
+  }
+});
+
+
+//Confirm Email Code
+//Incoming:Verification Code, Email
+//OutGoing:Error, Login page
+app.post("/api/Confirm", async (req, res) => {
+  const { email, verificationCode } = req.body;
+  const db = client.db("pockProf");
+
+  try {
+    const user = await db.collection("Users").findOne({ Email: email.toLowerCase() });
+
+    if (!user) {
+      return res.status(404).json({ success: false, error: "User not found" });
+    }
+
+    if (user.VerificationCode !== verificationCode) {
+      return res.status(400).json({ success: false, error: "Invalid verification code" });
+    }
+
+    // Check code expiration 
+    if (user.CodeExpires && Date.now() > new Date(user.CodeExpires).getTime()) {
+      return res.status(400).json({ success: false, error: "Verification code expired" });
+    }
+
+    // Update user to verified and clear codes
+    await db.collection("Users").updateOne(
+      { Email: email.toLowerCase() },
+      { $set: { IsVerified: true }, $unset: { VerificationCode: "", CodeExpires: "" } }
+    );
+
+    return res.status(200).json({ success: true, message: "Email verified successfully" });
+
+  } catch (err) {
+    console.error("Error confirming verification:", err.message);
+    return res.status(500).json({ success: false, error: "Server error" });
+  }
+});
+
+
+
 
 };
