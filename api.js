@@ -314,6 +314,9 @@ app.post("/api/Verify", async (req, res) => {
     // Send user the verification code
     const transporter = nodemailer.createTransport({
       service: 'gmail',
+      host: 'smtp.gmail.com',
+      port:587,
+      secure: false,
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
@@ -334,7 +337,6 @@ app.post("/api/Verify", async (req, res) => {
     return res.status(500).json({ success: false, error: "Server error" });
   }
 });
-
 
 //Confirm Email Code
 //Incoming:Verification Code, Email
@@ -372,8 +374,5 @@ app.post("/api/Confirm", async (req, res) => {
     return res.status(500).json({ success: false, error: "Server error" });
   }
 });
-
-
-
 
 };
