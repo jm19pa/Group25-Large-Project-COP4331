@@ -373,4 +373,82 @@ app.post("/api/Confirm", async (req, res) => {
   }
 });
 
+// Open Pack
+// Incoming: userId, jwtToken, packName
+// Outgoing: jwtToken, addedCards, error
+app.post('/api/openPack', async (req, res) => {
+  const { userId, jwtToken, packName } = req.body;
+
+  // Validate JWT
+  try {
+    if (token.isExpired(jwtToken)) {
+      return res.status(200).json({ error: 'JWT expired', jwtToken: '' });
+    }
+  } catch (e) {
+    return res.status(500).json({ error: 'JWT validation failed', jwtToken: '' });
+  }
+
+  try {
+    const userDb = client.db("COP4331Cards");
+    const packDb = client.db(packName);
+
+    const rarityWeights = {
+      1: 50,
+      2: 25,
+      3: 15,
+      4: 8,
+      5: 2
+    };
+
+    // Get all cards from the pack
+    const allCards = await packDb.collection('Cards').find({}).toArray();
+    const weightedPool = [];
+
+    // Create weighted pool
+    allCards.forEach(card => {
+      const weight = rarityWeights[card.Rarity] || 1;
+      for (let i = 0; i < weight; i++) {
+        weightedPool.push(card);
+      }
+    });
+
+    const newCards = [];
+    const selected = new Set();
+    const packSize = 3; // change if needed
+
+    while (newCards.length < packSize && weightedPool.length > 0) {
+      const randIndex = Math.floor(Math.random() * weightedPool.length);
+      const selectedCard = weightedPool[randIndex];
+
+      if (!selected.has(selectedCard.Card)) {
+        newCards.push(selectedCard);
+        selected.add(selectedCard.Card);
+      }
+    }
+
+    // Add cards to user's collection
+    const userCardsCollection = userDb.collection("UserCards");
+    const insertOps = newCards.map(card => ({
+      UserId: userId,
+      Card: card.Card,
+      Rarity: card.Rarity,
+    }));
+    await userCardsCollection.insertMany(insertOps);
+
+    // Return updated JWT and the new cards
+    const refreshedToken = token.refresh(jwtToken);
+    return res.status(200).json({
+      jwtToken: refreshedToken,
+      addedCards: newCards,
+      error: ''
+    });
+
+  } catch (err) {
+    console.error("Error opening pack:", err);
+    return res.status(500).json({ error: "Error opening pack", jwtToken: '' });
+  }
+});
+
+
+
 };
