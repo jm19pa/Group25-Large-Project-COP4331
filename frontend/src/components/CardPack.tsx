@@ -74,8 +74,6 @@ const CardPack: React.FC = () => {
 
   return (
     <div>
-      <h2>Card Pack</h2>
-      <p>This is where the card pack will be displayed.</p>
 
       {/* ── Relative wrapper ──────────────────────────────────────────── */}
       <div style={{ position: 'relative', display: 'inline-block' }}>
@@ -122,13 +120,13 @@ const CardPack: React.FC = () => {
       </div>
 
       <br /><br />
-      <button
+      {/* <button
         type="button"
         className="buttons"
         onClick={goToLoggedInPage}
       >
         Cards Page
-      </button>
+      </button> */}
     </div>
   );
 };

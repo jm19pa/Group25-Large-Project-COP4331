@@ -13,6 +13,7 @@ type DecodedToken = {
 };
 
 const Register: React.FC = () => {
+
     const [showSignup, setShowSignup] = useState(false);
     const navigate = useNavigate();
     const [login, setLogin] = useState('');
@@ -90,7 +91,7 @@ const Register: React.FC = () => {
                 const user = { firstName, lastName, id: userId };
                 localStorage.setItem('user_data', JSON.stringify(user));
                 postMessage('');
-                navigate('/cards');
+                navigate('/pack');
             }
 
         } catch (error: any) {

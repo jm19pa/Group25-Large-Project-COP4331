@@ -7,7 +7,6 @@ import CardPage from './pages/CardPage';
 import RegisterPage from './pages/RegisterPage';
 import PackPage from './pages/PackPage';
 import EmailVerificationPage from './pages/EmailVerificationPage';
-import EmailVerificationDEVPage from './pages/EmailVerificationDEVPage';
 import CardDexPage from './pages/CardDex';
 
 
@@ -22,7 +21,6 @@ function App() {
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/pack" element={<PackPage />} />
             <Route path="/verify" element={<EmailVerificationPage />} />
-            <Route path="/verifyDEV" element={<EmailVerificationDEVPage />} />
             <Route path="/cardDex" element={<CardDexPage />} />
             <Route path="*" element={<Navigate to="/" />} /> {/* this should be at the bottom */}
         </Routes>
