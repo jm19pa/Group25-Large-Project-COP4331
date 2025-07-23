@@ -1,136 +1,149 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import './cardPack.css';
 
 const CardPack: React.FC = () => {
-  const [shaking, setShaking] = useState(false);
-  const [showPoof, setShowPoof] = useState(false);
-  const [cardImages, setCardImages] = useState<string[]>([]);
-  const [showCards, setShowCards] = useState(false);
+    const [shaking, setShaking] = useState(false);
+    const [showPoof, setShowPoof] = useState(false);
+    const [cardImages, setCardImages] = useState<string[]>([]);
+    const [showCards, setShowCards] = useState(false);
+    const navigate = useNavigate();
 
-  useEffect(() => {
-    const img = new Image();
-    img.src = "/images/poof.png";
-  }, []);
+    useEffect(() => {
 
-  // ✅ Function to call the backend API and return added card names
-  const openCardPack = async () => {
-  const userId = localStorage.getItem("userId");
-  const jwtToken = localStorage.getItem("token");
-  const packName = "BaseSet"; // or your pack name
+        const userID = localStorage.getItem("user_data");
+        const jwtToken = localStorage.getItem("token_data");
 
-  try {
-    const response = await fetch("/api/openPack", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ userId, jwtToken, packName }),
-    });
+        if(!userID || !jwtToken){
+            console.error("Missing userID or token for card dex");
+            // navigate('/register');
+            return;
+        }
 
-    const result = await response.json();
+        const img = new Image();
+        img.src = "/images/poof.png";
+    }, []);
 
-    if (result.error) {
-      console.error("Pack error:", result.error);
-      return [];
+    // ✅ Function to call the backend API and return added card names
+    const openCardPack = async () => {
+        const userId = localStorage.getItem("userId");
+        const jwtToken = localStorage.getItem("token");
+        const packName = "BaseSet"; // or your pack name
+
+        try {
+            const response = await fetch("/api/openPack", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ userId, jwtToken, packName }),
+            });
+
+            const result = await response.json();
+
+            if (result.error) {
+                console.error("Pack error:", result.error);
+                return [];
+            }
+
+            localStorage.setItem("token", result.jwtToken);
+
+            const cardNames = result.addedCards.map((card: any) => card.Card);
+            console.log("Cards received:", cardNames);
+
+            return cardNames;
+        } catch (err) {
+            console.error("Network or parsing error:", err);
+            return [];
+        }
+    };
+
+    const handleClick = async () => {
+        setShaking(true);
+        setShowCards(false);
+
+        setCardImages; // does this work
+
+        setTimeout(() => {
+            setShaking(false);
+            setShowPoof(true);
+        }, 600);
+
+        setTimeout(async () => {
+            setShowPoof(false);
+
+            try {
+                const cards = await openCardPack(); // returns array of objects
+                console.log("Received cards:", cards);
+                const imagePaths = cards.map((card: any) => `/images/${card.Card}.png`);
+
+                console.log("Image paths:", imagePaths); // ✅ Log paths
+                setShowCards(true);
+            } catch (err) {
+                console.error("Failed to open pack:", err);
+            }
+        }, 1200);
+    };
+
+    function goToDexInPage() {
+        window.location.href = '/cardDex';
     }
 
-    localStorage.setItem("token", result.jwtToken);
+    return (
+        <div>
 
-    const cardNames = result.addedCards.map((card: any) => card.Card);
-    console.log("Cards received:", cardNames);
+            {/* ── Relative wrapper ──────────────────────────────────────────── */}
+            <div style={{ position: 'relative', display: 'inline-block' }} className='border'>
+                {/* Card image with shake class */}
+                <img
+                    src="/images/card.jpg"
+                    alt="Card Pack"
+                    height={282}
+                    width={200}
+                    onClick={handleClick}
+                    className={shaking ? 'shake' : ''}
+                    style={{ cursor: 'pointer' }}
+                />
 
-    return cardNames;
-  } catch (err) {
-    console.error("Network or parsing error:", err);
-    return [];
-  }
-};
+                {/* Poof animation */}
+                {showPoof && (
+                    <img
+                        src="/images/poof.png"
+                        alt="poof"
+                        className="poof"
+                        style={{
+                            position: 'absolute',
+                            width: '500px',
+                            height: '600px',
+                            top: '-100px',
+                            left: '80%',
+                            transform: 'translateX(-50%)',
+                            pointerEvents: 'none',
+                            opacity: 1,
+                            animation: 'poofFade 0.8s ease-out forwards',
+                            zIndex: 1
+                        }}
+                    />
+                )}
 
-  const handleClick = async () => {
-    setShaking(true);
-    setShowCards(false);
+                {/* Card spread display */}
+                {showCards && (
+                    <div className="card-spread">
+                        <img src={cardImages[0]} className="fan left" alt="Card 1" />
+                        <img src={cardImages[1]} className="fan center" alt="Card 2" />
+                        <img src={cardImages[2]} className="fan right" alt="Card 3" />
+                    </div>
+                )}
+            </div>
 
-    setCardImages; // does this work
-
-    setTimeout(() => {
-      setShaking(false);
-      setShowPoof(true);
-    }, 600);
-
-    setTimeout(async () => {
-      setShowPoof(false);
-
-      try {
-        const cards = await openCardPack(); // returns array of objects
-        console.log("Received cards:", cards);
-        const imagePaths = cards.map((card: any) => `/images/${card.Card}.png`);
-
-        console.log("Image paths:", imagePaths); // ✅ Log paths
-        setShowCards(true);
-      } catch (err) {
-        console.error("Failed to open pack:", err);
-      }
-    }, 1200);
-  };
-
-  function goToDexInPage() {
-    window.location.href = '/cardDex';
-  }
-
-  return (
-    <div>
-
-      {/* ── Relative wrapper ──────────────────────────────────────────── */}
-      <div style={{ position: 'relative', display: 'inline-block' }}>
-        {/* Card image with shake class */}
-        <img
-          src="/images/card.jpg"
-          alt="Card Pack"
-          height={282}
-          width={200}
-          onClick={handleClick}
-          className={shaking ? 'shake' : ''}
-          style={{ cursor: 'pointer' }}
-        />
-
-        {/* Poof animation */}
-        {showPoof && (
-          <img
-            src="/images/poof.png"
-            alt="poof"
-            className="poof"
-            style={{
-              position: 'absolute',
-              width: '500px',
-              height: '600px',
-              top: '-100px',
-              left: '80%',
-              transform: 'translateX(-50%)',
-              pointerEvents: 'none',
-              opacity: 1,
-              animation: 'poofFade 0.8s ease-out forwards',
-              zIndex: 1
-            }}
-          />
-        )}
-
-        {/* Card spread display */}
-        {showCards && (
-          <div className="card-spread">
-            <img src={cardImages[0]} className="fan left" alt="Card 1" />
-            <img src={cardImages[1]} className="fan center" alt="Card 2" />
-            <img src={cardImages[2]} className="fan right" alt="Card 3" />
-          </div>
-        )}
-      </div>
-
-      <br /><br />
-      <button
-        type="button"
-        className="buttons"
-        onClick={goToDexInPage}
-      >
-        Cards Dex Page
-      </button>
-    </div>
-  );
+            <br /><br />
+            <button
+                type="button"
+                className="buttons"
+                onClick={goToDexInPage}
+            >
+                Cards Dex Page
+            </button>
+        </div>
+    );
 };
 
 export default CardPack;

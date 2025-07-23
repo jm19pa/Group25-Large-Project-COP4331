@@ -48,6 +48,10 @@ const Menu: React.FC = () => {
           <div><a href="/">Landing Page</a></div>
           <div><a href="/pack">Card Pack</a></div>
           <div><a href="/cardDex">Card Dex</a></div>
+          <div><a>About Us</a></div>
+          <div><a>Logout</a></div>
+          
+          <div><a>Light/Dark Mode</a></div>
         </div>
       </div>
     </div>
