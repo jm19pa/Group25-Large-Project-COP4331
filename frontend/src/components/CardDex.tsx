@@ -29,8 +29,8 @@ function DexPage(){
     
     useEffect(() => {
         const fetchCards = async() => {
-            const userID = localStorage.getItem("userID");
-            const jwtToken = localStorage.getItem("token");
+            const userID = localStorage.getItem("user_data");
+            const jwtToken = localStorage.getItem("token_data");
 
             if(!userID || !jwtToken){
                 console.error("Missing userID or token for card dex");
