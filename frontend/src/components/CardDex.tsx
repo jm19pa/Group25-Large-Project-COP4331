@@ -8,7 +8,7 @@ function buildCards(owned: boolean, cardFilenames: string[]) {
             key={i}
         >
             <img
-                src={`/images/cards/${filename}`}
+                src={`/images/${filename}`}
                 alt={`Card ${i}`}
                 className="card-img"
             />
