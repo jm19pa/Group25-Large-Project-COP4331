@@ -70,9 +70,9 @@ const CardPack: React.FC = () => {
     }, 1200);
   };
 
-//   function goToLoggedInPage() {
-//     window.location.href = '/cards';
-//   }
+  function goToDexInPage() {
+    window.location.href = '/cardDex';
+  }
 
   return (
     <div>
@@ -122,13 +122,13 @@ const CardPack: React.FC = () => {
       </div>
 
       <br /><br />
-      {/* <button
+      <button
         type="button"
         className="buttons"
-        onClick={goToLoggedInPage}
+        onClick={goToDexInPage}
       >
-        Cards Page
-      </button> */}
+        Cards Dex Page
+      </button>
     </div>
   );
 };

@@ -13,7 +13,6 @@ type DecodedToken = {
 };
 
 const Register: React.FC = () => {
-
     const [showSignup, setShowSignup] = useState(false);
     const navigate = useNavigate();
     const [login, setLogin] = useState('');
