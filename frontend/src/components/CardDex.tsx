@@ -25,7 +25,7 @@ function DexPage(){
     const [unownedCards, setUnownedCards] = useState<string[]>([]);
     const navigate = useNavigate();
 
-    const cardFilenames = Array.from({ length: 44 }, (_, i) => `card_${i}.png`);
+    // const cardFilenames = Array.from({ length: 44 }, (_, i) => `card_${i}.png`);
     
     useEffect(() => {
         const fetchCards = async() => {
@@ -70,12 +70,20 @@ function DexPage(){
 
                 if(!unownedData.error){
                     setUnownedCards(unownedData.missingCards);
-                    console.log("Unowned data missing cards: ", unownedCards);
                     localStorage.setItem("token", unownedData.jwtToken);
                 }
                 else{
                     console.error("Unowned cards error: ", unownedData.error);
                 }                
+
+                console.log("ownedCards: ", ownedCards);
+                console.log("unownedCards: ", unownedCards);
+
+                console.log("ownedData.jwtToken: ", ownedData.jwtToken);
+                console.log("unownedData.jwtToken: ", unownedData.jwtToken);
+
+                console.log("ownedData.cards: ", ownedData.cards);
+                console.log("unownedData.missingCards: ", unownedData.missingCards);
             }
             catch (err){
                 console.error("API call failed: ", err);
@@ -93,13 +101,13 @@ function DexPage(){
                 <h2>Owned Cards</h2>
 
                 <div className="cardGrid">
-                    {buildCards(true, cardFilenames)}
+                    {buildCards(true, ownedCards)}
                 </div>
 
                 <h2>Not yet Owned</h2>
 
                 <div className="cardGrid">
-                    {buildCards(false, cardFilenames)}
+                    {buildCards(false, unownedCards)}
                 </div>
             </div>
         </div>
