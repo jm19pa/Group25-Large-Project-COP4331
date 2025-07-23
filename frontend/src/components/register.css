@@ -130,7 +130,9 @@
 }
 
 .input_div img{
-    margin-bottom: 0px;
+    position: absolute;
+    right: 35px;
+    top: 172px;
 }
 
 /* Styling whenever we get an error */
@@ -291,6 +293,13 @@ input:checked+.slider:before {
         width: 75%;
         font-size: 0.9rem;
     }
+
+    .input_div img{
+        position: absolute;
+        right: 28px;
+        top: 166px;
+    }
+
 
     .buttons {
         width: 100%;

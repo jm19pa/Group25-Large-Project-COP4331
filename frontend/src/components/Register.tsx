@@ -175,12 +175,12 @@ const Register: React.FC = () => {
 
                     <div className="input_div">
                         <label className="text" id="username_label">Username</label>
-                        <input className="input" id="login" type="text" placeholder="Create your username" value={login} onChange={((e) => setLogin(e.target.value))} />
+                        <input className="input" id="login" type="text" placeholder="Create username" value={login} onChange={((e) => setLogin(e.target.value))} />
                     </div>
 
                     <div className="input_div">
                         <label className="text" id="password_label">Password</label>
-                        <input className="input" id="password" type={showPassword ? "text" : "password"} placeholder="Create your password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                        <input className="input" id="password" type={showPassword ? "text" : "password"} placeholder="Create password" value={password} onChange={(e) => setPassword(e.target.value)} />
                         <img
                             src={showPassword ? "/images/eyeOpened.png" : "/images/eyeCrossed.png"}
                             alt="Toggle Password Visibility"
