@@ -8,6 +8,40 @@
   min-height: 100vh;
 }
 
+.card-spread {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+  gap: -30px;
+  position: relative;
+}
+
+.fan {
+  width: 150px;
+  height: auto;
+  opacity: 0;
+  transform: scale(0.5);
+  animation: fanOut 0.8s ease forwards;
+}
+
+.fan.left {
+  animation-delay: 0.1s;
+}
+.fan.center {
+  animation-delay: 0.2s;
+}
+.fan.right {
+  animation-delay: 0.3s;
+}
+
+@keyframes fanOut {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 .logo {
   height: 6em;
   padding: 1.5em;
