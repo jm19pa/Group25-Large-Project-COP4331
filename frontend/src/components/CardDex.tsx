@@ -51,7 +51,7 @@ function DexPage(){
 
                 if(!ownedData.error){
                     setOwnedCards(ownedData.cards);
-                    console.log("Owned cards data: ", ownedData.cards);
+                    console.log("Owned cards data: ", ownedCards);
                     localStorage.setItem("token", ownedData.jwtToken);
                 }
                 else{
@@ -70,7 +70,7 @@ function DexPage(){
 
                 if(!unownedData.error){
                     setUnownedCards(unownedData.missingCards);
-                    console.log("Unowned data missing cards: ", unownedData.missingCards);
+                    console.log("Unowned data missing cards: ", unownedCards);
                     localStorage.setItem("token", unownedData.jwtToken);
                 }
                 else{

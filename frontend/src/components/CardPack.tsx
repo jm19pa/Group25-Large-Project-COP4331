@@ -47,6 +47,8 @@ const CardPack: React.FC = () => {
     setShaking(true);
     setShowCards(false);
 
+    setCardImages; // does this work
+
     setTimeout(() => {
       setShaking(false);
       setShowPoof(true);
@@ -68,9 +70,9 @@ const CardPack: React.FC = () => {
     }, 1200);
   };
 
-  function goToLoggedInPage() {
-    window.location.href = '/cards';
-  }
+//   function goToLoggedInPage() {
+//     window.location.href = '/cards';
+//   }
 
   return (
     <div>
