@@ -50,7 +50,7 @@ const Menu: React.FC = () => {
           <div><a href="/verify">Email Verification</a></div>
           <div><a href="/verifyDEV">Email Verification DEVELOPER</a></div>
           <div><a href="/CardPack">Card Pack</a></div>
-          <div><a href="/CardDex">Card Dex</a></div>
+          <div><a href="/cardDex">Card Dex</a></div>
         </div>
       </div>
     </div>
