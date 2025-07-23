@@ -1,16 +1,26 @@
-// create a function that automatically creates about ~20 or so card divs
 import './cardDex.css'
 
-function buildCards(owned: boolean){
-    return Array.from({length:44}, (_, i) =>(
-        <div className={`card ${owned ? '': 'card_disabled'}`} id={`card_${i}`} key={i}>
-            <p>Card {i+1}</p>
+function buildCards(owned: boolean, cardFilenames: string[]) {
+    return cardFilenames.map((filename, i) => (
+        <div
+            className={`card ${owned ? '' : 'card_disabled'}`}
+            id={`card_${i}`}
+            key={i}
+        >
+            <img
+                src={`/images/${filename}`}
+                alt={`Card ${i}`}
+                className="card-img"
+            />
         </div>
     ));
 }
 
 
 function DexPage(){
+
+    const cardFilenames = Array.from({ length: 44 }, (_, i) => `card_${i}.png`);
+    
     return (
         <div className='page'>
             <div className='cardDex_container'>
@@ -19,13 +29,13 @@ function DexPage(){
                 <h2>Owned Cards</h2>
 
                 <div className="cardGrid">
-                    {buildCards(true)}
+                    {buildCards(true, cardFilenames)}
                 </div>
 
                 <h2>Not yet Owned</h2>
 
                 <div className="cardGrid">
-                    {buildCards(false)}
+                    {buildCards(false, cardFilenames)}
                 </div>
             </div>
         </div>

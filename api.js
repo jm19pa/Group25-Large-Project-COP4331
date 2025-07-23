@@ -1,10 +1,11 @@
 const token = require("./createJWT.js");
 const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
+const sgMail = require('@sendgrid/mail');
 require('dotenv').config();
 require('express');
 require('mongodb');
-
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 exports.setApp = function (app, client) {
 // Add Card
@@ -251,7 +252,7 @@ app.post("/api/register", async(req,res) => {
     }
 
     const normalizedEmail = email.trim().toLowerCase();
-    const existingUserEmail = await db.collection("Users").findOne({ email: normalizedEmail });
+    const existingUserEmail = await db.collection("Users").findOne({ Email: normalizedEmail });
 
     if (existingUserEmail) {
       return res.status(400).json({ success: false, error: "Email is already taken" });
@@ -309,6 +310,15 @@ app.post("/api/Verify", async (req, res) => {
       }
     );
 
+    const msg = {
+      to: email,
+      from: process.env.SENDGRID_FROM_EMAIL,
+      subject: 'Your PocketProf Verification Code',
+      text: `Your verification code is ${verificationCode}. It will expire in 15 minutes.`,
+    };
+    await sgMail.send(msg);
+
+/*
     // Send user the verification code
     const transporter = nodemailer.createTransport({
       service: 'gmail',
@@ -327,7 +337,7 @@ app.post("/api/Verify", async (req, res) => {
       subject: 'Your PocketProf Verification Code',
       text: `Your verification code is ${verificationCode}. It will expire in 15 minutes.`,
     });
-
+*/
     return res.status(200).json({ success: true, message: "Verification code sent" });
 
   } catch (err) {
