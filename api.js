@@ -169,13 +169,13 @@ let missingCards = [];
 let error = '';
 
 try{
-  const userDb = client.db("COP4331Cards");
-  const globalDb = client.db("pockProf");
+  const db = client.db("COP4331Cards");
+ 
 
- const userResults = await userDb.collection("Cards").find({ UserId: userID }).toArray();
+ const userResults = await db.collection("UserCards").find({ UserId: userID }).toArray();
  const userCardNames = new Set(userResults.map(doc => doc.Card));
 
- const globalCardResults = await globalDb.collection("Cards").distinct("Card");
+ const globalCardResults = await db.collection("Cards").distinct("Card");
  missingCards = globalCardResults.filter(card => !userCardNames.has(card));
 }catch (e) {
     error = e.toString();
@@ -213,7 +213,7 @@ let cards = [];
 let error = '';
 try {
   const db = client.db("COP4331Cards");
-  const results = await db.collection("Cards").find({ UserId: userID }).toArray();
+  const results = await db.collection("UserCards").find({ UserId: userID }).toArray();
 
   cards = results.map(doc => doc.Card);
 } catch(e){
