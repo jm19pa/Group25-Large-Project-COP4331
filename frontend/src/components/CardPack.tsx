@@ -52,7 +52,7 @@ const CardPack: React.FC = () => {
       }
 
       // Save refreshed token under the SAME key you read from
-      localStorage.setItem("token_data", result.jwtToken);
+      localStorage.setItem("token_data", result.jwtToken.accessToken);
 
       // result.addedCards = [{ Card: 'RickleEX', Rarity: 3 }, ...]
       const cardNames: string[] = result.addedCards.map((c: any) => c.Card);
