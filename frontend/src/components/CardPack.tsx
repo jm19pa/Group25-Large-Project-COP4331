@@ -1,149 +1,159 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import './cardPack.css';
+
+const API_BASE = 'http://pocketprofessors.com:5000'; // <- use your backend URL (or env var)
 
 const CardPack: React.FC = () => {
-    const [shaking, setShaking] = useState(false);
-    const [showPoof, setShowPoof] = useState(false);
-    const [cardImages, setCardImages] = useState<string[]>([]);
-    const [showCards, setShowCards] = useState(false);
-    const navigate = useNavigate();
+  const [shaking, setShaking] = useState(false);
+  const [showPoof, setShowPoof] = useState(false);
+  const [cardImages, setCardImages] = useState<string[]>([]);
+  const [showCards, setShowCards] = useState(false);
 
-    useEffect(() => {
+  useEffect(() => {
+    const img = new Image();
+    img.src = "/images/poof.png";
+  }, []);
 
-        const userID = localStorage.getItem("user_data");
-        const jwtToken = localStorage.getItem("token_data");
+  const openCardPack = async () => {
+    // 1) Parse user_data to get the actual id
+    const userDataRaw = localStorage.getItem("user_data");
+    const tokenRaw    = localStorage.getItem("token_data");
 
-        if(!userID || !jwtToken){
-            console.error("Missing userID or token for card dex");
-            navigate('/register');
-            return;
-        }
-
-        const img = new Image();
-        img.src = "/images/poof.png";
-    }, []);
-
-    // ✅ Function to call the backend API and return added card names
-    const openCardPack = async () => {
-        const userId = localStorage.getItem("userId");
-        const jwtToken = localStorage.getItem("token");
-        const packName = "BaseSet"; // or your pack name
-
-        try {
-            const response = await fetch("/api/openPack", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ userId, jwtToken, packName }),
-            });
-
-            const result = await response.json();
-
-            if (result.error) {
-                console.error("Pack error:", result.error);
-                return [];
-            }
-
-            localStorage.setItem("token", result.jwtToken);
-
-            const cardNames = result.addedCards.map((card: any) => card.Card);
-            console.log("Cards received:", cardNames);
-
-            return cardNames;
-        } catch (err) {
-            console.error("Network or parsing error:", err);
-            return [];
-        }
-    };
-
-    const handleClick = async () => {
-        setShaking(true);
-        setShowCards(false);
-
-        setCardImages; // does this work
-
-        setTimeout(() => {
-            setShaking(false);
-            setShowPoof(true);
-        }, 600);
-
-        setTimeout(async () => {
-            setShowPoof(false);
-
-            try {
-                const cards = await openCardPack(); // returns array of objects
-                console.log("Received cards:", cards);
-                const imagePaths = cards.map((card: any) => `/images/${card.Card}.png`);
-
-                console.log("Image paths:", imagePaths); // ✅ Log paths
-                setShowCards(true);
-            } catch (err) {
-                console.error("Failed to open pack:", err);
-            }
-        }, 1200);
-    };
-
-    function goToDexInPage() {
-        window.location.href = '/cardDex';
+    if (!userDataRaw || !tokenRaw) {
+      console.error('Missing user_data or token_data in localStorage');
+      return [];
     }
 
-    return (
-        <div>
+    const { id: userId } = JSON.parse(userDataRaw);
+    const jwtToken = tokenRaw; // you stored the token itself in token_data
 
-            {/* ── Relative wrapper ──────────────────────────────────────────── */}
-            <div style={{ position: 'relative', display: 'inline-block' }} className='border'>
-                {/* Card image with shake class */}
-                <img
-                    src="/images/card.jpg"
-                    alt="Card Pack"
-                    height={282}
-                    width={200}
-                    onClick={handleClick}
-                    className={shaking ? 'shake' : ''}
-                    style={{ cursor: 'pointer' }}
-                />
+    const packName = "BaseSet";
 
-                {/* Poof animation */}
-                {showPoof && (
-                    <img
-                        src="/images/poof.png"
-                        alt="poof"
-                        className="poof"
-                        style={{
-                            position: 'absolute',
-                            width: '500px',
-                            height: '600px',
-                            top: '-100px',
-                            left: '80%',
-                            transform: 'translateX(-50%)',
-                            pointerEvents: 'none',
-                            opacity: 1,
-                            animation: 'poofFade 0.8s ease-out forwards',
-                            zIndex: 1
-                        }}
-                    />
-                )}
+    console.log('Sending to API:', { userId, jwtToken, packName });
 
-                {/* Card spread display */}
-                {showCards && (
-                    <div className="card-spread">
-                        <img src={cardImages[0]} className="fan left" alt="Card 1" />
-                        <img src={cardImages[1]} className="fan center" alt="Card 2" />
-                        <img src={cardImages[2]} className="fan right" alt="Card 3" />
-                    </div>
-                )}
-            </div>
+    try {
+      const response = await fetch(`${API_BASE}/api/openPack`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId, jwtToken, packName }),
+      });
 
-            <br /><br />
-            <button
-                type="button"
-                className="buttons"
-                onClick={goToDexInPage}
-            >
-                Cards Dex Page
-            </button>
-        </div>
-    );
+      const text = await response.text();
+      if (!response.ok || !text) {
+        console.error('Bad response:', response.status, text);
+        return [];
+      }
+
+      const result = JSON.parse(text);
+      console.log('Raw result:', result);
+
+      if (result.error) {
+        console.error("Pack error:", result.error);
+        return [];
+      }
+
+      // Save refreshed token under the SAME key you read from
+      localStorage.setItem("token_data", result.jwtToken);
+
+      // result.addedCards = [{ Card: 'RickleEX', Rarity: 3 }, ...]
+      const cardNames: string[] = result.addedCards.map((c: any) => c.Card);
+      console.log("Cards received:", cardNames);
+      return cardNames;
+    } catch (err) {
+      console.error("Network or parsing error:", err);
+      return [];
+    }
+  };
+
+  const handleClick = async () => {
+    setShaking(true);
+    setShowCards(false);
+
+    setTimeout(() => {
+      setShaking(false);
+      setShowPoof(true);
+    }, 600);
+
+    setTimeout(async () => {
+      setShowPoof(false);
+      try {
+        const cards = await openCardPack();
+        console.log("Received cards:", cards);
+
+        setCardImages(cards); // These are the card names, like "RickleEX"
+
+        setShowCards(true);
+      } catch (err) {
+        console.error("Failed to open pack:", err);
+      }
+    }, 1200);
+  };
+
+  function goToLoggedInPage() {
+    window.location.href = '/cards';
+  }
+
+  return (
+    <div>
+      <h2>Card Pack</h2>
+      <p>This is where the card pack will be displayed.</p>
+
+      <div style={{ position: 'relative', display: 'inline-block' }}>
+        <img
+          src="/images/card.jpg"
+          alt="Card Pack"
+          height={282}
+          width={200}
+          onClick={handleClick}
+          className={shaking ? 'shake' : ''}
+          style={{ cursor: 'pointer' }}
+        />
+
+        {showPoof && (
+          <img
+            src="/images/poof.png"
+            alt="poof"
+            className="poof"
+            style={{
+              position: 'absolute',
+              width: '500px',
+              height: '600px',
+              top: '-100px',
+              left: '80%',
+              transform: 'translateX(-50%)',
+              pointerEvents: 'none',
+              opacity: 1,
+              animation: 'poofFade 0.8s ease-out forwards',
+              zIndex: 1
+            }}
+          />
+        )}
+
+        {showCards && (
+  <div className="card-spread">
+    {cardImages.map((cardName, i) => (
+      <img
+        key={i}
+        src={`/images/${cardName}.png`}
+        className={`fan ${i === 0 ? "left" : i === 1 ? "center" : "right"}`}
+        alt={`Card ${i}`}
+        onError={() => console.error("Could not load image:", cardName)}
+      />
+    ))}
+  </div>
+)}
+
+      </div>
+
+      <br /><br />
+      <button
+        type="button"
+        className="buttons"
+        onClick={goToLoggedInPage}
+      >
+        Cards Page
+      </button>
+    </div>
+  );
 };
 
 export default CardPack;
