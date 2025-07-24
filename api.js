@@ -387,8 +387,7 @@ app.post("/api/Confirm", async (req, res) => {
 // Incoming: userId, jwtToken, packName
 // Outgoing: jwtToken, addedCards, error
 app.post('/api/openPack', async (req, res) => {
-  const { userId, jwtToken, packName } = req.body;
-
+    const { userId, jwtToken } = req.body;
   // Validate JWT
   try {
     if (token.isExpired(jwtToken)) {
@@ -400,7 +399,7 @@ app.post('/api/openPack', async (req, res) => {
 
   try {
     const userDb = client.db("COP4331Cards");
-    const packDb = client.db(packName);
+    const packDb = client.db("COP4331Cards");
 
     const rarityWeights = {
       1: 50,
