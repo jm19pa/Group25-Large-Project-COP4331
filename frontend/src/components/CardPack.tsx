@@ -16,7 +16,7 @@ const CardPack: React.FC = () => {
 
         if(!userID || !jwtToken){
             console.error("Missing userID or token for card dex");
-            // navigate('/register');
+            navigate('/register');
             return;
         }
 
