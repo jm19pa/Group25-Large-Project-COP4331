@@ -27,16 +27,17 @@ function DexPage(){
 
     // this is going to look ugly
     const cardFilenames = [
-        "TheGorillaEX.png",
-        "AndrewChambers.png",
-        "TylerTran.png",
-        "TylerTakimoto.png",
-        "JuanPinero.png",
-        "DavidGusmao.png",
-        "MrPappasSHINY.png",
-        "CitronautEX.png",
-        "KnightroEX.png",
-        "TouchGrass.png",
+        "TheGorillaEX.png",        // Gorilla
+        "KnightroEX.png",          // Knightro
+        "CitronautEX.png",         // Citronaut
+        "TouchGrass.png",          // Touch Grass
+        "DavidGusmao.png",         // David
+        "JuanPinero.png",          // Juan
+        "TylerTran.png",           // Tyler
+        "TylerTakimoto.png",       // Tyler
+        "AndrewChambers.png",      // Andrew
+        "MrPappasSHINY.png",       // Shiny Pappas
+        // rest of the same, unchanged
         "GUHAEX.png",
         "BurgerEX.png",
         "GerbEX.png",
@@ -72,6 +73,7 @@ function DexPage(){
         "BadTextbook.png",
         "SpiritSplash.png"
     ]
+
     
     useEffect(() => {
         const fetchCards = async() => {
