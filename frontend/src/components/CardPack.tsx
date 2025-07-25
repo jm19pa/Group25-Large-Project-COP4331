@@ -69,23 +69,26 @@ const CardPack: React.FC = () => {
     setShowCards(false);
 
     setTimeout(() => {
-      setShaking(false);
-      setShowPoof(true);
-    }, 600);
+  setShaking(false);
+  setShowPoof(true);
+}, 600);
 
-    setTimeout(async () => {
-      setShowPoof(false);
-      try {
-        const cards = await openCardPack();
-        console.log("Received cards:", cards);
+// Fetch and show cards at the same time poof appears
+setTimeout(async () => {
+  try {
+    const cards = await openCardPack();
+    setCardImages(cards);
+    setShowCards(true); // ⬅️ show cards during poof
+  } catch (err) {
+    console.error("Failed to open pack:", err);
+  }
+}, 600); // same as poof show time
 
-        setCardImages(cards); // These are the card names, like "RickleEX"
+// Hide poof slightly after
+setTimeout(() => {
+  setShowPoof(false);
+}, 1400); // poof duration + delay
 
-        setShowCards(true);
-      } catch (err) {
-        console.error("Failed to open pack:", err);
-      }
-    }, 1200);
   };
 
   function goToLoggedInPage() {
@@ -105,40 +108,47 @@ const CardPack: React.FC = () => {
           width={200}
           onClick={handleClick}
           className={shaking ? 'shake' : ''}
-          style={{ cursor: 'pointer' }}
+          style={{
+            cursor: 'pointer',
+            position: 'relative',
+            zIndex: 2
+          }}
         />
 
+
         {showPoof && (
-          <img
-            src="/images/poof.png"
-            alt="poof"
-            className="poof"
-            style={{
-              position: 'absolute',
-              width: '500px',
-              height: '600px',
-              top: '-100px',
-              left: '80%',
-              transform: 'translateX(-50%)',
-              pointerEvents: 'none',
-              opacity: 1,
-              animation: 'poofFade 0.8s ease-out forwards',
-              zIndex: 1
-            }}
-          />
-        )}
+  <img
+    src="/images/poof.png"
+    alt="poof"
+    className="poof"
+    style={{
+      position: 'absolute',
+      width: '800px',
+      height: '800px',
+      top: '-200px',
+      left: '80%',
+      transform: 'translateX(-50%)',
+      pointerEvents: 'none',
+      opacity: 1,
+      animation: 'poofFade 0.8s ease-out forwards',
+      zIndex: 5 // ⬅️ Now poof is in front of cards & pack
+    }}
+  />
+)}
+
 
         {showCards && (
   <div className="card-spread">
     {cardImages.map((cardName, i) => (
-      <img
-        key={i}
-        src={`/images/${cardName}.png`}
-        className={`fan ${i === 0 ? "left" : i === 1 ? "center" : "right"}`}
-        alt={`Card ${i}`}
-        onError={() => console.error("Could not load image:", cardName)}
-      />
-    ))}
+  <img
+    key={i}
+    src={`/images/${cardName}.png`}
+    className={`fan ${i === 0 ? "left" : i === 1 ? "center" : "right"}`}
+    alt={`Card ${i}`}
+    style={{ animationDelay: `${i * 0.4}s` }}
+  />
+))}
+
   </div>
 )}
 
