@@ -34,7 +34,7 @@ exports.setApp = function (app, client) {
   return res.status(500).json({ error: "Token validation error", jwtToken: "" });
     }
     console.log("Before insertOne");
-    const db = client.db("COP4331Cards"); // change database name here (pockProf)
+    const db = client.db("PocketProfessors"); // change database name here (pockProf)
     console.log("After insertOne");
     let error = "";
     try {
@@ -59,7 +59,7 @@ app.post("/api/login", async (req, res) => {
   const { login, password } = req.body;
   console.log(`Login attempt for user: ${login}`);
   try {
-    const db = client.db("pockProf");
+    const db = client.db("PocketProfessors");
     const results = await db.collection("Users").find({ Login: login }).toArray();
 
     let id = -1;
@@ -123,7 +123,7 @@ catch(e)
 console.log(e.message);
 }
 var _search = search.trim();
-const db = client.db('COP4331Cards');
+const db = client.db('PocketProfessors');
 const results = await db.collection('Cards').find({"Card":{$regex:_search+'.*',
 $options:'i'}}).toArray();
 var _ret = [];
@@ -169,7 +169,7 @@ let missingCards = [];
 let error = '';
 
 try{
-  const db = client.db("COP4331Cards");
+  const db = client.db("PocketProfessors");
  
 
  const userResults = await db.collection("UserCards").find({ UserId: userID }).toArray();
@@ -212,7 +212,7 @@ console.log(e.message);
 let cards = [];
 let error = '';
 try {
-  const db = client.db("COP4331Cards");
+  const db = client.db("PocketProfessors");
   const results = await db.collection("UserCards").find({ UserId: userID }).toArray();
 
   cards = results.map(doc => doc.Card);
@@ -239,7 +239,7 @@ app.post("/api/register", async(req,res) => {
   const{login, password, firstName, lastName, email} = req.body;
   
   try {
-    const db = client.db("pockProf");
+    const db = client.db("PocketProfessors");
 
     // Normalize login
     const normalizedLogin = login.trim().toLowerCase();
@@ -286,7 +286,7 @@ app.post("/api/register", async(req,res) => {
 
 app.post("/api/Verify", async (req, res) => {
   const { email } = req.body;
-  const db = client.db("pockProf");
+  const db = client.db("PocketProfessors");
 
   const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
   const codeExpires = new Date(Date.now() + 15 * 60 * 1000);
@@ -351,7 +351,7 @@ app.post("/api/Verify", async (req, res) => {
 //OutGoing:Error, Login page
 app.post("/api/Confirm", async (req, res) => {
   const { email, verificationCode } = req.body;
-  const db = client.db("pockProf");
+  const db = client.db("PocketProfessors");
 
   try {
     const user = await db.collection("Users").findOne({ Email: email.toLowerCase() });
@@ -398,8 +398,8 @@ app.post('/api/openPack', async (req, res) => {
   }
 
   try {
-    const userDb = client.db("COP4331Cards");
-    const packDb = client.db("COP4331Cards");
+    const db = client.db("PocketProfessors");
+    
 
     const rarityWeights = {
       1: 50,
@@ -410,7 +410,7 @@ app.post('/api/openPack', async (req, res) => {
     };
 
     // Get all cards from the pack
-    const allCards = await packDb.collection('Cards').find({}).toArray();
+    const allCards = await db.collection('Cards').find({}).toArray();
     const weightedPool = [];
 
     // Create weighted pool
@@ -436,7 +436,7 @@ app.post('/api/openPack', async (req, res) => {
     }
 
     // Add cards to user's collection
-    const userCardsCollection = userDb.collection("UserCards");
+    const userCardsCollection = db.collection("UserCards");
     const insertOps = newCards.map(card => ({
       UserId: userId,
       Card: card.Card,
