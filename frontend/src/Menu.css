@@ -80,6 +80,23 @@
     pointer-events: auto;
 }
 
+a{
+    color: hsl(300 0% 78%);
+}
+
+a:hover{
+    color: hsl(300 0% 53%);
+}
+
+#logout{
+    cursor: pointer;
+    color: hsl(0, 100%, 50%);
+}
+
+#logout:hover{
+    color: hsl(0, 100%, 25%);
+}
+
 
 @media (max-width: 600px) {
     .slide-panel {

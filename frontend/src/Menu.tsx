@@ -5,6 +5,13 @@ const Menu: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [shouldRender, setShouldRender] = useState(true);
 
+  function logout(){
+    localStorage.setItem("user_data", "");
+    localStorage.setItem("token_data", "");
+
+    window.location.href = '/landingpage';
+  }
+
   useEffect(() => {
     const updateRenderFlag = () => {
       const path = window.location.pathname.toLowerCase();
@@ -49,9 +56,7 @@ const Menu: React.FC = () => {
           <div><a href="/pack">Card Pack</a></div>
           <div><a href="/cardDex">Card Dex</a></div>
           <div><a href="/aboutPage">About Us</a></div>
-          <div><a>Logout</a></div>
-          
-          <div><a>Light/Dark Mode</a></div>
+          <div><a id="logout" onClick={logout}>Logout</a></div>
         </div>
       </div>
     </div>
