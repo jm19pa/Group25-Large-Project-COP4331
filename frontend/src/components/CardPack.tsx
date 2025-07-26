@@ -64,32 +64,43 @@ const CardPack: React.FC = () => {
     }
   };
 
-  const handleClick = async () => {
-    setShaking(true);
-    setShowCards(false);
+const handleClick = async () => {
+  setShaking(true);
+  setShowCards(false);
 
-    setTimeout(() => {
-  setShaking(false);
-  setShowPoof(true);
-}, 600);
+  setTimeout(() => {
+    setShaking(false);
+    setShowPoof(true);
+  }, 600);
 
-// Fetch and show cards at the same time poof appears
-setTimeout(async () => {
-  try {
-    const cards = await openCardPack();
-    setCardImages(cards);
-    setShowCards(true); // ⬅️ show cards during poof
-  } catch (err) {
-    console.error("Failed to open pack:", err);
-  }
-}, 600); // same as poof show time
+  // Fetch card names at the same time as poof
+  setTimeout(async () => {
+    try {
+      const cards = await openCardPack();
 
-// Hide poof slightly after
-setTimeout(() => {
-  setShowPoof(false);
-}, 1400); // poof duration + delay
+      // Preload all card images
+      await Promise.all(cards.map((cardName) => {
+        return new Promise<void>((resolve) => {
+          const img = new Image();
+          img.src = `/images/${cardName}.png`;
+          img.onload = () => resolve();
+          img.onerror = () => resolve(); // still resolve on error
+        });
+      }));
 
-  };
+      // Only show cards after all images are loaded
+      setCardImages(cards);
+      setShowCards(true);
+    } catch (err) {
+      console.error("Failed to open pack:", err);
+    }
+  }, 600);
+
+  setTimeout(() => {
+    setShowPoof(false);
+  }, 1400);
+};
+
 
 
   return (
