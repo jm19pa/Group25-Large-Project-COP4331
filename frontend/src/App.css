@@ -127,3 +127,25 @@
 .read-the-docs {
   color: #888;
 }
+
+.about-row {
+  display: flex;
+  align-items: stretch;
+  min-height: 120px;    
+}
+
+.about-row img {
+  width: 20%;
+  height: 20%;
+  margin: 0;
+  border-radius: 8px;
+  display: block;
+}
+
+.about-text {
+  margin-left: 30px;
+  margin-right: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; 
+}
