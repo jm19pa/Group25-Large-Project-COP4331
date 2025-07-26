@@ -123,9 +123,9 @@ setTimeout(() => {
     className="poof"
     style={{
       position: 'absolute',
-      width: '800px',
-      height: '800px',
-      top: '-200px',
+      width: '500px',
+      height: '500px',
+      top: '-50px',
       left: '80%',
       transform: 'translateX(-50%)',
       pointerEvents: 'none',
@@ -145,23 +145,18 @@ setTimeout(() => {
     src={`/images/${cardName}.png`}
     className={`fan ${i === 0 ? "left" : i === 1 ? "center" : "right"}`}
     alt={`Card ${i}`}
-    style={{ animationDelay: `${i * 0.4}s` }}
+    style={{
+      animationDelay: `${i === 1 ? 0 : i === 0 ? 0.1 : 0.4}s`,
+      zIndex: i === 1 ? 3 : i === 0 ? 2 : 1
+    }}
   />
 ))}
+
 
   </div>
 )}
 
       </div>
-
-      <br /><br />
-      <button
-        type="button"
-        className="buttons"
-        onClick={goToLoggedInPage}
-      >
-        Cards Page
-      </button>
     </div>
   );
 };
