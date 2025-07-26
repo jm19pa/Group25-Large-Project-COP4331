@@ -3,6 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import './cardDex.css';
 
 function buildCards(owned: boolean, cardFilenames: string[]) {
+    
+    // for(let i = 0; i < cardFilenames.length; i++){
+    //     if(!cardFilenames[i].endsWith(".png")){
+    //         cardFilenames[i] += ".png";
+    //     }
+    // }
+    
     return cardFilenames.map((filename, i) => (
         <div
             className={`card ${owned ? '' : 'card_disabled'}`}
@@ -10,7 +17,7 @@ function buildCards(owned: boolean, cardFilenames: string[]) {
             key={i}
         >
             <img
-                src={`/images/${filename}`}
+                src={`/images/${filename}.png`}
                 alt={`Card ${i}`}
                 className="card-img"
             />
@@ -150,14 +157,14 @@ function DexPage(){
 
                 <div className="cardGrid">
                     {buildCards(true, ownedCards)}
-                    {buildCards(true, cardFilenames)}
+                    {/* {buildCards(true, cardFilenames)} */}
                 </div>
 
                 <h2>Not yet Owned</h2>
 
                 <div className="cardGrid">
                     {buildCards(false, unownedCards)}
-                    {buildCards(false, cardFilenames)}
+                    {/* {buildCards(false, cardFilenames)} */}
                 </div>
             </div>
         </div>
