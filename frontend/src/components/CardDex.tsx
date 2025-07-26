@@ -32,54 +32,54 @@ function DexPage(){
     const [unownedCards, setUnownedCards] = useState<string[]>([]);
     const navigate = useNavigate();
 
-    // this is going to look ugly
-    const cardFilenames = [
-        "TheGorillaEX.png",        // Gorilla
-        "KnightroEX.png",          // Knightro
-        "CitronautEX.png",         // Citronaut
-        "TouchGrass.png",          // Touch Grass
-        "DavidGusmao.png",         // David
-        "JuanPinero.png",          // Juan
-        "TylerTran.png",           // Tyler
-        "TylerTakimoto.png",       // Tyler
-        "AndrewChambers.png",      // Andrew
-        "MrPappasSHINY.png",       // Shiny Pappas
-        // rest of the same, unchanged
-        "GUHAEX.png",
-        "BurgerEX.png",
-        "GerbEX.png",
-        "AhmedEX.png",
-        "AlaGazzamEX.png",
-        "DuckerEX.png",
-        "McalpinEX.png",
-        "OnlineOliverEX.png",
-        "RecordReggieEX.png",
-        "ZacharyCoreEX.png",
-        "TextbookTerryEX.png",
-        "FinalFrankEX.png",
-        "GrettaPAnderson.png",
-        "MorrelMiddleson.png",
-        "ProfessorPythor.png",
-        "LeonardoLeeve.png",
-        "OpenOrpheus.png",
-        "NedNightly.png",
-        "CrazyCarlos.png",
-        "TeddTalkerson.png",
-        "StuckStan.png",
-        "RickleEX.png",
-        "LateLenny.png",
-        "AshLeep.png",
-        "MrPappas.png",
-        "RuthMyaProsef.png",
-        "WithdrawalDate.png",
-        "StudyRoom.png",
-        "StudyGroup.png",
-        "MyUCF.png",
-        "EnergyDrink.png",
-        "PiggyBank.png",
-        "BadTextbook.png",
-        "SpiritSplash.png"
-    ]
+    // // this is going to look ugly
+    // const cardFilenames = [
+    //     "TheGorillaEX.png",        // Gorilla
+    //     "KnightroEX.png",          // Knightro
+    //     "CitronautEX.png",         // Citronaut
+    //     "TouchGrass.png",          // Touch Grass
+    //     "DavidGusmao.png",         // David
+    //     "JuanPinero.png",          // Juan
+    //     "TylerTran.png",           // Tyler
+    //     "TylerTakimoto.png",       // Tyler
+    //     "AndrewChambers.png",      // Andrew
+    //     "MrPappasSHINY.png",       // Shiny Pappas
+    //     // rest of the same, unchanged
+    //     "GUHAEX.png",
+    //     "BurgerEX.png",
+    //     "GerbEX.png",
+    //     "AhmedEX.png",
+    //     "AlaGazzamEX.png",
+    //     "DuckerEX.png",
+    //     "McalpinEX.png",
+    //     "OnlineOliverEX.png",
+    //     "RecordReggieEX.png",
+    //     "ZacharyCoreEX.png",
+    //     "TextbookTerryEX.png",
+    //     "FinalFrankEX.png",
+    //     "GrettaPAnderson.png",
+    //     "MorrelMiddleson.png",
+    //     "ProfessorPythor.png",
+    //     "LeonardoLeeve.png",
+    //     "OpenOrpheus.png",
+    //     "NedNightly.png",
+    //     "CrazyCarlos.png",
+    //     "TeddTalkerson.png",
+    //     "StuckStan.png",
+    //     "RickleEX.png",
+    //     "LateLenny.png",
+    //     "AshLeep.png",
+    //     "MrPappas.png",
+    //     "RuthMyaProsef.png",
+    //     "WithdrawalDate.png",
+    //     "StudyRoom.png",
+    //     "StudyGroup.png",
+    //     "MyUCF.png",
+    //     "EnergyDrink.png",
+    //     "PiggyBank.png",
+    //     "BadTextbook.png",
+    //     "SpiritSplash.png"
+    // ]
 
     
     useEffect(() => {
