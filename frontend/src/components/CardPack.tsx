@@ -91,9 +91,6 @@ setTimeout(() => {
 
   };
 
-  function goToLoggedInPage() {
-    window.location.href = '/cards';
-  }
 
   return (
     <div>
