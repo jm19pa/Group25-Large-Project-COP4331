@@ -64,6 +64,9 @@ const CardPack: React.FC = () => {
     }
   };
 
+  const goToCardDex = () => {
+    window.location.href = '/cardDex';
+  }
 const handleClick = async () => {
   setShaking(true);
   setShowCards(false);
@@ -164,6 +167,7 @@ const handleClick = async () => {
 )}
 
       </div>
+      <button type="submit" className="buttons" onClick={goToCardDex}>Card Dex</button>
     </div>
   );
 };
