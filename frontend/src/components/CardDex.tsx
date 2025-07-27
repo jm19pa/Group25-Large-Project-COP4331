@@ -1,175 +1,128 @@
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './cardDex.css';
 
 function buildCards(owned: boolean, cardFilenames: string[]) {
-    
-    // for(let i = 0; i < cardFilenames.length; i++){
-    //     if(!cardFilenames[i].endsWith(".png")){
-    //         cardFilenames[i] += ".png";
-    //     }
-    // }
-    
-    return cardFilenames.map((filename, i) => (
-        <div
-            className={`card ${owned ? '' : 'card_disabled'}`}
-            id={`card_${i}`}
-            key={i}
-        >
-            <img
-                src={`/images/${filename}.png`}
-                alt={`Card ${i}`}
-                className="card-img"
-            />
-        </div>
-    ));
+  return cardFilenames.map((filename, i) => (
+    <div className={`card ${owned ? '' : 'card_disabled'}`} id={`card_${i}`} key={i}>
+      <img
+        src={`/images/${filename}`}
+        alt={`Card ${i}`}
+        className="card-img"
+        onError={() => console.warn("Missing image:", filename)}
+      />
+    </div>
+  ));
 }
 
+function DexPage() {
+  const [ownedCards, setOwnedCards] = useState<string[]>([]);
+  const [unownedCards, setUnownedCards] = useState<string[]>([]);
+  const navigate = useNavigate();
 
-function DexPage(){
+  const cardFilenames = [
+    "TheGorillaEX.png", "KnightroEX.png", "CitronautEX.png", "TouchGrass.png",
+    "DavidGusmao.png", "JuanPinero.png", "TylerTran.png", "TylerTakimoto.png",
+    "AndrewChambers.png", "MrPappasSHINY.png", "GUHAEX.png", "BurgerEX.png",
+    "GerbEX.png", "AhmedEX.png", "AlaGazzamEX.png", "DuckerEX.png", "McalpinEX.png",
+    "OnlineOliverEX.png", "RecordReggieEX.png", "ZacharyCoreEX.png", "TextbookTerryEX.png",
+    "FinalFrankEX.png", "GrettaPAnderson.png", "MorrelMiddleson.png", "ProfessorPythor.png",
+    "LeonardoLeeve.png", "OpenOrpheus.png", "NedNightly.png", "CrazyCarlos.png",
+    "TeddTalkerson.png", "StuckStan.png", "RickleEX.png", "LateLenny.png",
+    "AshLeep.png", "MrPappas.png", "RuthMyaProsef.png", "WithdrawalDate.png",
+    "StudyRoom.png", "StudyGroup.png", "MyUCF.png", "EnergyDrink.png",
+    "PiggyBank.png", "BadTextbook.png", "SpiritSplash.png"
+  ];
 
-    const [ownedCards, setOwnedCards] = useState<string[]>([]);
-    const [unownedCards, setUnownedCards] = useState<string[]>([]);
-    const navigate = useNavigate();
+  useEffect(() => {
+    const fetchCards = async () => {
+      const userRaw = localStorage.getItem("user_data");
+      const token = localStorage.getItem("token_data");
 
-    // // this is going to look ugly
-    // const cardFilenames = [
-    //     "TheGorillaEX.png",        // Gorilla
-    //     "KnightroEX.png",          // Knightro
-    //     "CitronautEX.png",         // Citronaut
-    //     "TouchGrass.png",          // Touch Grass
-    //     "DavidGusmao.png",         // David
-    //     "JuanPinero.png",          // Juan
-    //     "TylerTran.png",           // Tyler
-    //     "TylerTakimoto.png",       // Tyler
-    //     "AndrewChambers.png",      // Andrew
-    //     "MrPappasSHINY.png",       // Shiny Pappas
-    //     // rest of the same, unchanged
-    //     "GUHAEX.png",
-    //     "BurgerEX.png",
-    //     "GerbEX.png",
-    //     "AhmedEX.png",
-    //     "AlaGazzamEX.png",
-    //     "DuckerEX.png",
-    //     "McalpinEX.png",
-    //     "OnlineOliverEX.png",
-    //     "RecordReggieEX.png",
-    //     "ZacharyCoreEX.png",
-    //     "TextbookTerryEX.png",
-    //     "FinalFrankEX.png",
-    //     "GrettaPAnderson.png",
-    //     "MorrelMiddleson.png",
-    //     "ProfessorPythor.png",
-    //     "LeonardoLeeve.png",
-    //     "OpenOrpheus.png",
-    //     "NedNightly.png",
-    //     "CrazyCarlos.png",
-    //     "TeddTalkerson.png",
-    //     "StuckStan.png",
-    //     "RickleEX.png",
-    //     "LateLenny.png",
-    //     "AshLeep.png",
-    //     "MrPappas.png",
-    //     "RuthMyaProsef.png",
-    //     "WithdrawalDate.png",
-    //     "StudyRoom.png",
-    //     "StudyGroup.png",
-    //     "MyUCF.png",
-    //     "EnergyDrink.png",
-    //     "PiggyBank.png",
-    //     "BadTextbook.png",
-    //     "SpiritSplash.png"
-    // ]
+      if (!userRaw || !token) {
+        console.error("Missing user_data or token_data for card dex");
+        navigate('/register');
+        return;
+      }
 
-    
-    useEffect(() => {
-        const fetchCards = async() => {
-            const userID = localStorage.getItem("user_data");
-            const jwtToken = localStorage.getItem("token_data");
+      const { id: userID } = JSON.parse(userRaw);
 
-            if(!userID || !jwtToken){
-                console.error("Missing userID or token for card dex");
-                navigate('/register');
-                return;
-            }
+      try {
+        // Fetch owned cards
+        const ownedRes = await fetch("http://pocketprofessors.com:5000/api/foundCards", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ userID, jwtToken: token })
+        });
 
-            try{
-                const ownedRes = await fetch("http://pocketprofessors.com:5000/api/foundCards", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({userID, jwtToken}),
-                });
+        const ownedData = await ownedRes.json();
 
-                const ownedData = await ownedRes.json();
+        if (!ownedData.error && Array.isArray(ownedData.cards)) {
+          const ownedSet = new Set(
+            ownedData.cards.map((c: string) =>
+              c.toLowerCase().endsWith('.png') ? c : `${c}.png`
+            )
+          );
 
-                if(!ownedData.error){
-                    setOwnedCards(ownedData.cards);
-                    console.log("Owned cards data: ", ownedCards);
-                    localStorage.setItem("token", ownedData.jwtToken);
-                }
-                else{
-                    console.error("Owned cards error: ", ownedData.error);
-                }
+          const sortedOwned = cardFilenames.filter(name => ownedSet.has(name));
+          setOwnedCards(sortedOwned);
 
-                const unownedRes = await fetch("http://pocketprofessors.com:5000/api/unfoundCards", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({userID, jwtToken}),
-                });
+          const refreshed = ownedData.jwtToken?.accessToken || ownedData.jwtToken;
+          if (refreshed) localStorage.setItem("token_data", refreshed);
+        } else {
+          console.error("Owned cards error:", ownedData.error);
+        }
 
-                const unownedData = await unownedRes.json();
+        // Fetch unowned cards
+        const unownedRes = await fetch("http://pocketprofessors.com:5000/api/unfoundCards", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ userID, jwtToken: token })
+        });
 
-                if(!unownedData.error){
-                    setUnownedCards(unownedData.missingCards);
-                    localStorage.setItem("token", unownedData.jwtToken);
-                }
-                else{
-                    console.error("Unowned cards error: ", unownedData.error);
-                }                
+        const unownedData = await unownedRes.json();
 
-                console.log("ownedCards: ", ownedCards);
-                console.log("unownedCards: ", unownedCards);
+        if (!unownedData.error && Array.isArray(unownedData.missingCards)) {
+          const unownedSet = new Set(
+            unownedData.missingCards.map((c: string) =>
+              c.toLowerCase().endsWith('.png') ? c : `${c}.png`
+            )
+          );
 
-                console.log("ownedData.jwtToken: ", ownedData.jwtToken);
-                console.log("unownedData.jwtToken: ", unownedData.jwtToken);
+          const sortedUnowned = cardFilenames.filter(name => unownedSet.has(name));
+          setUnownedCards(sortedUnowned);
 
-                console.log("ownedData.cards: ", ownedData.cards);
-                console.log("unownedData.missingCards: ", unownedData.missingCards);
-            }
-            catch (err){
-                console.error("API call failed: ", err);
-            }
-        };
+          const refreshed2 = unownedData.jwtToken?.accessToken || unownedData.jwtToken;
+          if (refreshed2) localStorage.setItem("token_data", refreshed2);
+        } else {
+          console.error("Unowned cards error:", unownedData.error);
+        }
 
-        fetchCards();
-    }, [navigate])
+      } catch (err) {
+        console.error("API call failed:", err);
+      }
+    };
 
-    return (
-        <div className='page'>
-            <div className='cardDex_container'>
-                <h1 className='cardDex_title'>Professor Panel</h1>
-                
-                <h2>Owned Cards</h2>
+    fetchCards();
+  }, [navigate]);
 
-                <div className="cardGrid">
-                    {buildCards(true, ownedCards)}
-                    {/* {buildCards(true, cardFilenames)} */}
-                </div>
+  return (
+    <div className='page'>
+      <div className='cardDex_container'>
+        <h1 className='cardDex_title'>Professor Panel</h1>
 
-                <h2>Not yet Owned</h2>
-
-                <div className="cardGrid">
-                    {buildCards(false, unownedCards)}
-                    {/* {buildCards(false, cardFilenames)} */}
-                </div>
-            </div>
+        <h2>Owned Cards</h2>
+        <div className="cardGrid">
+          {buildCards(true, ownedCards)}
         </div>
 
-    )
+        <h2>Not yet Owned</h2>
+        <div className="cardGrid">
+          {buildCards(false, unownedCards)}
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default DexPage;

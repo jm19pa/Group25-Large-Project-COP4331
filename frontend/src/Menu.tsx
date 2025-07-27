@@ -52,7 +52,6 @@ const Menu: React.FC = () => {
       {/* Slide-out panel */}
       <div className={`slide-panel ${sidebarOpen ? 'show' : ''}`}>
         <div className={`options ${sidebarOpen ? 'show' : ''}`}>
-          <div><a href="/">Landing Page</a></div>
           <div><a href="/pack">Card Pack</a></div>
           <div><a href="/cardDex">Card Dex</a></div>
           <div><a href="/aboutPage">About Us</a></div>
