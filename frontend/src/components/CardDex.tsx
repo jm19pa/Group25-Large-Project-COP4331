@@ -23,7 +23,7 @@ function DexPage() {
 
   const cardFilenames = [
     "TheGorillaEX.png", "KnightroEX.png", "CitronautEX.png", "TouchGrass.png",
-    "DavidGusmao.png", "JuanPinero.png", "TylerTran.png", "TylerTakimoto.png",
+    "DavidGusmao.png", "JuanoPinero.png", "TylerTran.png", "TylerTakimoto.png",
     "AndrewChambers.png", "MrPappasSHINY.png", "GUHAEX.png", "BurgerEX.png",
     "GerbEX.png", "AhmedEX.png", "AlaGazzamEX.png", "DuckerEX.png", "McalpinEX.png",
     "OnlineOliverEX.png", "RecordReggieEX.png", "ZacharyCoreEX.png", "TextbookTerryEX.png",

@@ -28,7 +28,7 @@ const AboutUs: React.FC = () => {
         {
           name: 'Juan Pinero',
           title: 'Frontend Development',
-          image: '/images/JuanPinero.png',
+          image: '/images/JuanoPinero.png',
           contributions: 'Website Design, Mobile Development, API Assistance, PowerPoint Assistance',
         },
         {
