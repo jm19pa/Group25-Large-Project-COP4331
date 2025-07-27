@@ -9,6 +9,7 @@ function buildCards(owned: boolean, cardFilenames: string[]) {
         src={`/images/${filename}`}
         alt={`Card ${i}`}
         className="card-img"
+        loading="lazy"
         onError={() => console.warn("Missing image:", filename)}
       />
     </div>
