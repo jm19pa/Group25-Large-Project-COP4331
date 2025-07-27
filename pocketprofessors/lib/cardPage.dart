@@ -158,6 +158,16 @@ class _CardPageState extends State<CardPage> with TickerProviderStateMixin {
                   ),
               ],
             ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/cardDex');
+              },
+              child: Text('View CardDex'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.amber,
+                foregroundColor: Colors.black,
+              ),
+            ),
           ],
         ),
       ),
