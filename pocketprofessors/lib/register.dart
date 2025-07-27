@@ -2,12 +2,103 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
+import 'cardPage.dart';
+import 'verifyEmail.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
 
   @override
   State<RegisterPage> createState() => _RegisterPageState();
+}
+
+Future<void> doLogin(
+  BuildContext context,
+  String login,
+  String password,
+) async {
+  // Basic blank check
+  if (login.trim().isEmpty || password.trim().isEmpty) {
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: Text("Missing Fields"),
+        content: Text("Please fill in both login and password."),
+      ),
+    );
+    return;
+  }
+
+  final obj = {'login': login, 'password': password};
+
+  try {
+    final res = await http.post(
+      Uri.parse(
+        'http://www.pocketprofessors.com/api/login',
+      ), // change to buildPath
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode(obj),
+    );
+
+    final body = jsonDecode(res.body);
+    debugPrint("🟢 Login response: $body");
+
+    final jwtToken = body['jwtToken'];
+    if (jwtToken == null) {
+      debugPrint("❌ No jwtToken in response.");
+      showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+          title: Text("Login Failed"),
+          content: Text("User/Password combination incorrect"),
+        ),
+      );
+      return;
+    }
+
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('token', jwtToken);
+    debugPrint("✅ Stored token: $jwtToken");
+
+    final decoded = JwtDecoder.decode(jwtToken);
+    final userId = decoded['userId'];
+    final firstName = decoded['firstName'];
+    final lastName = decoded['lastName'];
+
+    if (userId == "") {
+      // change later
+      // WE ARE CRASHING HERE
+      showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+          title: Text("Login Failed"),
+          content: Text("User/Password combination incorrect"),
+        ),
+      );
+    } else {
+      final userData = {
+        'firstName': firstName,
+        'lastName': lastName,
+        'id': userId,
+      };
+      await prefs.setString('user_data', jsonEncode(userData));
+      debugPrint("🔍 Stored user: $userData");
+
+      // Navigate to pack page
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => CardsPage()),
+      );
+    }
+  } catch (e) {
+    debugPrint("❗ Login error: $e");
+    showDialog(
+      context: context,
+      builder: (_) =>
+          AlertDialog(title: Text("Error"), content: Text(e.toString())),
+    );
+  }
 }
 
 Future<void> doRegister(
@@ -28,7 +119,7 @@ Future<void> doRegister(
     return;
   }
 
-  final uri = Uri.parse('https://pocketprofessors.com/api/register');
+  final uri = Uri.parse('http://pocketprofessors.com/api/register');
   final body = jsonEncode({
     "login": login,
     "firstName": firstName,
@@ -44,10 +135,13 @@ Future<void> doRegister(
       body: body,
     );
 
+    print("Response Code: ${response.statusCode}");
+    print("Response Body: ${response.body}");
+
     final res = jsonDecode(response.body);
 
-    if (res["error"] != null) {
-      print(res["error"]);
+    if (res["error"] != "") {
+      print("Registration Error: ${res["error"]}");
     } else {
       // Save data to local storage
       final userData = {
@@ -62,10 +156,13 @@ Future<void> doRegister(
       await prefs.setString("verify_email", email);
 
       // Navigate to the verify screen
-      Navigator.pushNamed(context, '/verify');
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => VerifyEmailPage()),
+      );
     }
   } catch (e) {
-    print(e.toString());
+    print("Exception during registration: $e");
   }
 }
 
@@ -195,7 +292,7 @@ class _RegisterPageState extends State<RegisterPage> {
         const SizedBox(height: 16),
         ElevatedButton(
           onPressed: () {
-            // TODO: login logic
+            doLogin(context, _loginController.text, _passwordController.text);
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: const Color(0xFFFFD700), // --primary
