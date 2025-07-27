@@ -167,6 +167,7 @@ const handleClick = async () => {
 )}
 
       </div>
+      <br/>
       <button type="submit" className="buttons" onClick={goToCardDex}>Card Dex</button>
     </div>
   );
