@@ -106,7 +106,6 @@ const handleClick = async () => {
   return (
     <div>
       <h2>Card Pack</h2>
-      <p>This is where the card pack will be displayed.</p>
 
       <div style={{ position: 'relative', display: 'inline-block' }}>
         <img

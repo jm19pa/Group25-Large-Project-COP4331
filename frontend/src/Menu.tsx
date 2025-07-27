@@ -53,12 +53,6 @@ const Menu: React.FC = () => {
     <div className={`slide-panel ${sidebarOpen ? 'show' : ''}`}>
       <div className={`options ${sidebarOpen ? 'show' : ''}`}>
         <div>
-          <a href="/">
-            <img src="/images/home.svg" alt="Home" className="menu-icon" />
-            Landing Page
-          </a>
-        </div>
-        <div>
           <a href="/pack">
             <img src="/images/cards.svg" alt="Pack" className="menu-icon" />
             Card Pack
