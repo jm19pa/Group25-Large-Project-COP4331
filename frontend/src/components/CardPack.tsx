@@ -13,6 +13,14 @@ const CardPack: React.FC = () => {
     useEffect(() => {
         const img = new Image();
         img.src = "/images/poof.png";
+
+        const userDataRaw = localStorage.getItem("user_data");
+        const tokenRaw = localStorage.getItem("token_data");
+
+        if (!userDataRaw || !tokenRaw) {
+            console.error('Missing user_data or token_data in localStorage');
+            navigate('/register');
+        }
     }, []);
 
     const openCardPack = async () => {
@@ -70,6 +78,7 @@ const CardPack: React.FC = () => {
     const goToCardDex = () => {
         window.location.href = '/cardDex';
     }
+
     const handleClick = async () => {
         setShaking(true);
         setShowCards(false);
@@ -111,7 +120,7 @@ const CardPack: React.FC = () => {
 
     return (
         <div>
-            <h2>Card Pack</h2>
+            <h1>Open a pack!</h1>
 
             <div style={{ position: 'relative', display: 'inline-block' }}>
                 <img
