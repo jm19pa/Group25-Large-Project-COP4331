@@ -1,41 +1,44 @@
 import 'package:flutter/material.dart';
 import 'register.dart';
+import 'cardPage.dart';
+import 'cardDex.dart';
 
 void main() {
-  runApp(
-    MaterialApp(
+  runApp(PocketProfessorsApp());
+}
+
+class PocketProfessorsApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Pocket Professors',
+      theme: ThemeData.dark(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => LandingPage(),
+        '/register': (context) => RegisterPage(),
+        '/cardPack': (context) => CardPage(),
+        '/cardDex': (context) => CardDexPage(),
+      },
       debugShowCheckedModeBanner: false,
-      home: LandingPage(
-        onTap: () {
-          print("Tapped landing!");
-          // You can navigate here later
-        },
-      ),
-    ),
-  );
+    );
+  }
 }
 
 class LandingPage extends StatelessWidget {
-  final VoidCallback onTap;
-
-  const LandingPage({super.key, required this.onTap});
+  const LandingPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const RegisterPage()),
-        );
+        Navigator.pushNamed(context, '/register');
       },
       child: Scaffold(
         body: Container(
           width: double.infinity,
           height: double.infinity,
-          decoration: BoxDecoration(
-            color: Color(0xFF030303), // solid dark background
-          ),
+          color: Color(0xFF030303), // solid dark background
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -98,7 +101,6 @@ class LandingPage extends StatelessWidget {
                     style: TextStyle(color: Colors.white, fontSize: 14),
                   ),
                 ),
-                onEnd: () {},
               ),
             ],
           ),

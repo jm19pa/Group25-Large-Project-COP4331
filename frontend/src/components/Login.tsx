@@ -128,7 +128,6 @@ async function doLogin(event: any): Promise<void> {
                 onClick={goToRegisterPage}> Register </button>
 
             <br/>
-            
         </div>
     );
 };

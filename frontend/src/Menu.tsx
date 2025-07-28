@@ -41,25 +41,45 @@ const Menu: React.FC = () => {
   if (!shouldRender) return null;
 
   return (
-    <div className="sidebar">
-      {/* Hamburger Icon */}
-      <div className={`menu ${sidebarOpen ? 'change' : ''}`} onClick={toggleMenu}>
-        <div className="bar1"></div>
-        <div className="bar2"></div>
-        <div className="bar3"></div>
-      </div>
+  <div className="sidebar">
+    {/* Hamburger Icon */}
+    <div className={`menu ${sidebarOpen ? 'change' : ''}`} onClick={toggleMenu}>
+      <div className="bar1"></div>
+      <div className="bar2"></div>
+      <div className="bar3"></div>
+    </div>
 
-      {/* Slide-out panel */}
-      <div className={`slide-panel ${sidebarOpen ? 'show' : ''}`}>
-        <div className={`options ${sidebarOpen ? 'show' : ''}`}>
-          <div><a href="/pack">Card Pack</a></div>
-          <div><a href="/cardDex">Card Dex</a></div>
-          <div><a href="/aboutPage">About Us</a></div>
-          <div><a id="logout" onClick={logout}>Logout</a></div>
+    {/* Slide-out panel */}
+    <div className={`slide-panel ${sidebarOpen ? 'show' : ''}`}>
+      <div className={`options ${sidebarOpen ? 'show' : ''}`}>
+        <div>
+          <a href="/pack">
+            <img src="/images/cards.svg" alt="Pack" className="menu-icon" />
+            Card Pack
+          </a>
+        </div>
+        <div>
+          <a href="/cardDex">
+            <img src="/images/dex.svg" alt="Card Dex" className="menu-icon" />
+            Card Dex
+          </a>
+        </div>
+        <div>
+          <a href="/aboutPage">
+            <img src="/images/info.svg" alt="About Us" className="menu-icon" />
+            About Us
+          </a>
+        </div>
+        <div>
+          <a id="logout" onClick={logout}>
+            <img src="/images/logout.svg" alt="Logout" className="menu-icon" />
+            Logout
+          </a>
         </div>
       </div>
     </div>
-  );
-};
+  </div>
+);
+}
 
 export default Menu;

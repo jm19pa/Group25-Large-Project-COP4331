@@ -88,7 +88,7 @@ Future<void> doLogin(
       // Navigate to pack page
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => CardsPage()),
+        MaterialPageRoute(builder: (context) => CardPage()),
       );
     }
   } catch (e) {

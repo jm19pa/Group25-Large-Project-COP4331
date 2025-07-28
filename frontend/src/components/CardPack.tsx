@@ -1,172 +1,188 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const API_BASE = 'http://pocketprofessors.com:5000'; // <- use your backend URL (or env var)
 
 const CardPack: React.FC = () => {
-  const [shaking, setShaking] = useState(false);
-  const [showPoof, setShowPoof] = useState(false);
-  const [cardImages, setCardImages] = useState<string[]>([]);
-  const [showCards, setShowCards] = useState(false);
+    const [shaking, setShaking] = useState(false);
+    const [showPoof, setShowPoof] = useState(false);
+    const [cardImages, setCardImages] = useState<string[]>([]);
+    const [showCards, setShowCards] = useState(false);
+    const navigate = useNavigate();
 
-  useEffect(() => {
-    const img = new Image();
-    img.src = "/images/poof.png";
-  }, []);
+    useEffect(() => {
+        const img = new Image();
+        img.src = "/images/poof.png";
 
-  const openCardPack = async () => {
-    // 1) Parse user_data to get the actual id
-    const userDataRaw = localStorage.getItem("user_data");
-    const tokenRaw    = localStorage.getItem("token_data");
+        const userDataRaw = localStorage.getItem("user_data");
+        const tokenRaw = localStorage.getItem("token_data");
 
-    if (!userDataRaw || !tokenRaw) {
-      console.error('Missing user_data or token_data in localStorage');
-      return [];
+        if (!userDataRaw || !tokenRaw) {
+            console.error('Missing user_data or token_data in localStorage');
+            navigate('/register');
+        }
+    }, []);
+
+    const openCardPack = async () => {
+        // 1) Parse user_data to get the actual id
+        const userDataRaw = localStorage.getItem("user_data");
+        const tokenRaw = localStorage.getItem("token_data");
+
+        if (!userDataRaw || !tokenRaw) {
+            console.error('Missing user_data or token_data in localStorage');
+            navigate('/register');
+            return [];
+        }
+
+        const { id: userId } = JSON.parse(userDataRaw);
+        const jwtToken = tokenRaw; // you stored the token itself in token_data
+
+        const packName = "BaseSet";
+
+        console.log('Sending to API:', { userId, jwtToken, packName });
+
+        try {
+            const response = await fetch(`${API_BASE}/api/openPack`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ userId, jwtToken, packName }),
+            });
+
+            const text = await response.text();
+            if (!response.ok || !text) {
+                console.error('Bad response:', response.status, text);
+                return [];
+            }
+
+            const result = JSON.parse(text);
+            console.log('Raw result:', result);
+
+            if (result.error) {
+                console.error("Pack error:", result.error);
+                return [];
+            }
+
+            // Save refreshed token under the SAME key you read from
+            localStorage.setItem("token_data", result.jwtToken.accessToken);
+
+            // result.addedCards = [{ Card: 'RickleEX', Rarity: 3 }, ...]
+            const cardNames: string[] = result.addedCards.map((c: any) => c.Card);
+            console.log("Cards received:", cardNames);
+            return cardNames;
+        } catch (err) {
+            console.error("Network or parsing error:", err);
+            return [];
+        }
+    };
+
+    const goToCardDex = () => {
+        window.location.href = '/cardDex';
     }
 
-    const { id: userId } = JSON.parse(userDataRaw);
-    const jwtToken = tokenRaw; // you stored the token itself in token_data
+    const handleClick = async () => {
+        setShaking(true);
+        setShowCards(false);
 
-    const packName = "BaseSet";
+        setTimeout(() => {
+            setShaking(false);
+            setShowPoof(true);
+        }, 600);
 
-    console.log('Sending to API:', { userId, jwtToken, packName });
+        // Fetch card names at the same time as poof
+        setTimeout(async () => {
+            try {
+                const cards = await openCardPack();
 
-    try {
-      const response = await fetch(`${API_BASE}/api/openPack`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId, jwtToken, packName }),
-      });
+                // Preload all card images
+                await Promise.all(cards.map((cardName) => {
+                    return new Promise<void>((resolve) => {
+                        const img = new Image();
+                        img.src = `/images/${cardName}.png`;
+                        img.onload = () => resolve();
+                        img.onerror = () => resolve(); // still resolve on error
+                    });
+                }));
 
-      const text = await response.text();
-      if (!response.ok || !text) {
-        console.error('Bad response:', response.status, text);
-        return [];
-      }
+                // Only show cards after all images are loaded
+                setCardImages(cards);
+                setShowCards(true);
+            } catch (err) {
+                console.error("Failed to open pack:", err);
+            }
+        }, 600);
 
-      const result = JSON.parse(text);
-      console.log('Raw result:', result);
-
-      if (result.error) {
-        console.error("Pack error:", result.error);
-        return [];
-      }
-
-      // Save refreshed token under the SAME key you read from
-      localStorage.setItem("token_data", result.jwtToken.accessToken);
-
-      // result.addedCards = [{ Card: 'RickleEX', Rarity: 3 }, ...]
-      const cardNames: string[] = result.addedCards.map((c: any) => c.Card);
-      console.log("Cards received:", cardNames);
-      return cardNames;
-    } catch (err) {
-      console.error("Network or parsing error:", err);
-      return [];
-    }
-  };
-
-const handleClick = async () => {
-  setShaking(true);
-  setShowCards(false);
-
-  setTimeout(() => {
-    setShaking(false);
-    setShowPoof(true);
-  }, 600);
-
-  // Fetch card names at the same time as poof
-  setTimeout(async () => {
-    try {
-      const cards = await openCardPack();
-
-      // Preload all card images
-      await Promise.all(cards.map((cardName) => {
-        return new Promise<void>((resolve) => {
-          const img = new Image();
-          img.src = `/images/${cardName}.png`;
-          img.onload = () => resolve();
-          img.onerror = () => resolve(); // still resolve on error
-        });
-      }));
-
-      // Only show cards after all images are loaded
-      setCardImages(cards);
-      setShowCards(true);
-    } catch (err) {
-      console.error("Failed to open pack:", err);
-    }
-  }, 600);
-
-  setTimeout(() => {
-    setShowPoof(false);
-  }, 1400);
-};
+        setTimeout(() => {
+            setShowPoof(false);
+        }, 1400);
+    };
 
 
 
-  return (
-    <div>
-      <h2>Card Pack</h2>
-      <p>This is where the card pack will be displayed.</p>
+    return (
+        <div>
+            <h1>Open a pack!</h1>
 
-      <div style={{ position: 'relative', display: 'inline-block' }}>
-        <img
-          src="/images/card.jpg"
-          alt="Card Pack"
-          height={282}
-          width={200}
-          onClick={handleClick}
-          className={shaking ? 'shake' : ''}
-          style={{
-            cursor: 'pointer',
-            position: 'relative',
-            zIndex: 2
-          }}
-        />
-
-
-        {showPoof && (
-  <img
-    src="/images/poof.png"
-    alt="poof"
-    className="poof"
-    style={{
-      position: 'absolute',
-      width: '500px',
-      height: '500px',
-      top: '-50px',
-      left: '80%',
-      transform: 'translateX(-50%)',
-      pointerEvents: 'none',
-      opacity: 1,
-      animation: 'poofFade 0.8s ease-out forwards',
-      zIndex: 5 // ⬅️ Now poof is in front of cards & pack
-    }}
-  />
-)}
+            <div style={{ position: 'relative', display: 'inline-block' }}>
+                <img
+                    src="/images/card.jpg"
+                    alt="Card Pack"
+                    height={282}
+                    width={200}
+                    onClick={handleClick}
+                    className={shaking ? 'shake' : ''}
+                    style={{
+                        cursor: 'pointer',
+                        position: 'relative',
+                        zIndex: 2
+                    }}
+                />
 
 
-        {showCards && (
-  <div className="card-spread">
-    {cardImages.map((cardName, i) => (
-  <img
-    key={i}
-    src={`/images/${cardName}.png`}
-    className={`fan ${i === 0 ? "left" : i === 1 ? "center" : "right"}`}
-    alt={`Card ${i}`}
-    style={{
-      animationDelay: `${i === 1 ? 0 : i === 0 ? 0.1 : 0.4}s`,
-      zIndex: i === 1 ? 3 : i === 0 ? 2 : 1
-    }}
-  />
-))}
+                {showPoof && (
+                    <img
+                        src="/images/poof.png"
+                        alt="poof"
+                        className="poof"
+                        style={{
+                            position: 'absolute',
+                            width: '500px',
+                            height: '500px',
+                            top: '-50px',
+                            left: '80%',
+                            transform: 'translateX(-50%)',
+                            pointerEvents: 'none',
+                            opacity: 1,
+                            animation: 'poofFade 0.8s ease-out forwards',
+                            zIndex: 5 // ⬅️ Now poof is in front of cards & pack
+                        }}
+                    />
+                )}
 
 
-  </div>
-)}
+                {showCards && (
+                    <div className="card-spread">
+                        {cardImages.map((cardName, i) => (
+                            <img
+                                key={i}
+                                src={`/images/${cardName}.png`}
+                                className={`fan ${i === 0 ? "left" : i === 1 ? "center" : "right"}`}
+                                alt={`Card ${i}`}
+                                style={{
+                                    animationDelay: `${i === 1 ? 0 : i === 0 ? 0.1 : 0.4}s`,
+                                    zIndex: i === 1 ? 3 : i === 0 ? 2 : 1
+                                }}
+                            />
+                        ))}
 
-      </div>
-    </div>
-  );
+
+                    </div>
+                )}
+
+            </div>
+            <br />
+            <button type="submit" className="buttons" onClick={goToCardDex} style={{ marginTop: 10 }}>Card Dex</button>
+        </div>
+    );
 };
 
 export default CardPack;

@@ -97,6 +97,13 @@ a:hover{
     color: hsl(0, 100%, 25%);
 }
 
+.menu-icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
 
 @media (max-width: 600px) {
     .slide-panel {

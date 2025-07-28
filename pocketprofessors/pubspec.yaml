@@ -39,6 +39,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -60,6 +61,54 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+
+  assets:
+    - assets/images/card.jpg
+    - assets/images/poof.png
+    - assets/images/TheGorillaEX.png
+    - assets/images/KnightroEX.png
+    - assets/images/CitronautEX.png
+    - assets/images/TouchGrass.png
+    - assets/images/DavidGusmao.png
+    - assets/images/JuanoPinero.png
+    - assets/images/TylerTran.png
+    - assets/images/TylerTakimoto.png
+    - assets/images/AndrewChambers.png
+    - assets/images/MrPappasSHINY.png
+    - assets/images/GUHAEX.png
+    - assets/images/BurgerEX.png
+    - assets/images/GerbEX.png
+    - assets/images/AhmedEX.png
+    - assets/images/AlaGazzamEX.png
+    - assets/images/DuckerEX.png
+    - assets/images/McalpinEX.png
+    - assets/images/OnlineOliverEX.png
+    - assets/images/RecordReggieEX.png
+    - assets/images/ZacharyCoreEX.png
+    - assets/images/TextbookTerryEX.png
+    - assets/images/FinalFrankEX.png
+    - assets/images/GrettaPAnderson.png
+    - assets/images/MorrelMiddleson.png
+    - assets/images/ProfessorPythor.png
+    - assets/images/LeonardoLeeve.png
+    - assets/images/OpenOrpheus.png
+    - assets/images/NedNightly.png
+    - assets/images/CrazyCarlos.png
+    - assets/images/TeddTalkerson.png
+    - assets/images/StuckStan.png
+    - assets/images/RickleEX.png
+    - assets/images/LateLenny.png
+    - assets/images/AshLeep.png
+    - assets/images/MrPappas.png
+    - assets/images/RuthMyaProsef.png
+    - assets/images/WithdrawalDate.png
+    - assets/images/StudyRoom.png
+    - assets/images/StudyGroup.png
+    - assets/images/MyUCF.png
+    - assets/images/EnergyDrink.png
+    - assets/images/PiggyBank.png
+    - assets/images/BadTextbook.png
+    - assets/images/SpiritSplash.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:

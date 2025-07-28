@@ -1,0 +1,99 @@
+.about-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.about-page h1 {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.about-container {
+  width: 90%;
+  max-width: 800px;
+  padding: 0px;
+  margin-top: 20px;
+  margin-bottom: 0px;
+}
+
+.about-row {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 20px;
+  background-color: var(--bg-light);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+.about-row:hover {
+  transform: scale(1.01);
+}
+
+.about-row img {
+  width: 150px;
+  height: auto;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.about-text {
+  flex: 1;
+}
+
+.about-text h2 {
+  margin-top: 0;
+  font-size: 1.2rem;
+}
+
+.about-text p {
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+.github-monkey {
+  width: 100%;
+  max-width: 800px;
+  transform: scaleX(-1);
+  margin-top: 0px;
+}
+
+/* Responsive layout for tablets and smaller */
+@media screen and (max-width: 768px) {
+  .about-row {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .about-row img {
+    width: 100%;
+    max-width: 250px;
+  }
+
+  .about-text h2 {
+    font-size: 1.1rem;
+  }
+
+  .about-text p {
+    font-size: 0.95rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .about-container {
+    padding: 0px;
+  }
+
+  .about-text h2 {
+    font-size: 1rem;
+  }
+
+  .about-text p {
+    font-size: 0.9rem;
+  }
+}
