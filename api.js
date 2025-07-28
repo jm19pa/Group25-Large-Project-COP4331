@@ -316,28 +316,9 @@ app.post("/api/Verify", async (req, res) => {
       subject: 'Your PocketProf Verification Code',
       text: `Your verification code is ${verificationCode}. It will expire in 15 minutes.`,
     };
+
     await sgMail.send(msg);
 
-/*
-    // Send user the verification code
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      host: 'smtp.gmail.com',
-      port:443,
-      secure: false,
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
-    });
-
-    await transporter.sendMail({
-      from: process.env.EMAIL_USER,
-      to: email,
-      subject: 'Your PocketProf Verification Code',
-      text: `Your verification code is ${verificationCode}. It will expire in 15 minutes.`,
-    });
-*/
     return res.status(200).json({ success: true, message: "Verification code sent" });
 
   } catch (err) {
@@ -345,6 +326,48 @@ app.post("/api/Verify", async (req, res) => {
     return res.status(500).json({ success: false, error: "Server error" });
   }
 });
+
+app.post("/api/updatePassword", async (req, res) => {
+  const { email, newpassword, verificationCode } = req.body;
+
+  if (!email || !newpassword || !verificationCode) {
+    return res.status(400).json({ success: false, error: "Missing fields" });
+  }
+
+  const db = client.db("PocketProfessors");
+
+  try {
+    const user = await db.collection("Users").findOne({ Email: email.toLowerCase() });
+
+    if (!user) {
+      return res.status(404).json({ success: false, error: "User not found" });
+    }
+
+    if (user.VerificationCode !== verificationCode) {
+      return res.status(400).json({ success: false, error: "Invalid verification code" });
+    }
+
+    if (user.CodeExpires && Date.now() > new Date(user.CodeExpires).getTime()) {
+      return res.status(400).json({ success: false, error: "Verification code expired" });
+    }
+
+    const hashedPassword = await bcrypt.hash(newpassword, 10);
+
+    await db.collection("Users").updateOne(
+      { Email: email.toLowerCase() },
+      {
+        $set: { Password: hashedPassword },
+        $unset: { VerificationCode: "", CodeExpires: "" }
+      }
+    );
+
+    return res.status(200).json({ success: true, message: "Password updated!" });
+  } catch (err) {
+    console.error("Error confirming verification:", err.message);
+    return res.status(500).json({ success: false, error: "Server error" });
+  }
+});
+
 
 //Confirm Email Code
 //Incoming:Verification Code, Email

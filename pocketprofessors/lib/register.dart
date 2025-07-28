@@ -101,6 +101,46 @@ Future<void> doLogin(
   }
 }
 
+bool passwordComplexity({
+  required String value,
+  required FocusNode inputFocusNode,
+  required GlobalKey<FormFieldState> fieldKey,
+  required BuildContext context,
+}) {
+  final length = value.length;
+
+  if (length < 8 || length > 20) {
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text("Password Error"),
+        content: const Text("Make sure password is 8 to 20 characters"),
+      ),
+    );
+    inputFocusNode.requestFocus();
+    return false;
+  }
+
+  final specialCharacters = ['!', '@', '#', '\$', '%', '&', '*', '(', ')'];
+  final hasSpecial = specialCharacters.any((char) => value.contains(char));
+
+  if (!hasSpecial) {
+    showDialog(
+      context: context,
+      builder: (_) => const AlertDialog(
+        title: Text("Password Error"),
+        content: Text(
+          "Make sure password contains a special character, ex: !, @, &",
+        ),
+      ),
+    );
+    inputFocusNode.requestFocus();
+    return false;
+  }
+
+  return true;
+}
+
 Future<void> doRegister(
   BuildContext context, {
   required String login,
@@ -175,6 +215,8 @@ class _RegisterPageState extends State<RegisterPage> {
   final _emailController = TextEditingController();
   final _firstNameController = TextEditingController();
   final _lastNameController = TextEditingController();
+  final FocusNode _passwordFocus = FocusNode();
+  final GlobalKey<FormFieldState> _passwordKey = GlobalKey<FormFieldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -315,6 +357,14 @@ class _RegisterPageState extends State<RegisterPage> {
         const SizedBox(height: 16),
         ElevatedButton(
           onPressed: () {
+            if (!passwordComplexity(
+              value: _passwordController.text,
+              inputFocusNode: _passwordFocus,
+              fieldKey: _passwordKey,
+              context: context,
+            )) {
+              return;
+            }
             doRegister(
               context,
               login: _loginController.text,

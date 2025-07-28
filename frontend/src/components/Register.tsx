@@ -41,6 +41,45 @@ const Register: React.FC = () => {
         return false;
     };
 
+    const passwordComplexity = (value: string, labelId: string, inputId: string): boolean => {
+        const label = document.getElementById(labelId);
+        const input = document.getElementById(inputId);
+
+        if (!label || !input) return false;
+
+        label.classList.remove("label_error");
+        input.classList.remove("input_error");
+
+        const string_length = value.length;
+        
+        if(string_length < 8){
+            label.classList.add("label_error")
+            input.classList.add("input_error")
+            setError("Make sure password is 8 to 20 characters")
+            return false;
+        }
+
+        if(string_length > 20){
+            label.classList.add("label_error")
+            input.classList.add("input_error")
+            setError("Make sure password is 8 to 20 characters")
+            return false;
+        }
+
+        const special_characters = ['!', '@', '#', '$', '%', '&', '*', '(', ')'];
+        const contains_special_character = special_characters.some(char => value.includes(char));
+
+        if(!contains_special_character){
+            console.log("Password does not contain a special character");
+            label.classList.add("label_error")
+            input.classList.add("input_error")
+            setError("Make sure password contains a special character, ex: !, @, &")
+            return false
+        }
+
+        return true;
+    }
+
 
     async function doLogin(event: any): Promise<void> {
         event.preventDefault();
@@ -110,6 +149,9 @@ const Register: React.FC = () => {
         if(checkBlank(lastName, "last_name_label", "last_name")) isBlank = true;
 
         if(isBlank) return;
+
+        // check password
+        if(!passwordComplexity(password, "password_label", "password")) return;
 
         let obj = { login: login, firstName: firstName, lastName: lastName, password: password, email: email };
         let js = JSON.stringify(obj);
@@ -190,6 +232,7 @@ const Register: React.FC = () => {
                             onClick={togglePasswordVisibility}
                             style={{cursor: "pointer"}} // can change to css
                         />
+                        <p className='password_requirements'>Minimum of 8 characters with one special character</p>
                     </div>
 
                     <div className="input_div">
