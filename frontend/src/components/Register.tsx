@@ -278,6 +278,7 @@ const Register: React.FC = () => {
                             onClick={togglePasswordVisibility}
                             style={{cursor: "pointer"}} // can change to css
                         />
+                        <a href='/forgot'>Forgot Password?</a>
 
                     </div>
 

@@ -221,73 +221,92 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF030303), // matches your CSS root
-      body: Center(
-        child: Container(
-          width: 600,
-          padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            color: const Color(0xFF1A1A1A), // --bg-light
-            borderRadius: BorderRadius.circular(10),
-            boxShadow: const [BoxShadow(color: Colors.grey, blurRadius: 5)],
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Text(
-                'WELCOME',
-                style: TextStyle(color: Colors.white, fontSize: 24),
-              ),
-              const SizedBox(height: 20),
-              // Toggle Switch
-              Container(
-                width: 250,
-                height: 50,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(34),
-                  color: Colors.white,
-                ),
-                child: Stack(
-                  children: [
-                    AnimatedAlign(
-                      alignment: showSignup
-                          ? Alignment.centerRight
-                          : Alignment.centerLeft,
-                      duration: const Duration(milliseconds: 300),
-                      child: Container(
-                        width: 125,
+      backgroundColor: const Color(0xFF030303),
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: constraints.maxHeight),
+              child: Center(
+                child: Container(
+                  width: 600,
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF1A1A1A),
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: const [
+                      BoxShadow(color: Colors.grey, blurRadius: 5),
+                    ],
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Text(
+                        'WELCOME',
+                        style: TextStyle(color: Colors.white, fontSize: 24),
+                      ),
+                      const SizedBox(height: 20),
+                      // Toggle Switch
+                      Container(
+                        width: 250,
                         height: 50,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(34),
-                          color: const Color(0xFFFFD700), // --primary
+                          color: Colors.white,
+                        ),
+                        child: Stack(
+                          children: [
+                            AnimatedAlign(
+                              alignment: showSignup
+                                  ? Alignment.centerRight
+                                  : Alignment.centerLeft,
+                              duration: const Duration(milliseconds: 300),
+                              child: Container(
+                                width: 125,
+                                height: 50,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(34),
+                                  color: const Color(0xFFFFD700),
+                                ),
+                              ),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: TextButton(
+                                    onPressed: () =>
+                                        setState(() => showSignup = false),
+                                    child: const Text(
+                                      "Login",
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: TextButton(
+                                    onPressed: () =>
+                                        setState(() => showSignup = true),
+                                    child: const Text(
+                                      "Signup",
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
                       ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: TextButton(
-                            onPressed: () => setState(() => showSignup = false),
-                            child: const Text("Login"),
-                          ),
-                        ),
-                        Expanded(
-                          child: TextButton(
-                            onPressed: () => setState(() => showSignup = true),
-                            child: const Text("Signup"),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
+                      const SizedBox(height: 20),
+                      showSignup ? _buildSignupForm() : _buildLoginForm(),
+                    ],
+                  ),
                 ),
               ),
-              const SizedBox(height: 20),
-              showSignup ? _buildSignupForm() : _buildLoginForm(),
-            ],
-          ),
-        ),
+            ),
+          );
+        },
       ),
     );
   }
