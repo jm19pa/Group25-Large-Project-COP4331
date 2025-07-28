@@ -38,3 +38,4 @@ npm install jwt-decode
 npm install nodemailer
 npm install mongoose
 npm install @sendgrid/mail
+npm install --save-dev jest supertest
