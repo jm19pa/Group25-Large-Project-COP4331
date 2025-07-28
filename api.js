@@ -316,8 +316,8 @@ app.post("/api/Verify", async (req, res) => {
       subject: 'Your PocketProf Verification Code',
       text: `Your verification code is ${verificationCode}. It will expire in 15 minutes.`,
     };
-    await sgMail.send(msg);
 
+    await sgMail.send(msg);
 
     return res.status(200).json({ success: true, message: "Verification code sent" });
 
@@ -356,7 +356,7 @@ app.post("/api/updatePassword", async (req, res) => {
     await db.collection("Users").updateOne(
       { Email: email.toLowerCase() },
       {
-        $set: { password: hashedPassword },
+        $set: { Password: hashedPassword },
         $unset: { VerificationCode: "", CodeExpires: "" }
       }
     );
