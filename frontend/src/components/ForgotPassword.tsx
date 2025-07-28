@@ -44,39 +44,75 @@ const ForgotPassword: React.FC = () => {
         }
     };
 
-    return (
-        <div className="center-screen">
-            <form onSubmit={handleSubmit} className="form-container">
-                <h2 className="form-title">Reset Your Password</h2>
+    
+    async function handleSendCode(event: React.MouseEvent) {
+    event.preventDefault();
+    const obj = { email };
 
+    try {
+        const response = await fetch(buildPath('api/Verify'), {
+        method: 'POST',
+        body: JSON.stringify(obj),
+        headers: { 'Content-Type': 'application/json' },
+        });
+
+        const res = await response.json();
+
+        if (res.success) {
+        alert('Verification code sent to ' + email);
+        } else {
+        alert('Failed to send code: ' + res.error);
+        }
+    } catch (error: any) {
+        alert('An error occurred: ' + error.message);
+    }
+    }
+
+    return (
+        <div className="container">
+            <h1>Forgot your password?</h1>
+
+            <p>Enter your email here</p>
+            <div className="input_div">
+                <label className="text" id='email'>Email</label>
                 <input
-                    type="email"
+                    className="input"
+                    type="text"
                     placeholder="Enter your email"
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={e => setEmail(e.target.value)}
                     required
-                    className="input-field"
                 />
+            </div>
+            <button type="submit" className="buttons" onClick={handleSendCode}>Send Code</button>
+            <p>Enter the 6-digit code sent to <strong>{email}</strong></p>
+            <form onSubmit={handleSubmit}>
+                <div className='input_div'>
+                    <label className='text' id='verification'>Verification Code</label>
+                    <input
+                        className='input'
+                        type='text'
+                        inputMode='numeric'
+                        pattern='[0-9]{6}'
+                        maxLength={6}
+                        placeholder='######'
+                        value={verificationCode}
+                        onChange={(e) => setVerificationCode(e.target.value)}
+                    />
+                </div>
 
-                <input
-                    type="text"
-                    placeholder="Verification code"
-                    value={verificationCode}
-                    onChange={(e) => setVerificationCode(e.target.value)}
-                    required
-                    className="input-field"
-                />
+                <div className='input_div'>
+                    <label className='text' id='verification'>New Password</label>
+                    <input
+                        className='input'
+                        type='password'
+                        placeholder='Create new password'
+                        value={newPassword}
+                        onChange={(e) => setNewPassword(e.target.value)}
+                    />
+                </div>
 
-                <input
-                    type="password"
-                    placeholder="New password"
-                    value={newPassword}
-                    onChange={(e) => setNewPassword(e.target.value)}
-                    required
-                    className="input-field"
-                />
-
-                <button type="submit" className="submit-button">
+                <button type="submit" className="buttons" onClick={handleSubmit}>
                     Update Password
                 </button>
 
