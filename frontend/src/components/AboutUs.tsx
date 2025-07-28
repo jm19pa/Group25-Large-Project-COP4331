@@ -10,31 +10,31 @@ const AboutUs: React.FC = () => {
         {
           name: 'David Gusmao',
           title: 'Project Manager',
-          image: '/images/DavidGusmao.png',
+          image: '/images/DavidGusmao.webp',
           contributions: 'Name & Website Theming, All Cards, All Art, Powerpoint, Gantt Chart, Recourse Allocation, Droplet, Domain',
         },
         {
           name: 'Tyler Tran',
           title: 'Database Management',
-          image: '/images/TylerTran.png',
+          image: '/images/TylerTran.webp',
           contributions: 'SendGrid implementation, Unit testing, MongoDB Setup, ENV Setup, Yaml Setup',
         },
         {
           name: 'Tyler Takimoto',
           title: 'Frontend Development',
-          image: '/images/TylerTakimoto.png',
+          image: '/images/TylerTakimoto.webp',
           contributions: 'Website Design, Flutter Setup, Mobile Development, Mobile Design',
         },
         {
           name: 'Juan Pinero',
           title: 'Frontend Development',
-          image: '/images/JuanoPinero.png',
+          image: '/images/JuanoPinero.webp',
           contributions: 'Website Design, Mobile Development, API Assistance, PowerPoint Assistance',
         },
         {
           name: 'Andrew Chambers',
           title: 'API Development',
-          image: '/images/AndrewChambers.png',
+          image: '/images/AndrewChambers.webp',
           contributions: 'API Design, Sever Setup, API Setup, API Testing, API Documentation',
         },
       ].map((person, index) => (
