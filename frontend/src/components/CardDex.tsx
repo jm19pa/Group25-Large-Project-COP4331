@@ -29,10 +29,10 @@ function DexPage() {
     "OnlineOliverEX.png", "RecordReggieEX.png", "ZacharyCoreEX.png", "TextbookTerryEX.png",
     "FinalFrankEX.png", "GrettaPAnderson.png", "MorrelMiddleson.png", "ProfessorPythor.png",
     "LeonardoLeeve.png", "OpenOrpheus.png", "NedNightly.png", "CrazyCarlos.png",
-    "TeddTalkerson.png", "StuckStan.png", "RickleEX.png", "LateLenny.png",
+    "TeddTalkerson.png", "StuckStan.png", "LateLenny.png",
     "AshLeep.png", "MrPappas.png", "RuthMyaProsef.png", "WithdrawalDate.png",
     "StudyRoom.png", "StudyGroup.png", "MyUCF.png", "EnergyDrink.png",
-    "PiggyBank.png", "BadTextbook.png", "SpiritSplash.png"
+    "PiggyBank.png", "BadTextbook.png", "SpiritSplash.png", "RickleEX.png"
   ];
 
   useEffect(() => {
