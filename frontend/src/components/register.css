@@ -345,4 +345,10 @@ input:checked+.slider:before {
         margin: 0px;
         font-size: xx-small;
     }
+
+    #forgot_password_visibility{
+        position: absolute;
+        right: 160px;
+        top: 569px;
+    }
 }
