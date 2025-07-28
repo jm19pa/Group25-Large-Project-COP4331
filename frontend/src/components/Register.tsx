@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './register.css'
 // import { build } from 'vite';
 import { buildPath } from './Path';
-import { storeToken, retrieveToken } from '../tokenStorage';
+import { storeToken} from '../tokenStorage';
 import { jwtDecode } from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
 
@@ -70,7 +70,6 @@ const Register: React.FC = () => {
         const contains_special_character = special_characters.some(char => value.includes(char));
 
         if(!contains_special_character){
-            console.log("Password does not contain a special character");
             label.classList.add("label_error")
             input.classList.add("input_error")
             setError("Make sure password contains a special character, ex: !, @, &")
@@ -104,19 +103,19 @@ const Register: React.FC = () => {
 
             const res = JSON.parse(await response.text());
 
-            console.log("🟢 Login response:", res);
+            // console.log("🟢 Login response:", res);
 
             const jwtToken = res.jwtToken;
             if (!jwtToken) {
-                console.log("❌ No jwtToken in response.");
+                // console.log("❌ No jwtToken in response.");
                 postMessage('User/Password combination incorrect');
                 return;
             }
 
             // Store token as a simple string, NOT as an object
             storeToken(jwtToken);
-            console.log("✅ Stored token:", jwtToken);
-            console.log("🔍 Immediately after storing:", retrieveToken());
+            // console.log("✅ Stored token:", jwtToken);
+            // console.log("🔍 Immediately after storing:", retrieveToken());
 
             const decoded = jwtDecode<DecodedToken>(jwtToken);
             const userId = decoded.userId;
@@ -213,7 +212,7 @@ const Register: React.FC = () => {
             {showSignup ? (
                 <form className="signup_input fade-in-left" onSubmit={doRegister}>
 
-                    <h3>Create an account</h3>
+                    {/* <h3>Create an account</h3> */}
 
                     <div className="input_div">
                         <label className="text" id="username_label">Username</label>
@@ -261,8 +260,6 @@ const Register: React.FC = () => {
                 </form>
             ) : (
                 <div className="login_page fade-in-right">
-
-                    <h3>Login to existing account</h3>
 
                     <div className="input_div">
                         <label className="text" id="username_label">Username</label>

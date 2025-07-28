@@ -22,17 +22,17 @@ function DexPage() {
   const navigate = useNavigate();
 
   const cardFilenames = [
-    "TheGorillaEX.png", "KnightroEX.png", "CitronautEX.png", "TouchGrass.png",
-    "DavidGusmao.png", "JuanoPinero.png", "TylerTran.png", "TylerTakimoto.png",
-    "AndrewChambers.png", "MrPappasSHINY.png", "GUHAEX.png", "BurgerEX.png",
-    "GerbEX.png", "AhmedEX.png", "AlaGazzamEX.png", "DuckerEX.png", "McalpinEX.png",
-    "OnlineOliverEX.png", "RecordReggieEX.png", "ZacharyCoreEX.png", "TextbookTerryEX.png",
-    "FinalFrankEX.png", "GrettaPAnderson.png", "MorrelMiddleson.png", "ProfessorPythor.png",
-    "LeonardoLeeve.png", "OpenOrpheus.png", "NedNightly.png", "CrazyCarlos.png",
-    "TeddTalkerson.png", "StuckStan.png", "LateLenny.png",
-    "AshLeep.png", "MrPappas.png", "RuthMyaProsef.png", "WithdrawalDate.png",
-    "StudyRoom.png", "StudyGroup.png", "MyUCF.png", "EnergyDrink.png",
-    "PiggyBank.png", "BadTextbook.png", "SpiritSplash.png", "RickleEX.png"
+    "TheGorillaEX.webp", "KnightroEX.webp", "CitronautEX.webp", "TouchGrass.webp",
+    "DavidGusmao.webp", "JuanoPinero.webp", "TylerTran.webp", "TylerTakimoto.webp",
+    "AndrewChambers.webp", "MrPappasSHINY.webp", "GUHAEX.webp", "BurgerEX.webp",
+    "GerbEX.webp", "AhmedEX.webp", "AlaGazzamEX.webp", "DuckerEX.webp", "McalpinEX.webp",
+    "OnlineOliverEX.webp", "RecordReggieEX.webp", "ZacharyCoreEX.webp", "TextbookTerryEX.webp",
+    "FinalFrankEX.webp", "GrettaPAnderson.webp", "MorrelMiddleson.webp", "ProfessorPythor.webp",
+    "LeonardoLeeve.webp", "OpenOrpheus.webp", "NedNightly.webp", "CrazyCarlos.webp",
+    "TeddTalkerson.webp", "StuckStan.webp", "LateLenny.webp",
+    "AshLeep.webp", "MrPappas.webp", "RuthMyaProsef.webp", "WithdrawalDate.webp",
+    "StudyRoom.webp", "StudyGroup.webp", "MyUCF.webp", "EnergyDrink.webp",
+    "PiggyBank.webp", "BadTextbook.webp", "SpiritSplash.webp", "RickleEX.webp"
   ];
 
   useEffect(() => {
@@ -61,7 +61,7 @@ function DexPage() {
         if (!ownedData.error && Array.isArray(ownedData.cards)) {
           const ownedSet = new Set(
             ownedData.cards.map((c: string) =>
-              c.toLowerCase().endsWith('.png') ? c : `${c}.png`
+              c.toLowerCase().endsWith('.webp') ? c : `${c}.webp`
             )
           );
 
@@ -72,6 +72,7 @@ function DexPage() {
           if (refreshed) localStorage.setItem("token_data", refreshed);
         } else {
           console.error("Owned cards error:", ownedData.error);
+        //   navigate('/register');
         }
 
         // Fetch unowned cards
@@ -86,7 +87,7 @@ function DexPage() {
         if (!unownedData.error && Array.isArray(unownedData.missingCards)) {
           const unownedSet = new Set(
             unownedData.missingCards.map((c: string) =>
-              c.toLowerCase().endsWith('.png') ? c : `${c}.png`
+              c.toLowerCase().endsWith('.webp') ? c : `${c}.webp`
             )
           );
 
@@ -97,6 +98,7 @@ function DexPage() {
           if (refreshed2) localStorage.setItem("token_data", refreshed2);
         } else {
           console.error("Unowned cards error:", unownedData.error);
+        //   navigate('/register');
         }
 
       } catch (err) {

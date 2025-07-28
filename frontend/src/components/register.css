@@ -132,7 +132,7 @@
 .input_div img{
     position: absolute;
     right: 35px;
-    top: 172px;
+    top: 127px;
 }
 
 /* Styling whenever we get an error */
@@ -240,9 +240,9 @@ input:checked+.slider:before {
 
 .password_requirements{
     position: absolute;
-    top: 207px;
+    top: 158px;
     margin: 0px;
-    font-size: x-small;
+    font-size: xx-small;
 }
 
 @keyframes fadeInLeft {
@@ -304,7 +304,7 @@ input:checked+.slider:before {
     .input_div img{
         position: absolute;
         right: 28px;
-        top: 166px;
+        top: 111px;
     }
 
 
@@ -341,7 +341,7 @@ input:checked+.slider:before {
 
     .password_requirements{
         position: absolute;
-        top: 200px;
+        top: 142px;
         margin: 0px;
         font-size: xx-small;
     }

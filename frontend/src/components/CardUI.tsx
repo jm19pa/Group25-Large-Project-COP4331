@@ -29,7 +29,7 @@ function CardUI()
     }
 async function addCard(e: any): Promise<void> {
   e.preventDefault();
-  console.log('Retrieved token before sending:', token);
+//   console.log('Retrieved token before sending:', token);
 
   var obj = { userId: userId, card: card, jwtToken: token};
   var js = JSON.stringify(obj);
@@ -49,7 +49,7 @@ async function addCard(e: any): Promise<void> {
       setMessage('Card has been added');
     if (res.jwtToken) {
     storeToken(res.jwtToken);
-    console.log('Stored refreshed token:', res.jwtToken);
+    // console.log('Stored refreshed token:', res.jwtToken);
 }
  
     }

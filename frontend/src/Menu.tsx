@@ -60,13 +60,13 @@ const Menu: React.FC = () => {
         </div>
         <div>
           <a href="/cardDex">
-            <img src="/images/dex.svg" alt="Card Dex" className="menu-icon" />
+            <img src="/images/dex.svg" alt="Dex" className="menu-icon" />
             Card Dex
           </a>
         </div>
         <div>
           <a href="/aboutPage">
-            <img src="/images/info.svg" alt="About Us" className="menu-icon" />
+            <img src="/images/info.svg" alt="About" className="menu-icon" />
             About Us
           </a>
         </div>

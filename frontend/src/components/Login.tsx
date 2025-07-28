@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { buildPath } from './Path';
-import { storeToken , retrieveToken } from '../tokenStorage';
+import { storeToken } from '../tokenStorage';
 import { jwtDecode } from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
 
@@ -41,19 +41,19 @@ async function doLogin(event: any): Promise<void> {
 
     const res = JSON.parse(await response.text());
 
-    console.log("🟢 Login response:", res);
+    // console.log("🟢 Login response:", res);
 
     const jwtToken = res.jwtToken;
     if (!jwtToken) {
-      console.log("❌ No jwtToken in response.");
+    //   console.log("❌ No jwtToken in response.");
       setMessage('User/Password combination incorrect');
       return;
     }
 
     // Store token as a simple string, NOT as an object
     storeToken(jwtToken);
-    console.log("✅ Stored token:", jwtToken);
-    console.log("🔍 Immediately after storing:", retrieveToken());
+    // console.log("✅ Stored token:", jwtToken);
+    // console.log("🔍 Immediately after storing:", retrieveToken());
 
     const decoded = jwtDecode<DecodedToken>(jwtToken);
     const userId = decoded.userId;

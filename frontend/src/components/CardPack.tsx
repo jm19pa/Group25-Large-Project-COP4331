@@ -42,7 +42,7 @@ const CardPack: React.FC = () => {
 
         const packName = "BaseSet";
 
-        console.log('Sending to API:', { userId, jwtToken, packName });
+        // console.log('Sending to API:', { userId, jwtToken, packName });
 
         try {
             const response = await fetch(`${API_BASE}/api/openPack`, {
@@ -58,7 +58,7 @@ const CardPack: React.FC = () => {
             }
 
             const result = JSON.parse(text);
-            console.log('Raw result:', result);
+            // console.log('Raw result:', result);
 
             if (result.error) {
                 console.error("Pack error:", result.error);
@@ -70,7 +70,7 @@ const CardPack: React.FC = () => {
 
             // result.addedCards = [{ Card: 'RickleEX', Rarity: 3 }, ...]
             const cardNames: string[] = result.addedCards.map((c: any) => c.Card);
-            console.log("Cards received:", cardNames);
+            // console.log("Cards received:", cardNames);
             return cardNames;
         } catch (err) {
             console.error("Network or parsing error:", err);
@@ -116,7 +116,7 @@ setTimeout(() => setCooldown(false), 10000); // unlock after 10s
             await Promise.all(cards.map((cardName) => {
                 return new Promise<void>((resolve) => {
                     const img = new Image();
-                    img.src = `/images/${cardName}.png`;
+                    img.src = `/images/${cardName}.webp`;
                     img.onload = () => resolve();
                     img.onerror = () => resolve();
                 });
@@ -185,7 +185,7 @@ setTimeout(() => setCooldown(false), 10000); // unlock after 10s
                         {cardImages.map((cardName, i) => (
                             <img
                                 key={i}
-                                src={`/images/${cardName}.png`}
+                                src={`/images/${cardName}.webp`}
                                 className={`fan ${i === 0 ? "left" : i === 1 ? "center" : "right"}`}
                                 alt={`Card ${i}`}
                                 style={{
