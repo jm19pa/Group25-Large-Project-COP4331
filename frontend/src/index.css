@@ -23,7 +23,7 @@
     --border-muted: hsl(300 0% 18%);
     --primary: #FFD700;
     --primary-muted: hsl(48.21, 100%, 43.92%);
-    --danger: hsl(9 26% 64%);
+    --danger: hsl(0, 100%, 50%);
     --warning: hsl(52 19% 57%);
     --success: hsl(146 17% 59%);
     --info: hsl(217 28% 65%);
