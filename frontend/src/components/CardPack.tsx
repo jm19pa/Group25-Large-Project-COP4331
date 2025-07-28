@@ -8,6 +8,9 @@ const CardPack: React.FC = () => {
     const [showPoof, setShowPoof] = useState(false);
     const [cardImages, setCardImages] = useState<string[]>([]);
     const [showCards, setShowCards] = useState(false);
+    const [cooldown, setCooldown] = useState(false);
+    const [countdown, setCountdown] = useState<number>(0);
+
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -80,41 +83,57 @@ const CardPack: React.FC = () => {
     }
 
     const handleClick = async () => {
-        setShaking(true);
-        setShowCards(false);
+    if (cooldown) return;
 
-        setTimeout(() => {
-            setShaking(false);
-            setShowPoof(true);
-        }, 600);
+    setCooldown(true);
+setCountdown(10); // start at 10 seconds
 
-        // Fetch card names at the same time as poof
-        setTimeout(async () => {
-            try {
-                const cards = await openCardPack();
+const intervalId = setInterval(() => {
+  setCountdown(prev => {
+    if (prev <= 1) {
+      clearInterval(intervalId);
+      return 0;
+    }
+    return prev - 1;
+  });
+}, 1000);
 
-                // Preload all card images
-                await Promise.all(cards.map((cardName) => {
-                    return new Promise<void>((resolve) => {
-                        const img = new Image();
-                        img.src = `/images/${cardName}.png`;
-                        img.onload = () => resolve();
-                        img.onerror = () => resolve(); // still resolve on error
-                    });
-                }));
+setTimeout(() => setCooldown(false), 10000); // unlock after 10s
 
-                // Only show cards after all images are loaded
-                setCardImages(cards);
-                setShowCards(true);
-            } catch (err) {
-                console.error("Failed to open pack:", err);
-            }
-        }, 600);
 
-        setTimeout(() => {
-            setShowPoof(false);
-        }, 1400);
-    };
+    setShaking(true);
+    setShowCards(false);
+
+    setTimeout(() => {
+        setShaking(false);
+        setShowPoof(true);
+    }, 600);
+
+    setTimeout(async () => {
+        try {
+            const cards = await openCardPack();
+
+            await Promise.all(cards.map((cardName) => {
+                return new Promise<void>((resolve) => {
+                    const img = new Image();
+                    img.src = `/images/${cardName}.png`;
+                    img.onload = () => resolve();
+                    img.onerror = () => resolve();
+                });
+            }));
+
+            setCardImages(cards);
+            setShowCards(true);
+        } catch (err) {
+            console.error("Failed to open pack:", err);
+        }
+    }, 600);
+
+    setTimeout(() => {
+        setShowPoof(false);
+    }, 1400);
+};
+
 
 
 
@@ -124,18 +143,20 @@ const CardPack: React.FC = () => {
 
             <div style={{ position: 'relative', display: 'inline-block' }}>
                 <img
-                    src="/images/card.jpg"
-                    alt="Card Pack"
-                    height={282}
-                    width={200}
-                    onClick={handleClick}
-                    className={shaking ? 'shake' : ''}
-                    style={{
-                        cursor: 'pointer',
-                        position: 'relative',
-                        zIndex: 2
-                    }}
-                />
+  src="/images/card.jpg"
+  alt="Card Pack"
+  height={282}
+  width={200}
+  onClick={handleClick}
+  className={shaking ? 'shake' : ''}
+  style={{
+    cursor: cooldown ? 'not-allowed' : 'pointer',
+    opacity: cooldown ? 0.5 : 1,
+    position: 'relative',
+    zIndex: 2
+  }}
+/>
+
 
 
                 {showPoof && (
@@ -179,6 +200,13 @@ const CardPack: React.FC = () => {
                 )}
 
             </div>
+
+            {cooldown && (
+  <div style={{ marginTop: '8px', fontWeight: 'bold', fontSize: '18px' }}>
+    Cooldown Untill Next Pull: {countdown}s
+  </div>
+)}
+
             <br />
             <button type="submit" className="buttons" onClick={goToCardDex} style={{ marginTop: 10 }}>Card Dex</button>
         </div>
