@@ -33,13 +33,13 @@ const EmailVerification: React.FC = () => {
       const res = await response.json();
 
       if (res.success) {
-        alert('Email verified successfully!');
+        // alert('Email verified successfully!');
         navigate('/login');
       } else {
-        alert('Verification failed: ' + res.error);
+        // alert('Verification failed: ' + res.error);
       }
     } catch (error: any) {
-      alert('An error occurred: ' + error.message);
+    //   alert('An error occurred: ' + error.message);
     }
   }
 
@@ -57,12 +57,12 @@ const EmailVerification: React.FC = () => {
       const res = await response.json();
 
       if (res.success) {
-        alert('Verification code sent to ' + email);
+        // alert('Verification code sent to ' + email);
       } else {
-        alert('Failed to send code: ' + res.error);
+        // alert('Failed to send code: ' + res.error);
       }
     } catch (error: any) {
-      alert('An error occurred: ' + error.message);
+    //   alert('An error occurred: ' + error.message);
     }
   }
 
