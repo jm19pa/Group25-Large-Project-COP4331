@@ -3,7 +3,7 @@
 import React, { useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { buildPath } from './Path';
-import './register.css'; // Keep or move styles as needed
+import './register.css';
 
 // const app_name = 'pocketprofessors.com';
 

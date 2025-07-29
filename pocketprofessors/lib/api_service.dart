@@ -1,10 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-
-
 class ApiService {
-  // final String baseUrl = 'http://10.0.2.2:5000'; // Use your PC's IP if on real device
   final String baseUrl = 'http://www.pocketprofessors.com:5000/api';
 
   Future<Map<String, dynamic>> login(String login, String password) async {
@@ -22,7 +19,11 @@ class ApiService {
   }
 
   Future<Map<String, dynamic>> register(
-      String login, String password, String firstName, String lastName) async {
+    String login,
+    String password,
+    String firstName,
+    String lastName,
+  ) async {
     final response = await http.post(
       Uri.parse('$baseUrl/api/register'),
       headers: {'Content-Type': 'application/json'},

@@ -73,7 +73,7 @@ class _CardDexPageState extends State<CardDexPage> {
     final token = prefs.getString("token");
 
     if (userRaw == null || token == null) {
-      print("Missing user_data or token for card dex");
+      // print("Missing user_data or token for card dex");
       if (context.mounted) {
         Navigator.pushReplacementNamed(context, '/register');
       }
@@ -92,11 +92,11 @@ class _CardDexPageState extends State<CardDexPage> {
 
       final ownedData = jsonDecode(ownedRes.body);
 
-      print("decoded ownedData");
-      print("OwnedData = " + ownedData.toString());
+      // print("decoded ownedData");
+      // print("OwnedData = " + ownedData.toString());
 
       if (ownedData["error"] != null && ownedData["cards"] is List) {
-        print("Went into first if statement");
+        // print("Went into first if statement");
         final ownedSet = Set<String>.from(
           (ownedData["cards"] as List).map(
             (c) => c.toString().endsWith(".png") ? c : "$c.png",
@@ -125,10 +125,10 @@ class _CardDexPageState extends State<CardDexPage> {
 
       final unownedData = jsonDecode(unownedRes.body);
 
-      print("decoded unownedData");
+      // print("decoded unownedData");
 
       if (unownedData["error"] != null && unownedData["missingCards"] is List) {
-        print("Went into second if statement");
+        // print("Went into second if statement");
         final unownedSet = Set<String>.from(
           (unownedData["missingCards"] as List).map(
             (c) => c.toString().endsWith(".png") ? c : "$c.png",
@@ -148,7 +148,7 @@ class _CardDexPageState extends State<CardDexPage> {
         }
       }
     } catch (e) {
-      print("API error: $e");
+      // print("API error: $e");
     }
   }
 

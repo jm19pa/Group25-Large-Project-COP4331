@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const API_BASE = 'http://pocketprofessors.com:5000'; // <- use your backend URL (or env var)
+const API_BASE = 'http://pocketprofessors.com:5000';
 
 const CardPack: React.FC = () => {
     const [shaking, setShaking] = useState(false);
@@ -83,59 +83,56 @@ const CardPack: React.FC = () => {
     }
 
     const handleClick = async () => {
-    if (cooldown) return;
+        if (cooldown) return;
 
-    setCooldown(true);
-setCountdown(10); // start at 10 seconds
+        setCooldown(true);
+        setCountdown(10); // start at 10 seconds
 
-const intervalId = setInterval(() => {
-  setCountdown(prev => {
-    if (prev <= 1) {
-      clearInterval(intervalId);
-      return 0;
-    }
-    return prev - 1;
-  });
-}, 1000);
+        const intervalId = setInterval(() => {
+            setCountdown(prev => {
+                if (prev <= 1) {
+                    clearInterval(intervalId);
+                    return 0;
+                }
+                return prev - 1;
+            });
+        }, 1000);
 
-setTimeout(() => setCooldown(false), 10000); // unlock after 10s
-
-
-    setShaking(true);
-    setShowCards(false);
-
-    setTimeout(() => {
-        setShaking(false);
-        setShowPoof(true);
-    }, 600);
-
-    setTimeout(async () => {
-        try {
-            const cards = await openCardPack();
-
-            await Promise.all(cards.map((cardName) => {
-                return new Promise<void>((resolve) => {
-                    const img = new Image();
-                    img.src = `/images/${cardName}.webp`;
-                    img.onload = () => resolve();
-                    img.onerror = () => resolve();
-                });
-            }));
-
-            setCardImages(cards);
-            setShowCards(true);
-        } catch (err) {
-            console.error("Failed to open pack:", err);
-        }
-    }, 600);
-
-    setTimeout(() => {
-        setShowPoof(false);
-    }, 1400);
-};
+        setTimeout(() => setCooldown(false), 10000); // unlock after 10s
 
 
+        setShaking(true);
+        setShowCards(false);
 
+        setTimeout(() => {
+            setShaking(false);
+            setShowPoof(true);
+        }, 600);
+
+        setTimeout(async () => {
+            try {
+                const cards = await openCardPack();
+
+                await Promise.all(cards.map((cardName) => {
+                    return new Promise<void>((resolve) => {
+                        const img = new Image();
+                        img.src = `/images/${cardName}.webp`;
+                        img.onload = () => resolve();
+                        img.onerror = () => resolve();
+                    });
+                }));
+
+                setCardImages(cards);
+                setShowCards(true);
+            } catch (err) {
+                console.error("Failed to open pack:", err);
+            }
+        }, 600);
+
+        setTimeout(() => {
+            setShowPoof(false);
+        }, 1400);
+    };
 
     return (
         <div>
@@ -143,19 +140,19 @@ setTimeout(() => setCooldown(false), 10000); // unlock after 10s
 
             <div style={{ position: 'relative', display: 'inline-block' }}>
                 <img
-  src="/images/card.jpg"
-  alt="Card Pack"
-  height={282}
-  width={200}
-  onClick={handleClick}
-  className={shaking ? 'shake' : ''}
-  style={{
-    cursor: cooldown ? 'not-allowed' : 'pointer',
-    opacity: cooldown ? 0.5 : 1,
-    position: 'relative',
-    zIndex: 2
-  }}
-/>
+                    src="/images/card.jpg"
+                    alt="Card Pack"
+                    height={282}
+                    width={200}
+                    onClick={handleClick}
+                    className={shaking ? 'shake' : ''}
+                    style={{
+                        cursor: cooldown ? 'not-allowed' : 'pointer',
+                        opacity: cooldown ? 0.5 : 1,
+                        position: 'relative',
+                        zIndex: 2
+                    }}
+                />
 
 
 
@@ -174,7 +171,7 @@ setTimeout(() => setCooldown(false), 10000); // unlock after 10s
                             pointerEvents: 'none',
                             opacity: 1,
                             animation: 'poofFade 0.8s ease-out forwards',
-                            zIndex: 5 // ⬅️ Now poof is in front of cards & pack
+                            zIndex: 5
                         }}
                     />
                 )}
@@ -202,10 +199,10 @@ setTimeout(() => setCooldown(false), 10000); // unlock after 10s
             </div>
 
             {cooldown && (
-  <div style={{ marginTop: '8px', fontWeight: 'bold', fontSize: '18px' }}>
-    Cooldown Untill Next Pull: {countdown}s
-  </div>
-)}
+                <div style={{ marginTop: '8px', fontWeight: 'bold', fontSize: '18px' }}>
+                    Cooldown Untill Next Pull: {countdown}s
+                </div>
+            )}
 
             <br />
             <button type="submit" className="buttons" onClick={goToCardDex} style={{ marginTop: 10 }}>Card Dex</button>

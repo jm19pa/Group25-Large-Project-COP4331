@@ -3,7 +3,8 @@
     top: 0;
     left: 0;
     height: 100%;
-    width: 0; /* collapse the container since menu is positioned independently */
+    width: 0;
+    /* collapse the container since menu is positioned independently */
     z-index: 1000;
 }
 
@@ -19,7 +20,9 @@
 }
 
 /* Bars */
-.bar1, .bar2, .bar3 {
+.bar1,
+.bar2,
+.bar3 {
     width: 35px;
     height: 5px;
     background-color: var(--primary);
@@ -31,9 +34,11 @@
 .change .bar1 {
     transform: translate(0px, 9px) rotate(-45deg);
 }
+
 .change .bar2 {
     opacity: 0;
 }
+
 .change .bar3 {
     transform: translate(0px, -11px) rotate(45deg);
 }
@@ -80,28 +85,28 @@
     pointer-events: auto;
 }
 
-a{
+a {
     color: hsl(300 0% 78%);
 }
 
-a:hover{
+a:hover {
     color: hsl(300 0% 53%);
 }
 
-#logout{
+#logout {
     cursor: pointer;
     color: hsl(0, 100%, 50%);
 }
 
-#logout:hover{
+#logout:hover {
     color: hsl(0, 100%, 25%);
 }
 
 .menu-icon {
-  width: 20px;
-  height: 20px;
-  margin-right: 10px;
-  vertical-align: middle;
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    vertical-align: middle;
 }
 
 
@@ -110,7 +115,9 @@ a:hover{
         width: 120px;
     }
 
-    .bar1, .bar2, .bar3 {
+    .bar1,
+    .bar2,
+    .bar3 {
         width: 24px;
         height: 3px;
     }
@@ -119,9 +126,11 @@ a:hover{
     .change .bar1 {
         transform: translate(0px, 7px) rotate(-45deg);
     }
+
     .change .bar2 {
         opacity: 0;
     }
+
     .change .bar3 {
         transform: translate(0px, -9px) rotate(45deg);
     }

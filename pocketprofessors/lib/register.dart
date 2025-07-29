@@ -34,19 +34,17 @@ Future<void> doLogin(
 
   try {
     final res = await http.post(
-      Uri.parse(
-        'http://www.pocketprofessors.com/api/login',
-      ), // change to buildPath
+      Uri.parse('http://www.pocketprofessors.com/api/login'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode(obj),
     );
 
     final body = jsonDecode(res.body);
-    debugPrint("🟢 Login response: $body");
+    // debugPrint("Login response: $body");
 
     final jwtToken = body['jwtToken'];
     if (jwtToken == null) {
-      debugPrint("❌ No jwtToken in response.");
+      // debugPrint("No jwtToken in response.");
       showDialog(
         context: context,
         builder: (_) => AlertDialog(
@@ -59,7 +57,7 @@ Future<void> doLogin(
 
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('token', jwtToken);
-    debugPrint("✅ Stored token: $jwtToken");
+    // debugPrint("Stored token: $jwtToken");
 
     final decoded = JwtDecoder.decode(jwtToken);
     final userId = decoded['userId'];
@@ -67,8 +65,6 @@ Future<void> doLogin(
     final lastName = decoded['lastName'];
 
     if (userId == "") {
-      // change later
-      // WE ARE CRASHING HERE
       showDialog(
         context: context,
         builder: (_) => AlertDialog(
@@ -83,7 +79,7 @@ Future<void> doLogin(
         'id': userId,
       };
       await prefs.setString('user_data', jsonEncode(userData));
-      debugPrint("🔍 Stored user: $userData");
+      // debugPrint("🔍 Stored user: $userData");
 
       // Navigate to pack page
       Navigator.pushReplacement(
@@ -92,7 +88,7 @@ Future<void> doLogin(
       );
     }
   } catch (e) {
-    debugPrint("❗ Login error: $e");
+    // debugPrint("Login error: $e");
     showDialog(
       context: context,
       builder: (_) =>
@@ -149,13 +145,12 @@ Future<void> doRegister(
   required String firstName,
   required String lastName,
 }) async {
-  // Basic blank check (you can expand this like your checkBlank function)
   if (login.isEmpty ||
       password.isEmpty ||
       email.isEmpty ||
       firstName.isEmpty ||
       lastName.isEmpty) {
-    print("Please fill in all fields.");
+    // print("Please fill in all fields.");
     return;
   }
 
@@ -175,13 +170,13 @@ Future<void> doRegister(
       body: body,
     );
 
-    print("Response Code: ${response.statusCode}");
-    print("Response Body: ${response.body}");
+    // print("Response Code: ${response.statusCode}");
+    // print("Response Body: ${response.body}");
 
     final res = jsonDecode(response.body);
 
     if (res["error"] != "") {
-      print("Registration Error: ${res["error"]}");
+      // print("Registration Error: ${res["error"]}");
     } else {
       // Save data to local storage
       final userData = {
@@ -202,7 +197,7 @@ Future<void> doRegister(
       );
     }
   } catch (e) {
-    print("Exception during registration: $e");
+    // print("Exception during registration: $e");
   }
 }
 

@@ -8,8 +8,8 @@ import Menu from './Menu.tsx'
 
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <Menu />
-    <App />
-  </StrictMode>,
+    <StrictMode>
+        <Menu />
+        <App />
+    </StrictMode>,
 )

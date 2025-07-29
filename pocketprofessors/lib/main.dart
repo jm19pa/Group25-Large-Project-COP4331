@@ -40,7 +40,7 @@ class LandingPage extends StatelessWidget {
         body: Container(
           width: double.infinity,
           height: double.infinity,
-          color: Color(0xFF030303), // solid dark background
+          color: Color(0xFF030303),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,

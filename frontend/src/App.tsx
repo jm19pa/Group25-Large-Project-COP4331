@@ -11,20 +11,20 @@ import AboutUsPage from './pages/AboutUsPage';
 
 
 
-function App() {    
+function App() {
     return (
-    <Router>
-        <Routes>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-            <Route path="/pack" element={<PackPage />} />
-            <Route path="/verify" element={<EmailVerificationPage />} />
-            <Route path="/forgot" element={<ForgotPasswordPage />} />
-            <Route path="/cardDex" element={<CardDexPage />} />
-            <Route path="/aboutPage" element={<AboutUsPage />} />
-            <Route path="*" element={<Navigate to="/" />} /> {/* this should be at the bottom */}
-        </Routes>
-    </Router>
+        <Router>
+            <Routes>
+                <Route path="/" element={<LandingPage />} />
+                <Route path="/register" element={<RegisterPage />} />
+                <Route path="/pack" element={<PackPage />} />
+                <Route path="/verify" element={<EmailVerificationPage />} />
+                <Route path="/forgot" element={<ForgotPasswordPage />} />
+                <Route path="/cardDex" element={<CardDexPage />} />
+                <Route path="/aboutPage" element={<AboutUsPage />} />
+                <Route path="*" element={<Navigate to="/" />} /> {/* this should be at the bottom */}
+            </Routes>
+        </Router>
     );
 }
 export default App;

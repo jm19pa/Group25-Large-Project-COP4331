@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './register.css'
 // import { build } from 'vite';
 import { buildPath } from './Path';
-import { storeToken} from '../tokenStorage';
+import { storeToken } from '../tokenStorage';
 import { jwtDecode } from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
 
@@ -51,15 +51,15 @@ const Register: React.FC = () => {
         input.classList.remove("input_error");
 
         const string_length = value.length;
-        
-        if(string_length < 8){
+
+        if (string_length < 8) {
             label.classList.add("label_error")
             input.classList.add("input_error")
             setError("Make sure password is 8 to 20 characters")
             return false;
         }
 
-        if(string_length > 20){
+        if (string_length > 20) {
             label.classList.add("label_error")
             input.classList.add("input_error")
             setError("Make sure password is 8 to 20 characters")
@@ -69,7 +69,7 @@ const Register: React.FC = () => {
         const special_characters = ['!', '@', '#', '$', '%', '&', '*', '(', ')'];
         const contains_special_character = special_characters.some(char => value.includes(char));
 
-        if(!contains_special_character){
+        if (!contains_special_character) {
             label.classList.add("label_error")
             input.classList.add("input_error")
             setError("Make sure password contains a special character, ex: !, @, &")
@@ -85,11 +85,11 @@ const Register: React.FC = () => {
         setError("");
 
         let isBlank = false;
-        
-        if(checkBlank(login, "username_label", "username")) isBlank = true;
-        if(checkBlank(password, "password_label", "password")) isBlank = true;
 
-        if(isBlank) return;
+        if (checkBlank(login, "username_label", "username")) isBlank = true;
+        if (checkBlank(password, "password_label", "password")) isBlank = true;
+
+        if (isBlank) return;
 
         const obj = { login: login, password: password };
         const js = JSON.stringify(obj);
@@ -103,19 +103,19 @@ const Register: React.FC = () => {
 
             const res = JSON.parse(await response.text());
 
-            // console.log("🟢 Login response:", res);
+            // console.log("Login response:", res);
 
             const jwtToken = res.jwtToken;
             if (!jwtToken) {
-                // console.log("❌ No jwtToken in response.");
+                // console.log("No jwtToken in response.");
                 postMessage('User/Password combination incorrect');
                 return;
             }
 
             // Store token as a simple string, NOT as an object
             storeToken(jwtToken);
-            // console.log("✅ Stored token:", jwtToken);
-            // console.log("🔍 Immediately after storing:", retrieveToken());
+            // console.log("Stored token:", jwtToken);
+            // console.log("Immediately after storing:", retrieveToken());
 
             const decoded = jwtDecode<DecodedToken>(jwtToken);
             const userId = decoded.userId;
@@ -140,17 +140,17 @@ const Register: React.FC = () => {
         setError("");
 
         let isBlank = false;
-        
-        if(checkBlank(login, "username_label", "login")) isBlank = true;
-        if(checkBlank(password, "password_label", "password")) isBlank = true;
-        if(checkBlank(email, "email_label", "email")) isBlank = true;
-        if(checkBlank(firstName, "first_name_label", "first_name")) isBlank = true;
-        if(checkBlank(lastName, "last_name_label", "last_name")) isBlank = true;
 
-        if(isBlank) return;
+        if (checkBlank(login, "username_label", "login")) isBlank = true;
+        if (checkBlank(password, "password_label", "password")) isBlank = true;
+        if (checkBlank(email, "email_label", "email")) isBlank = true;
+        if (checkBlank(firstName, "first_name_label", "first_name")) isBlank = true;
+        if (checkBlank(lastName, "last_name_label", "last_name")) isBlank = true;
+
+        if (isBlank) return;
 
         // check password
-        if(!passwordComplexity(password, "password_label", "password")) return;
+        if (!passwordComplexity(password, "password_label", "password")) return;
 
         let obj = { login: login, firstName: firstName, lastName: lastName, password: password, email: email };
         let js = JSON.stringify(obj);
@@ -229,7 +229,7 @@ const Register: React.FC = () => {
                             height="20"
                             width="20"
                             onClick={togglePasswordVisibility}
-                            style={{cursor: "pointer"}} // can change to css
+                            style={{ cursor: "pointer" }} // can change to css
                         />
                         <p className='password_requirements'>Minimum of 8 characters with one special character</p>
                     </div>
@@ -276,7 +276,7 @@ const Register: React.FC = () => {
                             height="20"
                             width="20"
                             onClick={togglePasswordVisibility}
-                            style={{cursor: "pointer"}} // can change to css
+                            style={{ cursor: "pointer" }}
                         />
                         <a href='/forgot'>Forgot Password?</a>
 

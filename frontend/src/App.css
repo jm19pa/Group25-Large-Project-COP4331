@@ -1,223 +1,266 @@
-:root{
+:root {
     color-scheme: dark;
 }
 
 #root {
-  margin: 0 auto;
-  padding: 0px;
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
+    margin: 0 auto;
+    padding: 0px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
 }
 
 .card-spread {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 3; /* must be higher than poof and card pack */
-  display: flex;
-  gap: 20px;
-  pointer-events: none; /* so clicks pass through if needed */
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    /* must be higher than poof and card pack */
+    display: flex;
+    gap: 20px;
+    pointer-events: none;
+    /* so clicks pass through if needed */
 }
 
 .fan {
-  height: 250px;
-  width: auto;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-  opacity: 0;
-  transform: scale(0.8);
-  animation: fanOut 1.2s ease-out forwards;
+    height: 250px;
+    width: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    transform: scale(0.8);
+    animation: fanOut 1.2s ease-out forwards;
 }
 
 
 .fan.left {
-  transform: rotate(-10deg);
+    transform: rotate(-10deg);
 }
 
 .fan.center {
-  transform: scale(1.1);
+    transform: scale(1.1);
 }
 
 .fan.right {
-  transform: rotate(10deg);
+    transform: rotate(10deg);
 }
 
 
 @keyframes fanOut {
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 .logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+    height: 6em;
+    padding: 1.5em;
+    will-change: filter;
+    transition: filter 300ms;
 }
+
 .logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+    filter: drop-shadow(0 0 2em #646cffaa);
 }
+
 .logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+    filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
 @keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 @keyframes bounce {
-  0%   { transform: scale(1); }
-  30%  { transform: scale(1.2); }
-  50%  { transform: scale(0.95); }
-  70%  { transform: scale(1.05); }
-  100% { transform: scale(1); }
+    0% {
+        transform: scale(1);
+    }
+
+    30% {
+        transform: scale(1.2);
+    }
+
+    50% {
+        transform: scale(0.95);
+    }
+
+    70% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
 }
 
 .bounce {
-  animation: bounce 0.5s;
+    animation: bounce 0.5s;
 }
 
 /* ── 1. Shake keyframes ───────────────────────────────────────── */
 @keyframes shake {
-  0%, 100%   { transform: translateX(0); }
-  10%, 30% , 50%, 70%, 90% { transform: translateX(-4px); }
-  20%, 40%, 60%, 80%       { transform: translateX(4px); }
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    10%,
+    30%,
+    50%,
+    70%,
+    90% {
+        transform: translateX(-4px);
+    }
+
+    20%,
+    40%,
+    60%,
+    80% {
+        transform: translateX(4px);
+    }
 }
+
 .shake {
-  animation: shake 0.6s ease-in-out;
+    animation: shake 0.6s ease-in-out;
 }
 
 /* ── 2. Poof keyframes ───────────────────────────────────────── */
 @keyframes poofFade {
-  0% {
-    opacity: 1;
-    transform: translateX(-50%) scale(0.8);
-  }
-  50% {
-    opacity: 1;
-    transform: translateX(-50%) scale(1.1);
-  }
-  100% {
-    opacity: 0;
-    transform: translateX(-50%) scale(1.4);
-  }
+    0% {
+        opacity: 1;
+        transform: translateX(-50%) scale(0.8);
+    }
+
+    50% {
+        opacity: 1;
+        transform: translateX(-50%) scale(1.1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateX(-50%) scale(1.4);
+    }
 }
 
 .poof {
-  position: absolute;
-  top: 50%; left: 50%;
-  width: 120px;
-  height: 120px;
-  margin: -60px 0 0 -60px;
-  background: url('/images/poof.png') no-repeat center/contain;
-  pointer-events: none;
-  animation: poof 0.6s ease-out forwards;
-  /* Remove z-index here, or make sure it's overridden inline */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 120px;
+    height: 120px;
+    margin: -60px 0 0 -60px;
+    background: url('/images/poof.png') no-repeat center/contain;
+    pointer-events: none;
+    animation: poof 0.6s ease-out forwards;
+    /* Remove z-index here, or make sure it's overridden inline */
 }
 
 
 
 @media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+    a:nth-of-type(2) .logo {
+        animation: logo-spin infinite 20s linear;
+    }
 }
 
 .card {
-  padding: 2em;
+    padding: 2em;
 }
 
 .read-the-docs {
-  color: #888;
+    color: #888;
 }
 
 .about-row {
-  display: flex;
-  align-items: stretch;
-  min-height: 120px;    
+    display: flex;
+    align-items: stretch;
+    min-height: 120px;
 }
 
 .about-row img {
-  width: 20%;
-  height: 20%;
-  margin: 0;
-  border-radius: 8px;
-  display: block;
+    width: 20%;
+    height: 20%;
+    margin: 0;
+    border-radius: 8px;
+    display: block;
 }
 
 .about-text {
-  margin-left: 30px;
-  margin-right: 30px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center; 
+    margin-left: 30px;
+    margin-right: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .fan {
-  position: absolute;
-  top: 15px;
-  left: 50%;
-  transform: translateX(-50%) scale(1);
-  opacity: 0;
-  height: 250px;
-  width: auto;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-  animation: fanOut 1s ease-out forwards;
+    position: absolute;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%) scale(1);
+    opacity: 0;
+    height: 250px;
+    width: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    animation: fanOut 1s ease-out forwards;
 }
 
 .fan.left {
-  animation-name: fanOutLeft;
+    animation-name: fanOutLeft;
 }
 
 .fan.center {
-  animation-name: fanOutCenter;
+    animation-name: fanOutCenter;
 }
 
 .fan.right {
-  animation-name: fanOutRight;
+    animation-name: fanOutRight;
 }
 
 @keyframes fanOutLeft {
-  0% {
-    opacity: 1;
-    transform: translateX(-50%) scale(0.8) rotate(0deg);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(-160%) scale(1) rotate(0deg);
-  }
+    0% {
+        opacity: 1;
+        transform: translateX(-50%) scale(0.8) rotate(0deg);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(-160%) scale(1) rotate(0deg);
+    }
 }
 
 @keyframes fanOutCenter {
-  0% {
-    opacity: 1;
-    transform: translateX(-50%) scale(0.8) rotate(0deg);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(-50%) scale(1) rotate(0deg);
-  }
+    0% {
+        opacity: 1;
+        transform: translateX(-50%) scale(0.8) rotate(0deg);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(-50%) scale(1) rotate(0deg);
+    }
 }
 
 @keyframes fanOutRight {
-  0% {
-    opacity: 1;
-    transform: translateX(-50%) scale(0.8) rotate(0deg);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(60%) scale(1) rotate(0deg);
-  }
+    0% {
+        opacity: 1;
+        transform: translateX(-50%) scale(0.8) rotate(0deg);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(60%) scale(1) rotate(0deg);
+    }
 }

@@ -145,10 +145,8 @@ h1 {
 /* Slogan */
 .landing-slogan {
     color: #fff;
-    /* white text */
     font-family: 'Times New Roman', serif;
     font-size: 1.25rem;
-    /* your previous size */
     margin-top: 1rem;
     text-transform: uppercase;
 }
@@ -156,9 +154,7 @@ h1 {
 /* Call-to-action */
 .landing-cta {
     color: #fff;
-    /* white text */
     font-size: 1rem;
-    /* your previous size */
     margin-top: 2rem;
     animation: fade-cta 1s infinite alternate ease-in-out;
 }
@@ -191,25 +187,29 @@ h1 {
 }
 
 @media (max-width: 768px) {
-  .landing-logo {
-    font-size: clamp(3rem, 12vw, 6rem);
-  }
-  .landing-slogan {
-    font-size: clamp(1.8rem, 4vw, 1.25rem);
-  }
-  .landing-cta {
-    font-size: clamp(0.8rem, 3vw, 1rem);
-  }
+    .landing-logo {
+        font-size: clamp(3rem, 12vw, 6rem);
+    }
+
+    .landing-slogan {
+        font-size: clamp(1.8rem, 4vw, 1.25rem);
+    }
+
+    .landing-cta {
+        font-size: clamp(0.8rem, 3vw, 1rem);
+    }
 }
 
 @media (max-width: 480px) {
-  .landing-logo {
-    font-size: clamp(2.5rem, 14vw, 5rem);
-  }
-  .landing-slogan {
-    font-size: clamp(0.8rem, 3vw, 1.1rem);
-  }
-  .landing-cta {
-    font-size: clamp(0.6rem, 2vw, 0.9rem);
-  }
+    .landing-logo {
+        font-size: clamp(2.5rem, 14vw, 5rem);
+    }
+
+    .landing-slogan {
+        font-size: clamp(0.8rem, 3vw, 1.1rem);
+    }
+
+    .landing-cta {
+        font-size: clamp(0.6rem, 2vw, 0.9rem);
+    }
 }

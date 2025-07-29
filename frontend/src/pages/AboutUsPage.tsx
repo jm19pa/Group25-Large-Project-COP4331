@@ -1,7 +1,7 @@
 import AboutUs from '../components/AboutUs';
 
 const AboutUsPage: React.FC = () => {
-  return (
+    return (
         <AboutUs />
     );
 };

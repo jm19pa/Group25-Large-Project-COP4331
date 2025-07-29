@@ -3,7 +3,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'dart:async';
 import 'package:http/http.dart' as http;
-// import 'dart:math';
 
 class CardPage extends StatefulWidget {
   const CardPage({super.key});
@@ -49,7 +48,7 @@ class _CardPageState extends State<CardPage> with TickerProviderStateMixin {
     final tokenRaw = prefs.getString('token');
 
     if (userDataRaw == null || tokenRaw == null) {
-      print('Missing user_data or token_data');
+      // print('Missing user_data or token_data');
       return [];
     }
 
@@ -72,13 +71,13 @@ class _CardPageState extends State<CardPage> with TickerProviderStateMixin {
       );
 
       if (response.statusCode != 200 || response.body.isEmpty) {
-        print('Bad response: ${response.statusCode}');
+        // print('Bad response: ${response.statusCode}');
         return [];
       }
 
       final result = json.decode(response.body);
       if (result['error'] == null) {
-        print("Pack error: ${result['error'].toString()}");
+        // print("Pack error: ${result['error'].toString()}");
         return [];
       }
 
@@ -87,10 +86,10 @@ class _CardPageState extends State<CardPage> with TickerProviderStateMixin {
       List<String> cards = (result["addedCards"] as List)
           .map((c) => c["Card"] as String)
           .toList();
-      print("Cards received: $cards");
+      // print("Cards received: $cards");
       return cards;
     } catch (e) {
-      print("Network error: $e");
+      // print("Network error: $e");
       return [];
     }
   }
@@ -131,7 +130,7 @@ class _CardPageState extends State<CardPage> with TickerProviderStateMixin {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(
-              height: 400, // Adjust height if needed
+              height: 400,
               child: Stack(
                 alignment: Alignment.center,
                 clipBehavior: Clip.none,
