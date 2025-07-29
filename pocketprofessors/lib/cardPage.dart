@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'dart:async';
 import 'package:http/http.dart' as http;
+// import 'dart:math';
 
 class CardPage extends StatefulWidget {
   const CardPage({super.key});
@@ -12,10 +13,35 @@ class CardPage extends StatefulWidget {
 }
 
 class _CardPageState extends State<CardPage> with TickerProviderStateMixin {
-  bool shaking = false;
+  late AnimationController _shakeController;
+  late Animation<double> _shakeAnimation;
   bool showPoof = false;
   bool showCards = false;
   List<String> cardImages = [];
+
+  @override
+  void initState() {
+    super.initState();
+
+    _shakeController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 400),
+    );
+
+    _shakeAnimation = TweenSequence([
+      TweenSequenceItem(tween: Tween(begin: 0.0, end: -0.03), weight: 1),
+      TweenSequenceItem(tween: Tween(begin: -0.03, end: 0.03), weight: 1),
+      TweenSequenceItem(tween: Tween(begin: 0.03, end: -0.03), weight: 1),
+      TweenSequenceItem(tween: Tween(begin: -0.03, end: 0.03), weight: 1),
+      TweenSequenceItem(tween: Tween(begin: 0.03, end: 0.0), weight: 1),
+    ]).animate(_shakeController);
+  }
+
+  @override
+  void dispose() {
+    _shakeController.dispose();
+    super.dispose();
+  }
 
   Future<List<String>> openCardPack() async {
     final prefs = await SharedPreferences.getInstance();
@@ -24,9 +50,6 @@ class _CardPageState extends State<CardPage> with TickerProviderStateMixin {
 
     if (userDataRaw == null || tokenRaw == null) {
       print('Missing user_data or token_data');
-      print("Prefs = " + prefs.toString());
-      print("User Data Raw = " + userDataRaw.toString());
-      print("Token Data Raw = " + tokenRaw.toString());
       return [];
     }
 
@@ -59,10 +82,8 @@ class _CardPageState extends State<CardPage> with TickerProviderStateMixin {
         return [];
       }
 
-      // Save new token
       prefs.setString("token_data", result["jwtToken"]["accessToken"]);
 
-      // Extract card names
       List<String> cards = (result["addedCards"] as List)
           .map((c) => c["Card"] as String)
           .toList();
@@ -75,21 +96,19 @@ class _CardPageState extends State<CardPage> with TickerProviderStateMixin {
   }
 
   void handleClick() async {
+    _shakeController.forward(from: 0.0);
     setState(() {
-      shaking = true;
       showCards = false;
     });
 
     await Future.delayed(const Duration(milliseconds: 600));
 
     setState(() {
-      shaking = false;
       showPoof = true;
     });
 
     List<String> cards = await openCardPack();
 
-    // Simulate preloading
     await Future.delayed(const Duration(milliseconds: 300));
 
     setState(() {
@@ -111,58 +130,67 @@ class _CardPageState extends State<CardPage> with TickerProviderStateMixin {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Stack(
-              alignment: Alignment.center,
-              children: [
-                GestureDetector(
-                  onTap: handleClick,
-                  child: AnimatedRotation(
-                    duration: const Duration(milliseconds: 100),
-                    turns: shaking ? 0.02 : 0.0,
-                    child: Image.asset(
-                      'assets/images/card.jpg',
-                      width: 200,
-                      height: 282,
-                    ),
-                  ),
-                ),
-
-                if (showPoof)
-                  Positioned(
-                    top: -50,
-                    child: Image.asset(
-                      'assets/images/poof.png',
-                      width: 500,
-                      height: 500,
+            SizedBox(
+              height: 400, // Adjust height if needed
+              child: Stack(
+                alignment: Alignment.center,
+                clipBehavior: Clip.none,
+                children: [
+                  GestureDetector(
+                    onTap: handleClick,
+                    child: AnimatedBuilder(
+                      animation: _shakeAnimation,
+                      builder: (context, child) {
+                        return Transform.rotate(
+                          angle: _shakeAnimation.value,
+                          child: Image.asset(
+                            'assets/images/card.jpg',
+                            width: 200,
+                            height: 282,
+                          ),
+                        );
+                      },
                     ),
                   ),
 
-                if (showCards)
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: List.generate(cardImages.length, (i) {
-                      double rotation = i == 0
-                          ? -0.2
-                          : i == 1
-                          ? 0.0
-                          : 0.2;
-                      return Transform.rotate(
-                        angle: rotation,
-                        child: Image.asset(
-                          'assets/images/${cardImages[i]}.png',
-                          width: 100,
-                          height: 140,
-                        ),
-                      );
-                    }),
-                  ),
-              ],
+                  if (showPoof)
+                    Positioned(
+                      top: -70,
+                      child: Image.asset(
+                        'assets/images/poof.png',
+                        width: 500,
+                        height: 500,
+                      ),
+                    ),
+
+                  if (showCards)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: List.generate(cardImages.length, (i) {
+                        double rotation = i == 0
+                            ? -0.2
+                            : i == 1
+                            ? 0.0
+                            : 0.2;
+                        return Transform.rotate(
+                          angle: rotation,
+                          child: Image.asset(
+                            'assets/images/${cardImages[i]}.png',
+                            width: 100,
+                            height: 140,
+                          ),
+                        );
+                      }),
+                    ),
+                ],
+              ),
             ),
+
             ElevatedButton(
               onPressed: () {
                 Navigator.pushNamed(context, '/cardDex');
               },
-              child: Text('View CardDex'),
+              child: const Text('View CardDex'),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.amber,
                 foregroundColor: Colors.black,

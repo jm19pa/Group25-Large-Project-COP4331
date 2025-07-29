@@ -239,6 +239,16 @@ class _CardDexPageState extends State<CardDexPage> {
                 foregroundColor: Colors.black,
               ),
             ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/aboutUs');
+              },
+              child: Text('About Us'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.amber,
+                foregroundColor: Colors.black,
+              ),
+            ),
           ],
         ),
       ),

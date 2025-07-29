@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'register.dart';
 import 'cardPage.dart';
 import 'cardDex.dart';
+import 'aboutUs.dart';
 
 void main() {
   runApp(PocketProfessorsApp());
@@ -19,6 +20,7 @@ class PocketProfessorsApp extends StatelessWidget {
         '/register': (context) => RegisterPage(),
         '/cardPack': (context) => CardPage(),
         '/cardDex': (context) => CardDexPage(),
+        '/aboutUs': (context) => AboutUsPage(),
       },
       debugShowCheckedModeBanner: false,
     );
