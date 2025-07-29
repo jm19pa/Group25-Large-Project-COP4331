@@ -26,14 +26,14 @@ const ForgotPassword: React.FC = () => {
         if (string_length < 8) {
             label.classList.add("label_error")
             input.classList.add("input_error")
-            console.log("Make sure password is 8 to 20 characters")
+            // console.log("Make sure password is 8 to 20 characters")
             return false;
         }
 
         if (string_length > 20) {
             label.classList.add("label_error")
             input.classList.add("input_error")
-            console.log("Make sure password is 8 to 20 characters")
+            // console.log("Make sure password is 8 to 20 characters")
             return false;
         }
 
@@ -43,7 +43,7 @@ const ForgotPassword: React.FC = () => {
         if (!contains_special_character) {
             label.classList.add("label_error")
             input.classList.add("input_error")
-            console.log("Make sure password contains a special character, ex: !, @, &")
+            // console.log("Make sure password contains a special character, ex: !, @, &")
             return false
         }
 
@@ -101,12 +101,12 @@ const ForgotPassword: React.FC = () => {
             const res = await response.json();
 
             if (res.success) {
-                alert('Verification code sent to ' + email);
+                // alert('Verification code sent to ' + email);
             } else {
-                alert('Failed to send code: ' + res.error);
+                // alert('Failed to send code: ' + res.error);
             }
         } catch (error: any) {
-            alert('An error occurred: ' + error.message);
+            // alert('An error occurred: ' + error.message);
         }
     }
 
