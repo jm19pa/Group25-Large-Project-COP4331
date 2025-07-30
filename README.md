@@ -1,41 +1,41 @@
 # Pocket Professors
 
-Pocket Professors is a full-stack web application that allows users to gamble for cards with (in-game) money.
+Pocket Professors is a full-stack web application that allows users to open a card pack that contains numerous hand-drawn cards of professors and people at UCF. Along with special developer cards to collect!
 
-##  Features
+## Features
 
-- User authentication (login)
+- User authentication (login via JWT)
 - MongoDB database integration
-- Add and search cards
+- Simulate obtaining collectible cards
 - Frontend and backend separation
 - Responsive design (Web + Mobile friendly)
 
-##  Technologies Used
+## Technologies Used
 
-- Frontend: React, TypeScript, CSS
-- Backend: Node.js, Express.js
-- Database: MongoDB
-- Deployment: Nginx (Linux), GitHub
+- **Frontend:** React, TypeScript, Vite, CSS
+- **Backend:** Node.js, Express.js
+- **Database:** MongoDB (via Mongoose)
+- **Authentication:** JWT, bcrypt
+- **Email:** SendGrid
+- **Testing:** Jest, Supertest
+- **Deployment:** Nginx (Linux), GitHub
 
-## Install these packages
+## Getting Started
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/jm19pa/Group25-Large-Project-COP4331.git
+cd Group25-Large-Project-COP4331
+```
+### 2. Install packages
+```bash
 npm install
-npm install nodemon
-npm install express --save
-npm install body-parser
-npm install mongodb
-npm install cors
-npm install react-router-dom
-npm i --save-dev @types/node
-npm install dotenv
-npm install mongodb
-npm i --save-dev @types/react
-npm install vite
-npm install bcrypt
-npm install --save-dev @types/babel__core @types/babel__generator @types/babel__template @types/babel__traverse @types/json-schema
-npm install jsonwebtoken 
-npm install react-jwt 
-npm install jwt-decode
-npm install nodemailer
-npm install mongoose
-npm install @sendgrid/mail
-npm install --save-dev jest supertest
+```
+### 3. Set up Environmental Variables
+
+create a '.env' file in the root directory. Example:
+```env
+MONGODB_URI=mongo_connection_string
+JWT_SECRET=jwt_secret
+SENDGRID_API_KEY=sendgrid_key
+```
